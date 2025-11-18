@@ -1,12 +1,22 @@
 // ./scripts/main.js
 
-import { letsGo, Scene } from "./classes/index.js";
+import { ImgHub } from "./classes/img-hub.class.js";
 
+// document.addEventListener("DOMContentLoaded", initGame);
+window.addEventListener("load", initGame);
 
-document.querySelector("body").addEventListener("load", init);
+let canvas;
+let ctx;
+let hero = new Image();
 
-function init() {
-    console.log("hi");
+function initGame() {
+    canvas = document.getElementById("idCanvas");
+    ctx = canvas.getContext('2d');
+    hero.src = ImgHub.IMGS.pepe.walk[0];
+
+    hero.onload = () => {
+        ctx.drawImage(hero, 50, 50, 150, 150);
+    }
 }
 
 
