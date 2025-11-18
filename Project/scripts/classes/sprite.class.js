@@ -1,7 +1,5 @@
+// All Drawable Instances
 
-
-
-// All Drawable-Objects
-class Sprite extends Scene {
+export class Sprite {
 
 }

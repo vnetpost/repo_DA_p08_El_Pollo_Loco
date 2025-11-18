@@ -1,3 +1,4 @@
+// Img- Management
 export class ImgHub {
     static IMGS = {
         pepe: {

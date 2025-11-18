@@ -1,6 +1,7 @@
-
-
 // Main Class
-class Scene {
+
+import { Sprite } from "./sprite.class.js";
+export class Scene {
+
 
 }

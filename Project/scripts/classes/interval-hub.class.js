@@ -1,4 +1,4 @@
-
+// Interval-Management
 export class IntervalHub {
     static allIntervals = [];
 
@@ -17,11 +17,11 @@ function stopIt() {
     IntervalHub.stopAllIntervals();
 }
 
-function walk(){ // This Func will be executed every 0.5 Sec
-    console.log("Laeft jede 1 Sec");    
+function walk() { // This Func will be executed every 0.5 Sec
+    console.log("Laeft jede 1 Sec");
 }
 
-export function letsGo(){
+export function letsGo() {
     IntervalHub.startInterval(walk, 1000)
 }
 
