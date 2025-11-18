@@ -15,4 +15,5 @@ let reflect = [];
 window.addEventListener("keydown", (e) => {
     reflect.push(e.code);
     console.log(reflect);
+    
 });
