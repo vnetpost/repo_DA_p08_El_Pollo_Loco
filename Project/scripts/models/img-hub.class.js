@@ -373,24 +373,28 @@ export class ImgHub {
     // -> Converts:     Each Path (str) -> Image-Objects (HTMLImageElement)
     static async preloadAll() {
         const loadTasks = []; // A promise for each loading image. All collected in this array.
-        walkThroughPaths(ImgHub.IMGS);
+        walkThrough(ImgHub.IMGS);
 
         await Promise.all(loadTasks);
-        console.log("All images in ImgHub.IMGS are loaded.");
+        console.log("Now all images in ImgHub.IMGS are loaded.");
 
-        function walkThroughPaths(node) { // A recursive Func
-            // Replace the path with a real image object
+        function walkThrough(node) {
+            // 1. If String
             if (typeof node === "string") return strToObj(node);
-            // 
-            if (Array.isArray(node)) return node.map(walkThroughPaths);
+
+            // 2. If Array
+            if (Array.isArray(node)) return node.map(walkThrough);
+
+            // 3. If Objekt
             if (node && typeof node === "object") {
-                for (const key in node) node[key] = walkThroughPaths(node[key]);
+                for (const key in node) node[key] = walkThrough(node[key]);
                 return node;
             }
-            return node;
+
+            return node; // will be ignored !
         }
 
-        function strToObj(node) { // A "HTMLImageElement"
+        function strToObj(node) { // Converts node(str) to a "HTMLImageElement"
             const img = new Image();
             img.src = node;
 

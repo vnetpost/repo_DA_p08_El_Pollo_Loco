@@ -1,24 +1,19 @@
 // ./scripts/main.js
 
-import { ImgHub } from "./classes/img-hub.class.js";
+import { Scene } from "./models/index.js";
 
+let level1;
+// “DOMContentLoaded” indicates that only the HTML-DOM is fully loaded.
 // document.addEventListener("DOMContentLoaded", initGame);
-window.addEventListener("load", initGame);
+// But "load" means that DOM,Images,css,... are fully loaded.   
+window.addEventListener("load", () => {
+    level1 = new Scene();
+    level1.initGame();
+});
 
-let canvas;
-let ctx;
-let hero = new Image();
+let reflect = [];
+window.addEventListener("keydown", (e) => {
+    reflect.push(e.code);
+    console.log(reflect);
 
-function initGame() {
-    canvas = document.getElementById("idCanvas");
-    ctx = canvas.getContext('2d');
-    hero.src = ImgHub.IMGS.pepe.walk[0];
-
-    hero.onload = () => {
-        ctx.drawImage(hero, 50, 50, 150, 150);
-    }
-}
-
-
-
-// letsGo();
+});
