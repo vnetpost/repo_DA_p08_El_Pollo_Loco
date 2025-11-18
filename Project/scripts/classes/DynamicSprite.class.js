@@ -1,0 +1,5 @@
+
+
+class DynamicSprite extends Sprite {
+
+}

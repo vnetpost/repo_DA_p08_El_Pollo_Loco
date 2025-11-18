@@ -1,0 +1,3 @@
+class MeterUI extends Sprite {
+
+}

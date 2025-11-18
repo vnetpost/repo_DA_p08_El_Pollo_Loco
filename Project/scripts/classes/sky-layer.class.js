@@ -1,0 +1,3 @@
+class SkyLayer extends DynamicSprite {
+
+}
