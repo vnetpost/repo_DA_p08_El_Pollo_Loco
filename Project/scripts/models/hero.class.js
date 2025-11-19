@@ -1,7 +1,8 @@
-import { Sprite, DynamicSprite, StaticSprite, SkyLayer, BackdropLayer, Mob, Collectible, Coin, Projectile, IntervalHub, ImgHub } from "./index.js";
+// import { Sprite, DynamicSprite, StaticSprite, SkyLayer, BackdropLayer, Mob, Collectible, Coin, Projectile, IntervalHub, ImgHub } from "./index.js";
+import * as EPOLO from "./index.js"; // Define a Objekt-Namespace
 
 // Character-Player Instances
-export class Hero extends DynamicSprite {
+export class Hero extends EPOLO.DynamicSprite {
 
 
     //  -> e.code = ["KeyD", "Space", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"]
