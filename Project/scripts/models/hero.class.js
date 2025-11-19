@@ -1,4 +1,4 @@
-import { DynamicSprite } from "./index.js";
+import { Sprite, DynamicSprite, StaticSprite, SkyLayer, BackdropLayer, Mob, Collectible, Coin, Projectile, IntervalHub, ImgHub } from "./index.js";
 
 // Character-Player Instances
 export class Hero extends DynamicSprite {

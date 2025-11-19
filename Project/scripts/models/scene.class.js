@@ -1,5 +1,5 @@
 // Main Class
-import { Hero, ImgHub, Mob, Sprite } from "./index.js";
+import { Sprite, DynamicSprite, StaticSprite, SkyLayer, BackdropLayer, Hero, Mob, Collectible, Coin, Projectile, IntervalHub, ImgHub } from "./index.js";
 
 export class Scene {
     static canvas;              // DOM-Ref                  DOM-Reference of Canvas-Tag
@@ -21,7 +21,8 @@ export class Scene {
     async initGame() {
         await ImgHub.preloadAll();
         Scene.ctx.drawImage(ImgHub.IMGS.pepe.walk[3], 10, 10, 50, 50);
-        // let pepe = new Hero();
+        console.log(Scene);
+
     }
 
 }

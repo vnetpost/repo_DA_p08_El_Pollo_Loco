@@ -1,8 +1,9 @@
 // Movable-Drawable 2D Instances
-import { Sprite } from "./index.js";
+import { Sprite, StaticSprite, SkyLayer, BackdropLayer, Hero, Mob, Collectible, Coin, Projectile, IntervalHub, ImgHub } from "./index.js";
+
 
 export class DynamicSprite extends Sprite {
-    
+
 
     velocityX;
     velocityY;

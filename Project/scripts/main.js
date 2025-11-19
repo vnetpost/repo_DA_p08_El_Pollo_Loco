@@ -5,10 +5,12 @@ import { Scene } from "./models/index.js";
 let level1;
 // “DOMContentLoaded” indicates that only the HTML-DOM is fully loaded.
 // document.addEventListener("DOMContentLoaded", initGame);
-// But "load" means that DOM,Images,css,... are fully loaded.   
+// But "load" means that DOM,Images,css,... are already fully loaded.   
 window.addEventListener("load", () => {
     level1 = new Scene();
     level1.initGame();
+    console.log(level1);
+    
 });
 
 
