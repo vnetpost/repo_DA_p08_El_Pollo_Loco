@@ -4,11 +4,13 @@ import { Sprite, DynamicSprite, StaticSprite, SkyLayer, BackdropLayer, Hero, Big
 
 export class Scene {
     // #region Attrubutes
+    static HZ = 0;                      // Number
     static CANVAS;                      // DOM-Ref                  DOM-Reference of CANVAS-Tag
     static CTX;                         // Object                   Get the Draw-Tools
     static WIDTH = 720;                 // Number
     static HEIGHT = 420;                // Number
     static LEVELS = [];                 // Array                    [Scene, Scene, Scene, ...]
+    static Difficulty;                  // Number                   1 -> 10
 
     static PEPE;                        // Object                   From Hero-Class
     static JEFA;                        // BigBoss                  From BigBoss-Class
@@ -22,6 +24,7 @@ export class Scene {
         Scene.CANVAS.height = Scene.HEIGHT;
         Scene.CTX = Scene.CANVAS.getContext('2d');
 
+        Sprite.SPRITES = [];
 
         this.generateHero();
         this.generateJefa();
@@ -35,7 +38,12 @@ export class Scene {
     // #region Static Methods
 
     static draw() {
-        Scene.CTX.drawImage(pic, inst.pX, inst.pY, inst.W, inst.H);
+
+        console.log(Scene.HZ++, Sprite.SPRITES);
+
+        Sprite.SPRITES.forEach(s => {
+            Scene.CTX.drawImage(s.currentFrame, s.pX, s.pY, s.W, s.H);
+        });
 
         let self = this;
         requestAnimationFrame(() => {
@@ -50,23 +58,21 @@ export class Scene {
     generateHero() {
         Scene.PEPE = new Hero();
         Sprite.SPRITES.push(Scene.PEPE);
-        const pic = Scene.PEPE.FRAMES.walk[1];
-        // Scene.draw(Scene.PEPE, pic);
-
     }
 
     generateGallinitas(number) {
         for (let i = 0; i < number; i++) {
             const newGallinita = new Mob();
-            Sprite.SPRITES.push(newGallinita);
-            const pic = newGallinita.FRAMES.normal.walk[2];
-            // Scene.draw(newGallinita, pic);
             Mob.GALLINITAS.push(newGallinita);
+            Sprite.SPRITES.push(newGallinita);
         }
     }
 
+    generateJefa() {
+        Scene.JEFA = new BigBoss();
+        Sprite.SPRITES.push(Scene.JEFA);
 
-    generateJefa() { }
+    }
     generateBotellas() { }
     generateMonedas() { }
     // #endregion Methods

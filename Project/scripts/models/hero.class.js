@@ -11,7 +11,7 @@ export class Hero extends DynamicSprite {
     constructor() {
         super();
         this.FRAMES = ImgHub.IMGS.pepe;
-
+        this.currentFrame = this.FRAMES.walk[1];
     }
 
     //  -> e.code = ["KeyD", "Space", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"]

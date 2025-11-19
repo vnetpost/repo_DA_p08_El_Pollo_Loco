@@ -4,15 +4,20 @@ import { Sprite, StaticSprite, SkyLayer, BackdropLayer, Hero, Mob, Collectible, 
 // Movable-Drawable 2D Instances
 export class DynamicSprite extends Sprite {
     offset;
-    pXr;                    // Number
-    pYr;                    // Number
+    pXr;                            // Number
+    pYr;                            // Number
     velocityX;
     velocityY;
-    FRAMES;                  // Object                   Image-Chain
+
+    isAnim = false;                 // Boolean
+    mode;                           // String                   idle, walk, alert, attack, Jump, hurt, dead, ....
+    FRAMES;                         // Object                   Image-Chain
+    currentFrame;                   //
+
 
     constructor() {
         super();
-        
+
     }
 
     goRight() {

@@ -8,7 +8,7 @@ window.addEventListener("load", initGame);
 
 async function initGame() {
     await EPOLO.ImgHub.preloadAll();
-    EPOLO.Scene.LEVELS.push(new EPOLO.Scene());
+    // EPOLO.Scene.LEVELS.push(new EPOLO.Scene());
 }
 
 

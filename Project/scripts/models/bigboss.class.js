@@ -12,6 +12,7 @@ export class BigBoss extends DynamicSprite {
     constructor() {
         super();
         this.FRAMES = ImgHub.IMGS.boss;
+        this.currentFrame = this.FRAMES.attack[4];
         this.setRandomPosition();
 
     }

@@ -13,6 +13,7 @@ export class Mob extends DynamicSprite {
     constructor() {
         super();
         this.FRAMES = ImgHub.IMGS.chickens;
+        this.currentFrame = this.FRAMES.normal.walk[1];
         this.setRandomPosition();
 
     }
