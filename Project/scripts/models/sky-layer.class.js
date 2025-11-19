@@ -4,4 +4,12 @@ import { Sprite, DynamicSprite, StaticSprite, BackdropLayer, Hero, Mob, Collecti
 // Cloud Instances
 export class SkyLayer extends DynamicSprite {
 
+
+
+    constructor() {
+        super();
+        
+    }
+
+    
 }

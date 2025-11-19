@@ -5,4 +5,12 @@ import { Sprite, DynamicSprite, SkyLayer, BackdropLayer, Hero, Mob, Collectible,
 // Static-Drawable Instances
 export class StaticSprite extends Sprite {
 
+
+
+    constructor() {
+        super();
+        
+    }
+
+    
 }

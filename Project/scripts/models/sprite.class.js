@@ -8,8 +8,12 @@ import { DynamicSprite, StaticSprite, SkyLayer, BackdropLayer, Hero, Mob, Collec
 export class Sprite {
     pX;                     // Number                   X-Position
     pY;                     // Number                   Y-Position
-    w;
-    h;
+
+    static SPRITES = [];
+
+    constructor() {
+
+    }
 
     draw() {
 

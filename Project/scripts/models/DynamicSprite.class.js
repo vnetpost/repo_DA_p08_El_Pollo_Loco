@@ -8,8 +8,12 @@ export class DynamicSprite extends Sprite {
     pYr;                    // Number
     velocityX;
     velocityY;
-    ANIMS;                  // Object                   Image-Chain
+    FRAMES;                  // Object                   Image-Chain
 
+    constructor() {
+        super();
+        
+    }
 
     goRight() {
         console.log("Moving right!");

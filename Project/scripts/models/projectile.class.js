@@ -5,4 +5,11 @@ import { Sprite, DynamicSprite, StaticSprite, SkyLayer, BackdropLayer, Hero, Mob
 export class Projectile extends Collectible {
 
     static BOTELLAS = [];              // Array                    [Projectile, Projectile, Projectile, ...]
+
+
+    constructor() {
+        super();
+        
+    }
+    
 }

@@ -4,4 +4,14 @@ import { Sprite, DynamicSprite, StaticSprite, SkyLayer, Hero, Mob, Collectible, 
 // Background Instances
 export class BackdropLayer extends DynamicSprite {
 
+
+
+
+
+
+    constructor() {
+        super();
+        
+    }
+    
 }

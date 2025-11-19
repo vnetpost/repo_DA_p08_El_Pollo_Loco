@@ -5,12 +5,12 @@ import { Sprite, DynamicSprite, StaticSprite, SkyLayer, BackdropLayer, Mob, Coll
 export class Hero extends DynamicSprite {
     pX = 50;
     pY = 250;
-    w = 70;
-    h = 150;
+    W = 70;
+    H = 150;
 
     constructor() {
         super();
-        this.ANIMS = ImgHub.IMGS.pepe;
+        this.FRAMES = ImgHub.IMGS.pepe;
 
     }
 

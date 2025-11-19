@@ -4,4 +4,16 @@ import { Sprite, DynamicSprite, StaticSprite, SkyLayer, BackdropLayer, Hero, Mob
 // All Collectibles like Coin & Misslles
 export class Collectible extends DynamicSprite {
 
+
+
+
+
+    constructor() {
+        super();
+        
+    }
+
+
+
+    
 }

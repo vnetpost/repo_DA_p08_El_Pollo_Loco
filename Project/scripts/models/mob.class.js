@@ -5,20 +5,19 @@ import { Scene, Sprite, DynamicSprite, StaticSprite, SkyLayer, BackdropLayer, He
 // Enemies Instances
 export class Mob extends DynamicSprite {
 
-    static JEFA;                       // Mob                      From Mob-Class
     static GALLINITAS = [];              // Array                    [Mob, Mob, Mob, ...]
     pY = 350;
-    w = 30;
-    h = 30;
+    W = 30;
+    H = 30;
 
     constructor() {
         super();
-        this.ANIMS = ImgHub.IMGS.chickens;
+        this.FRAMES = ImgHub.IMGS.chickens;
         this.setRandomPosition();
 
     }
 
     setRandomPosition() {
-        this.pX = Math.random() * Scene.WIDTH;
+        this.pX = 200 + Math.random() * Scene.WIDTH;
     }
 }

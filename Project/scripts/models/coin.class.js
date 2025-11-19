@@ -4,4 +4,14 @@ import { Sprite, DynamicSprite, StaticSprite, SkyLayer, BackdropLayer, Hero, Mob
 export class Coin extends Collectible {
 
     static MONEDAS = [];               // Array                    [Coin, Coin, Coin, ...]
+
+    
+    
+    constructor() {
+        super();
+        
+    }
+
+
+
 }
