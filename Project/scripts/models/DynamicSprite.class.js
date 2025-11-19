@@ -1,13 +1,14 @@
-// Movable-Drawable 2D Instances
+// import * as EPOLO from "./index.js"; // Define a Objekt-Namespace
 import { Sprite, StaticSprite, SkyLayer, BackdropLayer, Hero, Mob, Collectible, Coin, Projectile, IntervalHub, ImgHub } from "./index.js";
-import * as EPOLO from "./index.js"; // Define a Objekt-Namespace
 
-
-export class DynamicSprite extends EPOLO.Sprite {
-
-
+// Movable-Drawable 2D Instances
+export class DynamicSprite extends Sprite {
+    offset;
+    pXr;                    // Number
+    pYr;                    // Number
     velocityX;
     velocityY;
+    ANIMS;                  // Object                   Image-Chain
 
 
     goRight() {

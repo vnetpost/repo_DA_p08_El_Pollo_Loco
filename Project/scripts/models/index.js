@@ -16,3 +16,4 @@ export * from "./meter-ui.class.js";
 
 export * from "./interval-hub.class.js";
 export * from "./img-hub.class.js";
+export * from "./joystick.class.js";

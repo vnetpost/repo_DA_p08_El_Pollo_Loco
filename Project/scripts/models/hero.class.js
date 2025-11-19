@@ -1,9 +1,18 @@
-// import { Sprite, DynamicSprite, StaticSprite, SkyLayer, BackdropLayer, Mob, Collectible, Coin, Projectile, IntervalHub, ImgHub } from "./index.js";
-import * as EPOLO from "./index.js"; // Define a Objekt-Namespace
+// import * as EPOLO from "./index.js"; // Define a Objekt-Namespace
+import { Sprite, DynamicSprite, StaticSprite, SkyLayer, BackdropLayer, Mob, Collectible, Coin, Projectile, IntervalHub, ImgHub } from "./index.js";
 
 // Character-Player Instances
-export class Hero extends EPOLO.DynamicSprite {
+export class Hero extends DynamicSprite {
+    pX = 50;
+    pY = 250;
+    w = 70;
+    h = 150;
 
+    constructor() {
+        super();
+        this.ANIMS = ImgHub.IMGS.pepe;
+
+    }
 
     //  -> e.code = ["KeyD", "Space", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"]
 

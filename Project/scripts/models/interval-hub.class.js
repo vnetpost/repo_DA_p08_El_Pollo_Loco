@@ -1,4 +1,6 @@
 // Interval-Management
+import { Sprite, DynamicSprite, StaticSprite, SkyLayer, BackdropLayer, Hero, Mob, Collectible, Coin, Projectile, ImgHub, Joystick } from "./index.js";
+
 export class IntervalHub {
     static allIntervals = [];
 
@@ -13,16 +15,16 @@ export class IntervalHub {
     }
 }
 
-function stopIt() {
-    IntervalHub.stopAllIntervals();
-}
+// function stopIt() {
+//     IntervalHub.stopAllIntervals();
+// }
 
-function walk() { // This Func will be executed every 0.5 Sec
-    console.log("Laeft jede 1 Sec");
-}
+// function walk() { // This Func will be executed every 0.5 Sec
+//     console.log("Laeft jede 1 Sec");
+// }
 
-export function letsGo() {
-    IntervalHub.startInterval(walk, 1000)
-}
+// export function letsGo() {
+//     IntervalHub.startInterval(walk, 1000)
+// }
 
 

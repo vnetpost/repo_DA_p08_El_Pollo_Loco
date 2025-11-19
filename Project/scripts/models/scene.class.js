@@ -1,29 +1,57 @@
-// Main Class
-// import { Sprite, DynamicSprite, StaticSprite, SkyLayer, BackdropLayer, Hero, Mob, Collectible, Coin, Projectile, IntervalHub, ImgHub } from "./index.js";
-import * as EPOLO from "./index.js"; // Define a Objekt-Namespace
+// Main Game Manager Class
+// import * as EPOLO from "./index.js"; // Define a Objekt-Namespace
+import { Sprite, DynamicSprite, StaticSprite, SkyLayer, BackdropLayer, Hero, Mob, Collectible, Coin, Projectile, IntervalHub, ImgHub, Joystick } from "./index.js";
 
 export class Scene {
-    static canvas;              // DOM-Ref                  DOM-Reference of Canvas-Tag
-    static ctx;                 // Object                   Get the Draw-Tools
-    pepe;                       // Object                   From Hero-Class
-    gallinas = [];              // Array                    [Mob, Mob, Mob, ...]
-    jefa;                       // Object                   From Mob-Class
-    botellas = [];              // Array                    [Projectile, Projectile, Projectile, ...]
-    monedas = [];               // Array                    [Coin, Coin, Coin, ...]
+    // #region Attrubutes
+    static CANVAS;                      // DOM-Ref                  DOM-Reference of CANVAS-Tag
+    static CTX;                         // Object                   Get the Draw-Tools
+    static WIDTH = 720;                 // Number
+    static HEIGHT = 420;                // Number
+    static LEVELS = [];                 // Array                    [Scene, Scene, Scene, ...]
+
+    static PEPE;                        // Object                   From Hero-Class
+
+
+    // #endregion Attrubutes
 
     constructor() {
-        Scene.canvas = document.getElementById("idCanvas");
-        Scene.ctx = Scene.canvas.getContext('2d');
+        Scene.CANVAS = document.getElementById("idCanvas");
+        Scene.CANVAS.width = Scene.WIDTH;
+        Scene.CANVAS.height = Scene.HEIGHT;
+        Scene.CTX = Scene.CANVAS.getContext('2d');
 
-        this.gallinas = [new EPOLO.Mob(), new EPOLO.Mob(), new EPOLO.Mob(), new EPOLO.Mob()];
-        this.pepe = new EPOLO.Hero();
+        this.generateHero();
+        this.spawnGallinas(5);
+    }
+    // #region Static Methods
+    
+
+    // #endregion Static Methods
+    // #region Methods
+
+    generateHero() {
+        Scene.PEPE = new Hero();
+        console.log(Scene.PEPE);
+
+        const pic = Scene.PEPE.ANIMS.walk[1];
+        Scene.draw(Scene.PEPE, pic);
+
     }
 
-    async init() {
-        await EPOLO.ImgHub.preloadAll();
-        Scene.ctx.drawImage(EPOLO.ImgHub.IMGS.pepe.walk[3], 10, 10, 50, 50);
-        console.log(Scene);
-
+    spawnGallinas(number) {
+        for (let i = 0; i < number; i++) {
+            const newGallina = new Mob();
+            const pic = newGallina.ANIMS.normal.walk[2];
+            Scene.draw(newGallina, pic);
+            Mob.GALLINITAS.push(newGallina);
+        }
     }
 
+    static draw(inst, pic) {
+        console.log(inst.pX);
+        Scene.CTX.drawImage(pic, inst.pX, inst.pY, inst.w, inst.h);
+
+    }
+    // #endregion Methods
 }
