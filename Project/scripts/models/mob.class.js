@@ -1,6 +1,6 @@
-import { DynamicSprite } from "./DynamicSprite.class.js";
+import { DynamicSprite } from "./index.js";
 
 // Enemies Instances
-class Mob extends DynamicSprite {
+export class Mob extends DynamicSprite {
 
 }

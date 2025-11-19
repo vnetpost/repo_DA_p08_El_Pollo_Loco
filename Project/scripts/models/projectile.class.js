@@ -1,6 +1,6 @@
-import { DynamicSprite } from "./DynamicSprite.class.js";
-
 // Throwable Instances
-class Projectile extends DynamicSprite {
+import { Collectible } from "./index.js";
+
+export class Projectile extends Collectible {
 
 }

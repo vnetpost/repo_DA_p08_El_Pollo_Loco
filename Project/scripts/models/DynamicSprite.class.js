@@ -1,6 +1,5 @@
 // Movable-Drawable 2D Instances
-
-import { Sprite } from "./sprite.class.js";
+import { Sprite } from "./index.js";
 
 export class DynamicSprite extends Sprite {
     

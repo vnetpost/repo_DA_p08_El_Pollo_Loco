@@ -1,14 +1,14 @@
-import { DynamicSprite } from "./DynamicSprite.class.js";
+import { DynamicSprite } from "./index.js";
 
 // Character-Player Instances
-class Hero extends DynamicSprite {
+export class Hero extends DynamicSprite {
 
 
     //  -> e.code = ["KeyD", "Space", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"]
 
     jump() {
         console.log("Hero Jumps!");
-        
+
     }
     throw() {
         console.log("Hero throws!");

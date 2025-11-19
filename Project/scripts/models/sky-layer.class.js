@@ -1,7 +1,6 @@
 // Cloud Instances
+import { DynamicSprite } from "./index.js";
 
-import { DynamicSprite } from "./DynamicSprite.class.js";
-
-class SkyLayer extends DynamicSprite {
+export class SkyLayer extends DynamicSprite {
 
 }

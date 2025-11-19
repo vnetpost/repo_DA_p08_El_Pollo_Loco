@@ -1,7 +1,6 @@
 // Background Instances
+import { DynamicSprite } from "./index.js";
 
-import { DynamicSprite } from "./DynamicSprite.class.js";
-
-class BackdropLayer extends DynamicSprite {
+export class BackdropLayer extends DynamicSprite {
 
 }

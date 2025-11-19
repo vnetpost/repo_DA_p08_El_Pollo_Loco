@@ -11,9 +11,31 @@ window.addEventListener("load", () => {
     level1.initGame();
 });
 
-let reflect = [];
-window.addEventListener("keydown", (e) => {
-    reflect.push(e.code);
-    console.log(reflect);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// let reflect = [];
+// window.addEventListener("keydown", (e) => {
+//     reflect.push(e.code);
+//     console.log(reflect);
     
-});
+// });
