@@ -9,7 +9,6 @@ class Hero extends DynamicSprite {
     jump() {
         console.log("Hero Jumps!");
         
-
     }
     throw() {
         console.log("Hero throws!");
