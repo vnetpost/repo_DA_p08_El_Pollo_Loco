@@ -1,5 +1,5 @@
 // import * as EPOLO from "./index.js";
-import { DynamicSprite, StaticSprite, SkyLayer, BackdropLayer, Hero, Mob, Collectible, Coin, Projectile, IntervalHub, ImgHub } from "./index.js";
+// import { DynamicSprite, StaticSprite, SkyLayer, Backdrop, Hero, Mob, Collectible, Coin, Projectile, IntervalHub, ImgHub } from "./index.js";
 
 // All Drawable 2D Instances 
 // In Game-Dev -> sprite
@@ -9,13 +9,19 @@ export class Sprite {
     pX;                     // Number                   X-Position
     pY;                     // Number                   Y-Position
 
-    static SPRITES = [];
+    static SPRITES = [];    // Array                    A list of all sprites
 
-    constructor() {
+    constructor() { }
 
-    }
+    draw(ctx) {
+        // if (!this.currentFrame) return;
 
-    draw() {
-
+        ctx.drawImage(
+            this.currentFrame,
+            this.pX,
+            this.pY,
+            this.W,
+            this.H
+        );
     }
 }

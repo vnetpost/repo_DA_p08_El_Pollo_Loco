@@ -1,4 +1,4 @@
-import { Sprite, DynamicSprite, StaticSprite, SkyLayer, BackdropLayer, Hero, Mob, Collectible, Coin, Projectile, IntervalHub, ImgHub } from "./index.js";
+import { Sprite, DynamicSprite, StaticSprite, SkyLayer, Backdrop, Hero, Mob, Collectible, Coin, Projectile, IntervalHub, ImgHub } from "./index.js";
 
 export class Joystick {
     //  -> e.code = ["KeyD", "Space", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"]

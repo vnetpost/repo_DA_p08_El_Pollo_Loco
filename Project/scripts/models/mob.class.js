@@ -1,6 +1,6 @@
 // import * as EPOLO from "./index.js"; // Define a Objekt-Namespace
 import * as Utils from "../utils/utils.js";
-import { Scene, Sprite, DynamicSprite, StaticSprite, SkyLayer, BackdropLayer, Hero, Collectible, Coin, Projectile, IntervalHub, ImgHub } from "./index.js";
+import { DynamicSprite, ImgHub } from "./index.js";
 
 // Enemies Instances
 export class Mob extends DynamicSprite {
@@ -14,11 +14,9 @@ export class Mob extends DynamicSprite {
         super();
         this.FRAMES = ImgHub.IMGS.chickens;
         this.currentFrame = this.FRAMES.normal.walk[1];
-        this.setRandomPosition();
+        this.pX = Utils.setRandomXposition();
 
-    }
+    }    
 
-    setRandomPosition() {
-        this.pX = 200 + Math.random() * Scene.WIDTH;
-    }
+    
 }

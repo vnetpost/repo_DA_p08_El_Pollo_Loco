@@ -1,5 +1,5 @@
 // import * as EPOLO from "./index.js"; // Define a Objekt-Namespace
-import { Sprite, StaticSprite, SkyLayer, BackdropLayer, Hero, Mob, Collectible, Coin, Projectile, IntervalHub, ImgHub } from "./index.js";
+import { Sprite } from "./index.js";
 
 // Movable-Drawable 2D Instances
 export class DynamicSprite extends Sprite {
@@ -11,13 +11,16 @@ export class DynamicSprite extends Sprite {
 
     isAnim = false;                 // Boolean
     mode;                           // String                   idle, walk, alert, attack, Jump, hurt, dead, ....
-    FRAMES;                         // Object                   Image-Chain
     currentFrame;                   //
 
 
     constructor() {
         super();
 
+    }
+
+    update() {
+        console.log("Dynamic Sprite Updating!");
     }
 
     goRight() {

@@ -1,13 +1,13 @@
 // import * as EPOLO from "./index.js"; // Define a Objekt-Namespace
 import * as Utils from "../utils/utils.js";
-import { Scene, Sprite, DynamicSprite, StaticSprite, SkyLayer, BackdropLayer, Hero, Mob, Collectible, Coin, Projectile, IntervalHub, ImgHub } from "./index.js";
+import { DynamicSprite, ImgHub } from "./index.js";
 
 // Enemies Instances
 export class BigBoss extends DynamicSprite {
-    pX = 500;
-    pY = 350;
-    W = 100;
-    H = 100;
+    pX = 520;
+    pY = 190;
+    W = 200;
+    H = 200;
 
     constructor() {
         super();

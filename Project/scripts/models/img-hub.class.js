@@ -370,7 +370,8 @@ export class ImgHub {
     // - Arrays
     // - Nested objects
     // - Deeply nested folder structures
-    // -> Converts:     Each Path (str) -> Image-Objects (HTMLImageElement)
+    // -> Converts:     Each Path (str) -> Image-Objects (HTMLImageElement) 
+    // Now every path is -> LOADED
     static async preloadAll() {
         const loadTasks = []; // A promise for each loading image. All collected in this array.
         walkThrough(ImgHub.IMGS);

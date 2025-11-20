@@ -1,6 +1,8 @@
+import * as EPOLO from "../models/index.js"; // Define a Objekt-Namespace
 
-
-
+export function setRandomXposition() {
+    return 200 + Math.random() * EPOLO.Scene.WIDTH * 2;
+}
 
 export function randomBetween(min, max) {
     return Math.random() * (max - min) + min;
