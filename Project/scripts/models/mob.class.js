@@ -6,9 +6,9 @@ import { DynamicSprite, ImgHub } from "./index.js";
 export class Mob extends DynamicSprite {
 
     static GALLINITAS = [];              // Array                    [Mob, Mob, Mob, ...]
-    pY = 350;
-    W = 30;
-    H = 30;
+    pY = 330;
+    W = 40;
+    H = 40;
 
     constructor() {
         super();

@@ -8,6 +8,8 @@
 export class Sprite {
     pX;                     // Number                   X-Position
     pY;                     // Number                   Y-Position
+    W;
+    H;
 
     static SPRITES = [];    // Array                    A list of all sprites
 

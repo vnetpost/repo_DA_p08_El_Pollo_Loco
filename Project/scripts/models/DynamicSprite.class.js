@@ -10,18 +10,13 @@ export class DynamicSprite extends Sprite {
     velocityY;
 
     isAnim = false;                 // Boolean
-    mode;                           // String                   idle, walk, alert, attack, Jump, hurt, dead, ....
+    // mode;                           // String                   idle, walk, alert, attack, Jump, hurt, dead, ....
     currentFrame;                   //
 
 
-    constructor() {
-        super();
+    constructor() { super(); }
 
-    }
-
-    update() {
-        console.log("Dynamic Sprite Updating!");
-    }
+    
 
     goRight() {
         console.log("Moving right!");

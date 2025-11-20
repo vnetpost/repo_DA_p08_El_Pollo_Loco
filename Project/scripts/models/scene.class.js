@@ -27,9 +27,6 @@ export class Scene {
     static LEVELS = [];                 // Stores all created Scene instances
     static Difficulty;                  // Game difficulty (1–10)
 
-    static SKY;
-    static DESERT;
-
     static PEPE;                        // Reference to the hero
     static mobNumber = 20;               // How many Galllinitas?
     static JEFA;                        // Reference to the final boss
@@ -77,29 +74,22 @@ export class Scene {
     }
 
 
-    static sceneLoop() {
+    static sceneLoop(timeStamp) {
         console.log("Frame", Scene.HZ++, Sprite.SPRITES);
-        // -----------------------------------------------------------------
-        // Clear the entire canvas at the beginning of each frame
-        // -----------------------------------------------------------------
-        Scene.CTX.clearRect(0, 0, Scene.WIDTH, Scene.HEIGHT);
 
+        Scene.CTX.clearRect(0, 0, Scene.WIDTH, Scene.HEIGHT);
         // -----------------------------------------------------------------
         // Update phase:
         // Every sprite handles its movement, animation, ...
         // -----------------------------------------------------------------
         Sprite.SPRITES.forEach(sprite => {
-            if (typeof sprite.update === "function") {
-                sprite.update();
-            }
+            if (typeof sprite.update === "function") sprite.update(timeStamp);
         });
-
         // -----------------------------------------------------------------
         // Draw phase:
         // Each sprite renders (draw) itself onto the canvas
         // -----------------------------------------------------------------
         Sprite.SPRITES.forEach(sprite => sprite.draw(Scene.CTX));
-
         // -----------------------------------------------------------------
         // Request the next frame → this creates the continuous game loop
         // -----------------------------------------------------------------
@@ -140,13 +130,17 @@ export class Scene {
     }
 
     generateSky() {
-        Scene.SKY = new SkyLayer();
-        Sprite.SPRITES.push(Scene.SKY);
+        SkyLayer.LAYERS.push(new SkyLayer({ _SCREEN: 1, _pX: 350, _pY: 0 }));
+        SkyLayer.LAYERS.push(new SkyLayer({ _SCREEN: 2, _pX: Scene.WIDTH + 100, _pY: 0 }));
+
+        SkyLayer.LAYERS.forEach(sky => Sprite.SPRITES.push(sky));
     }
 
     generateDesert() {
-        Scene.DESERT = new DesertLayer();
-        Sprite.SPRITES.push(Scene.DESERT);
+        DesertLayer.LEYERS.push(new DesertLayer({ _SCREEN: "p1", _pX: 0, _pY: 0 }));
+        DesertLayer.LEYERS.push(new DesertLayer({ _SCREEN: "p2", _pX: Scene.WIDTH, _pY: 0 }));
+
+        DesertLayer.LEYERS.forEach(desert => Sprite.SPRITES.push(desert));
     }
     // #endregion Instance Methods
 }

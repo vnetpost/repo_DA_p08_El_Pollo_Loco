@@ -4,17 +4,30 @@ import { DynamicSprite, ImgHub } from "./index.js";
 // Character-Player Instances
 export class Hero extends DynamicSprite {
     pX = 50;
-    pY = 250;
+    pY = 225;
     W = 70;
     H = 150;
 
+    mode = "idle";             // "idle" | "walk" | "jump" | "hurt" | "dead"
+    currentFrames = [];        // array of HTMLImageElements
+    frameIndex = 0;            // which frame in the animation
+    frameSpeed = 80;           // ms per frame
+    lastFrameTime = 0;         // last timestamp of animated frame
+
     constructor() {
         super();
-        this.FRAMES = ImgHub.IMGS.pepe;
-        this.currentFrame = this.FRAMES.walk[1];
+        // Set default animation
+        this.currentFrame = ImgHub.IMGS.pepe.idle.Normal[1];
+        this.setCurrentFrames();
     }
 
-    //  -> e.code = ["KeyD", "Space", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"]
+    setCurrentFrames() {
+        if (this.mode === "idle") this.currentFrames = ImgHub.IMGS.pepe.idle.Normal;
+        if (this.mode === "walk") this.currentFrames = ImgHub.IMGS.pepe.walk;
+        if (this.mode === "jump") this.currentFrames = ImgHub.IMGS.pepe.jump;
+        if (this.mode === "hurt") this.currentFrames = ImgHub.IMGS.pepe.hurt;
+        if (this.mode === "dead") this.currentFrames = ImgHub.IMGS.pepe.dead;
+    }
 
     jump() {
         console.log("Hero Jumps!");
@@ -25,14 +38,32 @@ export class Hero extends DynamicSprite {
 
     }
 
-    addEvents() {
-        window.addEventListener("keydown", (e) => {
-            if (e.code === "ArrowLeft") this.goLeft();
-            if (e.code === "ArrowRight") this.goRight();
-            if (e.code === "ArrowUp");
-            if (e.code === "ArrowDown");
-            if (e.code === "Space") this.jump();
-            if (e.code === "KeyD") this.throw();
-        });
+    // Updates hero each frame 
+    update(timeStamp) {
+        this.setCurrentFrames();
+        this.animate(timeStamp);
+    }
+
+    //  Update animation frame based on time 
+    //  SceneLoop(timestamp) passes timestamp into update()
+    animate(timeStamp) {
+        if (!this.currentFrames) return;
+
+        if (timeStamp - this.lastFrameTime > this.frameSpeed) {
+            this.frameIndex = (this.frameIndex + 1) % this.currentFrames.length;
+            this.currentFrame = this.currentFrames[this.frameIndex];
+            this.lastFrameTime = timeStamp;
+        }
+    }
+
+    // Draw the hero
+    draw(ctx) {
+        ctx.drawImage(
+            this.currentFrame,
+            this.pX,
+            this.pY,
+            this.W,
+            this.H
+        );
     }
 }

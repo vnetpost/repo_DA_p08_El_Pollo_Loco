@@ -8,12 +8,9 @@ export class Collectible extends DynamicSprite {
 
 
 
-    constructor() {
-        super();
-        
-    }
+    constructor() { super(); }
 
 
 
-    
+
 }

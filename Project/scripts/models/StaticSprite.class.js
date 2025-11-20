@@ -7,10 +7,7 @@ export class StaticSprite extends Sprite {
 
 
 
-    constructor() {
-        super();
-        
-    }
+    constructor() { super(); }
 
-    
+
 }

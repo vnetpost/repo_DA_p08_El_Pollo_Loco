@@ -3,9 +3,7 @@ import { Sprite, DynamicSprite, StaticSprite, SkyLayer, Backdrop, Hero, Mob, Col
 export class Joystick {
     //  -> e.code = ["KeyD", "Space", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"]
 
-    constructor() {
-
-    }
+    constructor() { }
 
 
     addEvents() {
