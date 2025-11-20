@@ -48,6 +48,7 @@ export class Hero extends DynamicSprite {
     //  SceneLoop(timestamp) passes timestamp into update()
     animate(timeStamp) {
         if (!this.currentFrames) return;
+        console.log(timeStamp / 1000);
 
         if (timeStamp - this.lastFrameTime > this.frameSpeed) {
             this.frameIndex = (this.frameIndex + 1) % this.currentFrames.length;

@@ -89,7 +89,9 @@ export class Scene {
         // Draw phase:
         // Each sprite renders (draw) itself onto the canvas
         // -----------------------------------------------------------------
-        Sprite.SPRITES.forEach(sprite => sprite.draw(Scene.CTX));
+        Sprite.SPRITES.forEach(sprite => {
+            if (typeof sprite.draw === "function") sprite.draw(Scene.CTX);
+        });
         // -----------------------------------------------------------------
         // Request the next frame → this creates the continuous game loop
         // -----------------------------------------------------------------
@@ -106,7 +108,7 @@ export class Scene {
         Sprite.SPRITES.push(Scene.PEPE);
     }
 
-    generateGallinitas(number = 5) {
+    generateGallinitas(number) {
         // Spawn multiple enemy chickens at random positions (later)
         for (let i = 0; i < number; i++) {
             const newGallinita = new Mob();
