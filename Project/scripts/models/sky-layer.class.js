@@ -3,19 +3,20 @@ import { Scene, Backdrop, ImgHub } from "./index.js";
 
 // Cloud Instances
 export class SkyLayer extends Backdrop {
-    static LAYERS = [];             // SkyLayer                For Page1 & Page2 [SkyLayer, SkyLayer] 
-    static SCREEN;                // Number                  1 OR 2
-    static FRAMES;                 // Object                   Image-Chain from ImgHub.IMGS
-    static AIR;
-    static WIND = 2;
 
-    W = Scene.WIDTH * 2 / 5;
-    H = Scene.HEIGHT * 2 / 5;
+    W = Scene.WIDTH * 2 / 5;            // Number               Cloud's width
+    H = Scene.HEIGHT * 2 / 5;           // Number               Clould's height
+    SCREEN;                             // Number               1 OR 2                             
+
+    static LAYERS = [];                 // SkyLayer             For Page1 & Page2 [SkyLayer, SkyLayer]
+    static FRAMES;                      // Object               Image-Chain from ImgHub.IMGS
+    static AIR_FRAME;                   // Object               Image-Chain from ImgHub.IMGS
+    static WIND = 2;                    // Number               Wind's Speed
 
     constructor({ _SCREEN, _pX, _pY } = {}) {
         super();
         SkyLayer.FRAMES = ImgHub.IMGS.background.layers.clouds;
-        SkyLayer.AIR = ImgHub.IMGS.background.layers.air;
+        SkyLayer.AIR_FRAME = ImgHub.IMGS.background.layers.air;
         // this.currentFrame = SkyLayer.FRAMES.tiles[0];
         this.SCREEN = _SCREEN;
         this.pX = _pX;
@@ -25,17 +26,17 @@ export class SkyLayer extends Backdrop {
 
     draw(ctx) {
         if (this.SCREEN === 1) { // Screen 1
-            ctx.drawImage(SkyLayer.AIR, 0, 0, Scene.WIDTH, Scene.HEIGHT);
+            ctx.drawImage(SkyLayer.AIR_FRAME, 0, 0, Scene.WIDTH, Scene.HEIGHT);
             ctx.drawImage(SkyLayer.FRAMES.tiles[0], this.pX, this.pY, this.W, this.H);
         }
         if (this.SCREEN === 2) { // Screen 2
-            ctx.drawImage(SkyLayer.AIR, Scene.WIDTH, 0, Scene.WIDTH, Scene.HEIGHT);
-            ctx.drawImage(SkyLayer.FRAMES.tiles[1], Scene.WIDTH * 2, this.pY, this.W, this.H);
+            ctx.drawImage(SkyLayer.AIR_FRAME, Scene.WIDTH, 0, Scene.WIDTH, Scene.HEIGHT);
+            ctx.drawImage(SkyLayer.FRAMES.tiles[1], this.pX, this.pY, this.W, this.H);
         }
     }
 
     update() {
-        // Move to the left
+        // Move the clouds to the left
         this.pX -= SkyLayer.WIND;
 
         // If completely out of view on the left, wrap around to the right

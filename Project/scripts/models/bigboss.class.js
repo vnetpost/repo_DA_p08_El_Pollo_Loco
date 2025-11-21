@@ -20,4 +20,16 @@ export class BigBoss extends DynamicSprite {
     setRandomPosition() {
 
     }
+
+        draw(ctx) {
+        // if (!this.currentFrame) return;
+
+        ctx.drawImage(
+            this.currentFrame,
+            this.pX,
+            this.pY,
+            this.W,
+            this.H
+        );
+    }
 }

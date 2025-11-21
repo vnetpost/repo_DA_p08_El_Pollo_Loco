@@ -14,16 +14,4 @@ export class Sprite {
     static SPRITES = [];    // Array                    A list of all sprites
 
     constructor() { }
-
-    draw(ctx) {
-        // if (!this.currentFrame) return;
-
-        ctx.drawImage(
-            this.currentFrame,
-            this.pX,
-            this.pY,
-            this.W,
-            this.H
-        );
-    }
 }

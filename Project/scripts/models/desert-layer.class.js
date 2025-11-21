@@ -19,15 +19,17 @@ export class DesertLayer extends Backdrop {
     }
 
     draw(ctx) {
-        if (this.SCREEN === "p1") {
+        if (this.SCREEN === 1) {
             ctx.drawImage(DesertLayer.FRAMES.third.tiles[0], this.pX, this.pY, this.W, this.H);
             ctx.drawImage(DesertLayer.FRAMES.second.tiles[0], this.pX, this.pY, this.W, this.H);
             ctx.drawImage(DesertLayer.FRAMES.first.tiles[0], this.pX, this.pY, this.W, this.H);
         }
-        if (this.SCREEN === "p2") {
+        if (this.SCREEN === 2) {
             ctx.drawImage(DesertLayer.FRAMES.third.tiles[1], this.pX, this.pY, this.W, this.H);
             ctx.drawImage(DesertLayer.FRAMES.second.tiles[1], this.pX, this.pY, this.W, this.H);
             ctx.drawImage(DesertLayer.FRAMES.first.tiles[1], this.pX, this.pY, this.W, this.H);
         }
     }
+
+    _update(){}
 }

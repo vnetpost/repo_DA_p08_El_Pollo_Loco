@@ -1,19 +1,27 @@
-import { Sprite, DynamicSprite, StaticSprite, SkyLayer, Backdrop, Hero, Mob, Collectible, Coin, Projectile, IntervalHub, ImgHub } from "./index.js";
-
+// joystick.class.js
 export class Joystick {
-    //  -> e.code = ["KeyD", "Space", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"]
+    left = false;
+    right = false;
+    jump = false;
 
-    constructor() { }
+    constructor() {
+        window.addEventListener("keydown", e => this.onKeyDown(e));
+        window.addEventListener("keyup", e => this.onKeyUp(e));
+    }
 
+    // Key pressed
+    onKeyDown(event) {
+        const code = event.code;
+        if (code === "ArrowLeft" || code === "KeyA") this.left = true;
+        if (code === "ArrowRight" || code === "KeyD") this.right = true;
+        if (code === "Space" || code === "KeyW" || code === "ArrowUp") this.jump = true;
+    }
 
-    addEvents() {
-        window.addEventListener("keydown", (e) => {
-            if (e.code === "ArrowLeft") this.goLeft();
-            if (e.code === "ArrowRight") this.goRight();
-            if (e.code === "ArrowUp");
-            if (e.code === "ArrowDown");
-            if (e.code === "Space") this.jump();
-            if (e.code === "KeyD") this.throw();
-        });
+    // Key released
+    onKeyUp(event) {
+        const code = event.code;
+        if (code === "ArrowLeft" || code === "KeyA") this.left = false;
+        if (code === "ArrowRight" || code === "KeyD") this.right = false;
+        if (code === "Space" || code === "KeyW" || code === "ArrowUp") this.jump = false;
     }
 }

@@ -1,140 +1,105 @@
-// import * as Utils from "../utils/utils.js";
+// mob.class.js
 import * as Utils from "../utils/utils.js";
 import { DynamicSprite, ImgHub } from "./index.js";
 
-// Enemy chickens
 export class Mob extends DynamicSprite {
 
-    // Static list with all Gallinitas (optional game-wide registry)
     static GALLINITAS = [];
 
-    // Basic size & position on the ground
+    // Basic size & position
+    pX;
     pY = 330;
     W = 40;
     H = 40;
 
-    // --- Animation state ---
-    mode = "walk";               // "walk" | "dead"
-    currentFrames = [];          // Array of HTMLImageElement
-    frameIndex = 0;              // Current index in currentFrames
-    frameDuration = 150;         // Milliseconds per frame (animation speed)
-    elapsedTime = 0;             // Accumulated time for frame switching
-    lastTime = 0;                // Last timestamp from RAF
+    // Frames from ImgHub
+    FRAMES = ImgHub.IMGS.chickens.normal;
 
-    // --- Movement state ---
-    speedX = 40;                 // Pixels per second to the left (slow)
+    // Animation state
+    mode = "walk";              // walk | dead
+    currentFrames = [];         // Array of HTMLImageElement
+    currentFrame = null;        // Currently displayed HTMLImageElement
+    currentFrameIdx = 0;        // Index in currentFrames
+    animSpeed = 150;            // Milliseconds per frame
+    lastFrameTime = 0;          // Last timestamp used for animation
+
+    // Movement state
+    speedX = 40;
+    lastMoveTime = 0;
 
     constructor() {
         super();
 
-        // All chicken frames from ImgHub
-        this.FRAMES = ImgHub.IMGS.chickens.normal;
-
-        // Initial mode & frames
-        this.setCurrentFrames();
-        this.currentFrame = this.currentFrames[this.frameIndex];
-
-        // Random start position on X axis
+        // Random X start
         this.pX = Utils.setRandomXposition();
+
+        // Init frames
+        this.setCurrentFrames();
+        this.currentFrame = this.currentFrames[this.currentFrameIdx];
     }
 
-    // ------------------------------------------------------------------
-    // Selects the correct frame array depending on the current mode
-    // ------------------------------------------------------------------
+    // Select frames based on mode
     setCurrentFrames() {
-        if (this.mode === "walk") {
-            this.currentFrames = this.FRAMES.walk;   // [img1, img2, img3]
-        } else if (this.mode === "dead") {
-            this.currentFrames = this.FRAMES.dead;   // [deadImage] (array!)
-        }
-
-        // Safety: avoid out-of-bounds frameIndex
-        if (this.frameIndex >= this.currentFrames.length) {
-            this.frameIndex = 0;
-        }
+        if (this.mode === "walk") this.currentFrames = this.FRAMES.walk;
+        if (this.mode === "dead") this.currentFrames = this.FRAMES.dead;
+        if (this.currentFrameIdx >= this.currentFrames.length) this.currentFrameIdx = 0;
     }
 
-    // ------------------------------------------------------------------
-    // Public helper: change mode from outside (e.g. on collision)
-    // ------------------------------------------------------------------
+    // Change mode externally
     setMode(newMode) {
         if (this.mode === newMode) return;
         this.mode = newMode;
         this.setCurrentFrames();
-        this.frameIndex = 0;
-        this.elapsedTime = 0;
-        this.currentFrame = this.currentFrames[this.frameIndex];
+        this.currentFrameIdx = 0;
+        this.lastFrameTime = 0;
+        this.currentFrame = this.currentFrames[this.currentFrameIdx];
     }
 
-    // ------------------------------------------------------------------
-    // Called every frame from Scene.sceneLoop(timeStamp)
-    // Handles animation + movement
-    // ------------------------------------------------------------------
+    // Called every frame from Scene.sceneLoop(timeStamp).
+    // Updates animation and movement.
     update(timeStamp) {
-        this.updateAnimation(timeStamp);
-        this.updateMovement(timeStamp);
+        this.setCurrentFrames();
+        this.animate(timeStamp);
+        this.move(timeStamp);
     }
 
-    // ------------------------------------------------------------------
-    // Time-based animation using requestAnimationFrame timestamp
-    // ------------------------------------------------------------------
-    updateAnimation(timeStamp) {
-        // First call: init lastTime and skip animation step
-        if (!this.lastTime) {
-            this.lastTime = timeStamp;
+    // Time-based animation using RAF timestamp.
+    animate(timeStamp) {
+        if (this.mode === "dead") return;
+        if (!this.lastFrameTime) {
+            this.lastFrameTime = timeStamp;
             return;
         }
 
-        const delta = timeStamp - this.lastTime; // ms since last frame
-        this.lastTime = timeStamp;
+        const delta = timeStamp - this.lastFrameTime;
 
-        // Dead mode → no animation, keep single frame
-        if (this.mode === "dead") {
-            return;
-        }
-
-        // Accumulate time and switch to next frame when frameDuration reached
-        this.elapsedTime += delta;
-
-        if (this.elapsedTime >= this.frameDuration) {
-            this.elapsedTime -= this.frameDuration;
-
-            // Next frame in cycle
-            this.frameIndex = (this.frameIndex + 1) % this.currentFrames.length;
-            this.currentFrame = this.currentFrames[this.frameIndex];
+        if (delta >= this.animSpeed) {
+            this.lastFrameTime = timeStamp;
+            this.currentFrameIdx = (this.currentFrameIdx + 1) % this.currentFrames.length;
+            this.currentFrame = this.currentFrames[this.currentFrameIdx];
         }
     }
 
-    // ------------------------------------------------------------------
-    // Moves the chicken slowly to the left
-    // ------------------------------------------------------------------
-    updateMovement(timeStamp) {
+    // Movement over time
+    move(timeStamp) {
+        if (this.mode === "dead") return;
         if (!this.lastMoveTime) {
             this.lastMoveTime = timeStamp;
             return;
         }
 
-        const delta = timeStamp - this.lastMoveTime;  // ms since last move
+        const delta = timeStamp - this.lastMoveTime;
         this.lastMoveTime = timeStamp;
 
-        // Dead chickens do not move
-        if (this.mode === "dead") return;
-
-        // Convert ms → seconds
         const deltaSeconds = delta / 1000;
-
-        // Move to the left: x = x - speed * time
         this.pX -= this.speedX * deltaSeconds;
 
-        // Optional: if Mob walks out of screen on the left, respawn on right
-        if (this.pX + this.W < 0) {
-            this.pX = 720 + Utils.setRandomXposition();  // 720 = Scene.WIDTH
-        }
+        // Respawn on right side after leaving screen
+        if (this.pX + this.W < 0)
+            this.pX = 720 + Utils.setRandomXposition();
     }
 
-    // ------------------------------------------------------------------
-    // Render chicken on canvas
-    // ------------------------------------------------------------------
+    // Draw on canvas
     draw(ctx) {
         ctx.drawImage(
             this.currentFrame,
