@@ -6,7 +6,7 @@ export class ImgHub {
     static IMGS = {
         pepe: {
             idle: {
-                Normal: [
+                short: [
                     "./assets/images/misc/2_character_pepe/1_idle/idle/I-1.png",
                     "./assets/images/misc/2_character_pepe/1_idle/idle/I-2.png",
                     "./assets/images/misc/2_character_pepe/1_idle/idle/I-3.png",
@@ -373,42 +373,205 @@ export class ImgHub {
     // -> Converts:     Each Path (str) -> Image-Objects (HTMLImageElement) 
     // Now every path is -> LOADED
     static async preloadAll() {
-        const loadTasks = []; // A promise for each loading image. All collected in this array.
-        walkThrough(ImgHub.IMGS);
+        const loadTasks = [];
+        const stack = [ImgHub.IMGS]; // start with the root object
 
-        await Promise.all(loadTasks);
-        console.log("Now all images in ImgHub.IMGS are loaded.");
+        // Process all nested arrays/objects using stack (A ToDo-Array)
+        while (stack.length > 0) {
+            const node = stack.pop(); // Take last member
 
-        function walkThrough(node) {
-            // 1. If String
-            if (typeof node === "string") return strToObj(node);
-
-            // 2. If Array
-            if (Array.isArray(node)) return node.map(walkThrough);
-
-            // 3. If Objekt
-            if (node && typeof node === "object") {
-                for (const key in node) node[key] = walkThrough(node[key]);
-                return node;
+            // Case 1: node is a array (["path1.png", "path2.png", ...])
+            if (Array.isArray(node)) {
+                for (let i = 0; i < node.length; i++) {
+                    const value = node[i];
+                    if (typeof value === "string") node[i] = convertToImage(value); // If string
+                    else if (value && (Array.isArray(value) || typeof value === "object")) stack.push(value) // If array/object
+                }
             }
 
-            return node; // will be ignored !
+            // Case 2: node is an object ({ walk: [...], idle: {...}, base: "..." })
+            else if (node && typeof node === "object") {
+                for (const key in node) {
+                    const value = node[key];
+                    if (typeof value === "string") node[key] = convertToImage(value); // If string
+                    else if (value && (Array.isArray(value) || typeof value === "object")) stack.push(value) // If array/object
+                }
+            }
         }
 
-        function strToObj(node) { // Converts node(str) to a "HTMLImageElement"
-            const img = new Image();
-            img.src = node;
+        await Promise.all(loadTasks);
+        console.log("All images loaded with iterative loader!");
 
-            const p = new Promise((resolve, reject) => {
-                img.onload = resolve;
-                img.onerror = () => {
-                    console.error("Image could not be loaded:", node);
-                    reject(new Error(`Failed to load image: ${node}`));
+
+        function convertToImage(path) {
+            const img = new Image();
+            img.src = path;
+
+            const promise = new Promise((resolve, reject) => {
+                img.onload = resolve;   // image loaded successfully
+                img.onerror = () => {   // image failed to load
+                    console.error("Failed to load image:", path);
+                    reject(new Error(`Failed to load image: ${path}`));
                 };
             });
 
-            loadTasks.push(p);
+            loadTasks.push(promise);
             return img;
         }
     }
+
+    // Doesn't work
+    // static async preloadAll() {
+    //     const loadTasks = [];
+
+    //     Object.keys(ImgHub.IMGS).forEach((node1, idx1) => {
+    //         if (typeof node1 === "object") { // node1 -> pepe, chickens, boss, ...
+    //             Object.keys(node1).forEach((node2, idx2) => {
+    //                 if (typeof node2 === "object") { // node2 -> idle, layers, ...
+    //                     Object.keys(node2).forEach((node3, idx3) => {
+    //                         if (Array.isArray(node3)) { // node3 -> short
+    //                             node3.forEach((path, index) => {
+    //                                 node3[index] = convertToImage(path);
+    //                             });
+    //                         }
+    //                     });
+    //                 }
+    //                 else if (Array.isArray(node2)) { // node2 -> walk, alert, ...
+    //                     node2.forEach((path, index) => {
+    //                         node2[index] = convertToImage(path);
+    //                     });
+    //                 } else if (typeof node2 === "string") { // node2 -> base, image, spriteSheet, ...
+    //                     node1[idx1] = convertToImage(path);
+    //                 }
+    //             });
+    //         }
+    //     });
+
+    //     function convertToImage(path) {
+    //         const img = new Image();
+    //         img.src = path;
+    //         const promise = new Promise((resolve, reject) => {
+    //             img.onload = resolve;
+    //             img.onerror = () => {
+    //                 onsole.error("Failed to load image:", path);
+    //                 reject(new Error(`Failed to load image: ${path}`));
+    //             }
+    //         });
+    //         loadTasks.push(promise);
+    //         return img;
+    //     }
+    // }
+    // ###########################################################################################
+
+    // static async preloadAll() {
+    //     const loadTasks = [];
+    //     const stack = [ImgHub.IMGS]; // start with the root object
+
+    //     // Process all nested arrays/objects using a stack
+    //     while (stack.length > 0) {
+    //         const node = stack.pop();
+
+    //         // Case 1: node is an array (e.g. [ "path1.png", "path2.png" ])
+    //         if (Array.isArray(node)) {
+    //             for (let i = 0; i < node.length; i++) {
+    //                 const value = node[i];
+
+    //                 // If it's a string, convert to image
+    //                 if (typeof value === "string") {
+    //                     node[i] = convertToImage(value);
+    //                 }
+    //                 // If it's another array or object, process later
+    //                 else if (value && (Array.isArray(value) || typeof value === "object")) {
+    //                     stack.push(value);
+    //                 }
+    //             }
+    //         }
+
+    //         // Case 2: node is an object (e.g. { walk: [...], idle: {...}, base: "..." })
+    //         else if (node && typeof node === "object") {
+    //             for (const key in node) {
+    //                 const value = node[key];
+
+    //                 // If it's a string, convert to image
+    //                 if (typeof value === "string") {
+    //                     node[key] = convertToImage(value);
+    //                 }
+    //                 // If it's another array or object, add to stack for further processing
+    //                 else if (value && (Array.isArray(value) || typeof value === "object")) {
+    //                     stack.push(value);
+    //                 }
+    //             }
+    //         }
+
+    //         // Other types (number, null, etc.) are ignored
+    //     }
+
+    //     // Wait until all images are fully loaded
+    //     await Promise.all(loadTasks);
+    //     console.log("All images loaded with iterative loader!");
+
+
+    //     /**
+    //      * Converts a path string → HTMLImageElement
+    //      * and pushes a loading promise into loadTasks.
+    //      */
+    //     function convertToImage(path) {
+    //         const img = new Image();
+    //         img.src = path;
+
+    //         const promise = new Promise((resolve, reject) => {
+    //             img.onload = resolve;   // image loaded successfully
+    //             img.onerror = () => {   // image failed to load
+    //                 console.error("Failed to load image:", path);
+    //                 reject(new Error(`Failed to load image: ${path}`));
+    //             };
+    //         });
+
+    //         loadTasks.push(promise);
+    //         return img;
+    //     }
+    // }
+    // ###########################################################################################
+    
+    // With Recursion
+    // static async preloadAll() {
+    //     const loadTasks = []; // A promise for each loading image. All collected in this array.
+    //     walkThrough(ImgHub.IMGS);
+
+    //     await Promise.all(loadTasks);
+    //     console.log("Now all images in ImgHub.IMGS are loaded.");
+
+    //     function walkThrough(node) {
+    //         // 1. If String
+    //         if (typeof node === "string") return strToObj(node);
+
+    //         // 2. If Array
+    //         if (Array.isArray(node)) return node.map(walkThrough);
+
+    //         // 3. If Objekt
+    //         if (node && typeof node === "object") {
+    //             for (const key in node) node[key] = walkThrough(node[key]);
+    //             return node;
+    //         }
+
+    //         return node; // will be ignored !
+    //     }
+
+    //     function strToObj(node) { // Converts node(str) to a "HTMLImageElement"
+    //         const img = new Image();
+    //         img.src = node;
+
+    //         const p = new Promise((resolve, reject) => {
+    //             img.onload = resolve;
+    //             img.onerror = () => {
+    //                 console.error("Image could not be loaded:", node);
+    //                 reject(new Error(`Failed to load image: ${node}`));
+    //             };
+    //         });
+
+    //         loadTasks.push(p);
+    //         return img;
+    //     }
+    // }
+
 }

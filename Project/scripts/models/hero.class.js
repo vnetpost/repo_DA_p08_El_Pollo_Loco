@@ -8,7 +8,7 @@ export class Hero extends DynamicSprite {
     W = 70;
     H = 150;
 
-    mode = "idle";             // "idle" | "walk" | "jump" | "hurt" | "dead"
+    mode = "idleLong";             // "idleNormal" | "idleLong" | "walk" | "jump" | "hurt" | "dead"
     currentFrames = [];        // array of HTMLImageElements
     frameIndex = 0;            // which frame in the animation
     frameSpeed = 80;           // ms per frame
@@ -17,12 +17,13 @@ export class Hero extends DynamicSprite {
     constructor() {
         super();
         // Set default animation
-        this.currentFrame = ImgHub.IMGS.pepe.idle.Normal[1];
+        this.currentFrame = ImgHub.IMGS.pepe.idle.short[1];
         this.setCurrentFrames();
     }
 
     setCurrentFrames() {
-        if (this.mode === "idle") this.currentFrames = ImgHub.IMGS.pepe.idle.Normal;
+        if (this.mode === "idleShort") this.currentFrames = ImgHub.IMGS.pepe.idle.short;
+        if (this.mode === "idleLong") this.currentFrames = ImgHub.IMGS.pepe.idle.long;
         if (this.mode === "walk") this.currentFrames = ImgHub.IMGS.pepe.walk;
         if (this.mode === "jump") this.currentFrames = ImgHub.IMGS.pepe.jump;
         if (this.mode === "hurt") this.currentFrames = ImgHub.IMGS.pepe.hurt;
