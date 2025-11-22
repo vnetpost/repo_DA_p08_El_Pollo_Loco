@@ -26,38 +26,31 @@ export class Hero extends DynamicSprite {
 
     // Animation state
     mode = "idleShort";
-    currentFrames = [];
-    currentFrame = null;
-    currentFrameIdx = 0;
-    animSpeed = 150;
-    lastFrameTime = 0;
+    animSpeed = 80;
 
     joystick;
+    facing = 1; // 1 = right, -1 = left
 
     constructor(joystick) {
         super();
         this.joystick = joystick;
         this.setCurrentFrames();
-        this.currentFrame = this.currentFrames[this.currentFrameIdx];
     }
 
     setCurrentFrames() {
-        if (this.mode === "idleShort") this.currentFrames = this.FRAMES.idle.short;
-        if (this.mode === "idleLong") this.currentFrames = this.FRAMES.idle.long;
-        if (this.mode === "walk") this.currentFrames = this.FRAMES.walk;
-        if (this.mode === "jump") this.currentFrames = this.FRAMES.jump;
-        if (this.mode === "hurt") this.currentFrames = this.FRAMES.hurt;
-        if (this.mode === "dead") this.currentFrames = this.FRAMES.dead;
-        if (this.currentFrameIdx >= this.currentFrames.length) this.currentFrameIdx = 0;
+        let frames = this.FRAMES.idle.short;
+        if (this.mode === "idleLong") frames = this.FRAMES.idle.long;
+        if (this.mode === "walk") frames = this.FRAMES.walk;
+        if (this.mode === "jump") frames = this.FRAMES.jump;
+        if (this.mode === "hurt") frames = this.FRAMES.hurt;
+        if (this.mode === "dead") frames = this.FRAMES.dead;
+        this.setAnimationFrames(frames);
     }
 
     setMode(newMode) {
         if (this.mode === newMode) return;
         this.mode = newMode;
         this.setCurrentFrames();
-        this.currentFrameIdx = 0;
-        this.lastFrameTime = 0;
-        this.currentFrame = this.currentFrames[this.currentFrameIdx];
     }
 
     update(timeStamp) {
@@ -72,39 +65,22 @@ export class Hero extends DynamicSprite {
         const j = this.joystick;
 
         if (!this.onGround) {
-            this.mode = "jump";
-            this.setCurrentFrames();
+            this.setMode("jump");
             return;
         }
 
         if (j.left || j.right) {
-            this.mode = "walk";
-            this.setCurrentFrames();
+            this.setMode("walk");
+            if (j.left) this.facing = -1;
+            if (j.right) this.facing = 1;
         } else {
-            this.mode = "idleShort";
-            this.setCurrentFrames();
+            this.setMode("idleShort");
         }
 
         if (j.jump && this.onGround) {
             this.velY = this.jumpStrength;
             this.onGround = false;
-            this.mode = "jump";
-            this.setCurrentFrames();
-        }
-    }
-
-    animate(timeStamp) {
-        if (!this.lastFrameTime) {
-            this.lastFrameTime = timeStamp;
-            return;
-        }
-
-        const delta = timeStamp - this.lastFrameTime;
-
-        if (delta >= this.animSpeed) {
-            this.lastFrameTime = timeStamp;
-            this.currentFrameIdx = (this.currentFrameIdx + 1) % this.currentFrames.length;
-            this.currentFrame = this.currentFrames[this.currentFrameIdx];
+            this.setMode("jump");
         }
     }
 
@@ -158,12 +134,25 @@ export class Hero extends DynamicSprite {
     }
 
     draw(ctx) {
-        ctx.drawImage(
-            this.currentFrame,
-            this.pX,
-            this.pY,
-            this.W,
-            this.H
-        );
+        ctx.save();
+        if (this.facing === -1) {
+            ctx.scale(-1, 1);
+            ctx.drawImage(
+                this.currentFrame,
+                -(this.pX + this.W),
+                this.pY,
+                this.W,
+                this.H
+            );
+        } else {
+            ctx.drawImage(
+                this.currentFrame,
+                this.pX,
+                this.pY,
+                this.W,
+                this.H
+            );
+        }
+        ctx.restore();
     }
 }

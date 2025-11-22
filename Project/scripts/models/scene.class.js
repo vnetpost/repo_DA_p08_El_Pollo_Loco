@@ -3,7 +3,6 @@ import {
     Sprite,
     DynamicSprite,
     StaticSprite,
-    Backdrop,
     SkyLayer,
     DesertLayer,
     Hero,
@@ -14,7 +13,8 @@ import {
     Projectile,
     IntervalHub,
     ImgHub,
-    Joystick
+    Joystick,
+    MeterUI
 } from "./index.js";
 
 export class Scene {
@@ -57,6 +57,7 @@ export class Scene {
 
         this.generateBotellas();
         this.generateMonedas();
+        this.generateHUD();
     }
 
     // #region Static Methods
@@ -113,6 +114,11 @@ export class Scene {
         //
     }
 
+    generateHUD() {
+        Scene.METER_UI = new MeterUI();
+        Sprite.SPRITES.push(Scene.METER_UI);
+    }
+
     generateSky() {
         SkyLayer.LAYERS.push(new SkyLayer({ _SCREEN: 1, _pX: 350, _pY: 0 }));
         SkyLayer.LAYERS.push(new SkyLayer({ _SCREEN: 2, _pX: Scene.WIDTH + 350, _pY: 0 }));
@@ -122,7 +128,7 @@ export class Scene {
 
     generateDesert() {
         DesertLayer.LEYERS.push(new DesertLayer({ _SCREEN: 1, _pX: 0, _pY: 0 }));
-        DesertLayer.LEYERS.push(new DesertLayer({ _SCREEN: 2, _pX: Scene.WIDTH, _pY: 0 }));
+        DesertLayer.LEYERS.push(new DesertLayer({ _SCREEN: 2, _pX: Scene.WIDTH - 2, _pY: 0 }));
 
         DesertLayer.LEYERS.forEach(desert => Sprite.SPRITES.push(desert));
     }

@@ -9,19 +9,38 @@ export class DynamicSprite extends Sprite {
     velocityX;
     velocityY;
 
-    isAnim = false;                 // Boolean
-    // mode;                           // String                   idle, walk, alert, attack, Jump, hurt, dead, ....
-    currentFrame;                   //
-
+    // Animation state (optional for subclasses)
+    currentFrames = [];
+    currentFrame = null;
+    currentFrameIdx = 0;
+    animSpeed = 150;
+    lastFrameTime = 0;
 
     constructor() { super(); }
 
-    
-
-    goRight() {
-        console.log("Moving right!");
+    setAnimationFrames(frames = []) {
+        this.currentFrames = frames;
+        this.currentFrameIdx = 0;
+        this.currentFrame = this.currentFrames[this.currentFrameIdx] ?? null;
+        this.lastFrameTime = 0;
     }
-    goLeft() {
-        console.log("Moving Left!");
+
+    shouldAnimate() {
+        return this.currentFrames.length > 1;
+    }
+
+    animate(timeStamp) {
+        if (!this.shouldAnimate() || !this.currentFrames.length) return;
+        if (!this.lastFrameTime) {
+            this.lastFrameTime = timeStamp;
+            return;
+        }
+
+        const delta = timeStamp - this.lastFrameTime;
+        if (delta < this.animSpeed) return;
+
+        this.lastFrameTime = timeStamp;
+        this.currentFrameIdx = (this.currentFrameIdx + 1) % this.currentFrames.length;
+        this.currentFrame = this.currentFrames[this.currentFrameIdx];
     }
 }

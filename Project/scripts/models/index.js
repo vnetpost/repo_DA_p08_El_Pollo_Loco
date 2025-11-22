@@ -5,7 +5,6 @@ export * from "./scene.class.js";
 export * from "./sprite.class.js";
 export * from "./DynamicSprite.class.js";
 export * from "./StaticSprite.class.js";
-export * from "./backdrop.class.js";
 export * from "./desert-layer.class.js";
 export * from "./sky-layer.class.js";
 export * from "./hero.class.js";

@@ -20,7 +20,7 @@ body {
     font-family: "Durango Western Eroded";
     font-family: "Cowboy Outlaw Textured";
 
-    border: 1px solid red;
+    /* border: 1px solid red; */
     height: 100dvh;
     display: flex;
     flex-direction: column;
@@ -34,7 +34,7 @@ a {
 }
 
 .page-wrapper {
-    border: 1px solid red;
+    /* border: 1px solid red; */
     max-width: 1440px;
     /* width: 100%; */
     /* display: flex;
