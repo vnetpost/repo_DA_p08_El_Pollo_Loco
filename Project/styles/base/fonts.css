@@ -1,0 +1,118 @@
+/* ===========================
+Custom Fonts
+
+Project/styles/base/fonts.css
+-> ../../assets/fonts/XXX
+=========================== */
+
+/* ---------------------------
+Einzelne Deko-Fonts
+--------------------------- */
+
+@font-face {
+    font-family: 'Berkshire Swash';
+    src: url('../../assets/fonts/BerkshireSwash-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cowboy Outlaw';
+    src: url('../../assets/fonts/cowboy-outlaw.regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cowboy Outlaw Textured';
+    src: url('../../assets/fonts/cowboy-outlaw.textured.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Durango Western Eroded';
+    src: url('../../assets/fonts/durango-western-eroded.regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Eater';
+    src: url('../../assets/fonts/Eater-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Marlboro';
+    src: url('../../assets/fonts/marlboro.regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Quentin Caps';
+    src: url('../../assets/fonts/quentincaps.regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Rooster Personal';
+    src: url('../../assets/fonts/rooster-personal-use.regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Rubik Wet Paint';
+    src: url('../../assets/fonts/RubikWetPaint-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Zabars';
+    src: url('../../assets/fonts/zabars.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* ---------------------------
+Roboto – Variable Fonts
+(deckt alle Gewichte ab)
+--------------------------- */
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('../../assets/fonts/Roboto/Roboto-VariableFont_wdth,wght.ttf') format('truetype-variations');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('../../assets/fonts/Roboto/Roboto-Italic-VariableFont_wdth,wght.ttf') format('truetype-variations');
+    font-weight: 100 900;
+    font-style: italic;
+    font-display: swap;
+}
+
+/* Hinweis:
+Die ganzen einzelnen Roboto-Static-Fonts in
+../../assets/fonts/Roboto/static/ brauchst du NICHT alle einzeln
+per @font-face zu definieren – die Variable-Fonts oben
+decken die Styles und Gewichte ab.
+*/

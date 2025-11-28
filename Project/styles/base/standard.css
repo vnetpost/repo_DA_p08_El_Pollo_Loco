@@ -1,0 +1,60 @@
+/* Project/styles/base/standard.css */
+*,
+*::before,
+*::after {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    scroll-behavior: smooth;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 10px;
+}
+
+body {
+    font-size: 16px;
+    font-family: "Roboto Mono";
+    font-family: "zabars";
+    font-family: "Durango Western Eroded";
+    font-family: "Cowboy Outlaw Textured";
+
+    /* border: 1px solid red; */
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+a {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.page-wrapper {
+    /* border: 1px solid red; */
+    max-width: 1440px;
+    /* width: 100%; */
+    /* display: flex;
+    flex-direction: column;
+    align-items: center;
+    top: 50dvh;
+    left: 50dvw;
+    transform: translate(-50%, -50%); */
+
+    /* width: max(1440px, 90%); */
+
+    /* @media (max-width:1000px) {
+        padding: 5rem 5rem;
+    } */
+
+    /* @media (max-width:767px) {
+        padding: 3rem 3rem;
+    } */
+
+    /* @media (max-width:420px) {
+        padding: 1.5rem 1.5rem;
+    } */
+}
