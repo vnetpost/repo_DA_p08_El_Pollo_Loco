@@ -15,6 +15,7 @@ export class Character extends MovableObject {
     statusbar;
     speed = 2.5;
 
+    // Flags
     collided = false;
 
     offset = {
@@ -45,7 +46,7 @@ export class Character extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);
 
         IntervalHub.startInterval(this.animate, 1000 / 10);
-        // IntervalHub.startInterval(this.getRealFrame, 1000 / 60);
+        IntervalHub.startInterval(this.getRealFrame, 1000 / 60);
         IntervalHub.startInterval(this.moveCamera, 1000 / 60);
         IntervalHub.startInterval(this.moveLeft, 1000 / 60);
         IntervalHub.startInterval(this.moveRight, 1000 / 60);
@@ -122,5 +123,5 @@ export class Character extends MovableObject {
         this.collided = collided;
     }
     // #endregion Instance Methods
-    
+
 }

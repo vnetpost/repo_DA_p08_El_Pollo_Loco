@@ -65,7 +65,7 @@ export class MovableObject extends DrawableObject {
         ctx.lineWidth = 3;
         // ctx.strokeStyle = "red";
         ctx.beginPath();
-        this.getRealFrame();
+        // this.getRealFrame();
         ctx.rect(this.rX, this.rY, this.rW, this.rH);
         ctx.stroke();
     }
