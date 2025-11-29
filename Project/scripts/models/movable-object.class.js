@@ -14,10 +14,12 @@ export class MovableObject extends DrawableObject {
         right: 0
     };
 
+    world;
+
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
-    acceleration = 2;
+    acceleration = 1.7;
     energy = 100;
     lastHit = 0;
 
@@ -36,11 +38,11 @@ export class MovableObject extends DrawableObject {
         if (this.isAboveGround() || this.speedY > 0) {
             this.y -= this.speedY;
             this.speedY -= this.acceleration;
-            if (this.y > 266) {
+            if (this.y > 266) { // Reset Pepe Y-Achse Position
                 this.y = 266;
                 this.speedY = 0;
-                this.img = this.imageCache[this.IMAGES_IDLE_SHORT[0]];
-                this.currentImage = 0;
+                this.currentImage = this.imageCache[this.IMAGES_IDLE_SHORT[0]];
+                this.currentImageIndex = 0;
             }
         }
     }
@@ -53,10 +55,10 @@ export class MovableObject extends DrawableObject {
     isDead() { return this.energy == 0 }
     moveLeft = () => { !(this.x + this.width <= 0) ? this.x -= this.speed : this.x = 720 * 4 + this.width; }
 
-    isHurt() { return Date.now() - this.lastHit < 500; }// < 5 Second
+    isHurt() { return Date.now() - this.lastHit < 500; }// < True for 5 Second to stay im Hurt-Zustand
 
     hit() {
-        this.energy > 0 ? this.energy -= 0.5 : this.energy = 0;
+        this.energy > 0 ? this.energy -= 1 : this.energy = 0;
         this.lastHit = Date.now();
     }
 

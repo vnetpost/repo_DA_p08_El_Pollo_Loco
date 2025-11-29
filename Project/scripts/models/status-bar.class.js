@@ -55,7 +55,7 @@ export class StatusBar extends DrawableObject {
     setPrecentage(_precentage) {
         this.precentage = _precentage;
         const path = this.IMAGES_STATUSBAR[this.resolveImageIndex()]
-        this.img = this.imageCache[path];
+        this.currentImage = this.imageCache[path];
     }
 
     resolveImageIndex() {
@@ -71,5 +71,4 @@ export class StatusBar extends DrawableObject {
 
     // #endregion Instance Methods
 }
-
 

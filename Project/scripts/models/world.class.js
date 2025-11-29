@@ -7,16 +7,23 @@ import { Endboss } from "./endboss.class.js";
 import { IntervalHub } from "./interval-hub.class.js";
 import { Keyboard } from "./keyboard.class.js";
 import { StatusBar } from "./status-bar.class.js";
+import { ThrowableObject } from "./throwable-object.class.js";
 
 export class World {
     // #region Attributes
     canvas;
     ctx;
-    keyboard;
+
     camera_x = 0;
 
-    character = new Character();                        // Pepe
+    keyboard;
+
+
     level = level1;                                     // enemies, clouds, backgroundObject, endboss
+    chickenNumber = 10;                                 // Normal & small
+    bottlesNumber = 10;
+
+    character = new Character();                        // Pepe
 
     statusBar_health = new StatusBar({ _whichBar: "health", _x: 20, _y: 10 });
     statusBar_coin = new StatusBar({ _whichBar: "coin", _x: 20, _y: 45 });
@@ -31,13 +38,18 @@ export class World {
         this.ctx = this.canvas.getContext("2d");
 
         this.keyboard = new Keyboard();
+
+        this.spawnChickens(this.chickenNumber);
+        this.spawnBottles(this.bottlesNumber);
+
         this.draw();
-        this.setWorld();
+        this.passWorld();
         // IntervalHub.startInterval(this.checkCollisions, 1000 / 60);
     }
 
-    setWorld() {
+    passWorld() {
         this.character.world = this;
+        this.level.enemies.forEach(enemy => enemy.world = this);
     }
 
     draw() {
@@ -50,17 +62,18 @@ export class World {
 
         // ------- Space for Fixed-Objects --------
         this.ctx.translate(-this.camera_x, 0);              // Back
-        
+
         this.addToMap(this.statusBar_health);               // Add Health's StatusBar
         this.addToMap(this.statusBar_coin);                 // Add Coin's StatusBar
         this.addToMap(this.statusBar_bottle);               // Add Bottle's StatusBar
-        this.addToMap(this.statusBar_endboss);              // Add Endboss's StatusBar
-        
+
         this.ctx.translate(this.camera_x, 0);               // Forward
         // ----------------------------------------
 
         this.addToMap(this.character);                      // Add CPepe
-        this.addObjectsToMap(this.level.enemies);           // Add Enemies
+        this.addToMap(this.statusBar_endboss);              // Add Endboss's StatusBar
+        // this.addObjectsToMap(this.level.enemies);           // Add Enemies
+        this.addObjectsToMap(this.level.bottles);           // Add Bottles
 
         this.ctx.translate(-this.camera_x, 0);
 
@@ -68,21 +81,23 @@ export class World {
     }
 
     addObjectsToMap(objects) {
-        objects.forEach(obg => this.addToMap(obg));
+        if (objects.length > 0)
+            objects.forEach(obg => this.addToMap(obg));
     }
 
     addToMap(mO) {
         if (mO.otherDirection) this.flipImage(mO);
         mO.draw(this.ctx);
         if (mO.otherDirection) this.flipImageBack(mO);
-        if (mO instanceof Character || mO instanceof Chicken || mO instanceof Endboss)
+        if (mO instanceof Character || mO instanceof Chicken ||
+            mO instanceof Endboss || mO instanceof ThrowableObject)
             mO.drawFrame(this.ctx);
     }
 
     flipImage(mO) {
         this.ctx.save(); // A Snapshot
         this.ctx.translate(mO.width, 0);
-        this.ctx.scale(-1, 1); // X-Achse direction to links            
+        this.ctx.scale(-1, 1); // X-Achse direction to links
         mO.x = mO.x * -1;
     }
 
@@ -91,23 +106,17 @@ export class World {
         this.ctx.restore();
     }
 
-    // checkCollisions = () => {
-    //     // refresh Instance-Grenze before comparing
-    //     this.character.getRealFrame();
-    //     let collided = false;
+    spawnBottles(number) {
+        for (let i = 0; i < number; i++) {
+            this.level.bottles.push(new ThrowableObject());
+        }
+    }
 
-    //     this.level.enemies.forEach((enemy, idx) => {
-    //         enemy.getRealFrame();
-
-    //         if (this.character.isColliding(enemy)) {
-    //             collided = true;
-    //             this.character.hit();
-    //             console.log("Enemy", idx, "collided", "Energy=", this.character.energy);
-    //         }
-    //     });
-
-    //     this.character.collided = collided;
-    // }
+    spawnChickens(number) {
+        for (let i = 0; i < number; i++) {
+            this.level.enemies.push(new Chicken());
+        }
+    }
 
     // #endregion Instance Methods
 }

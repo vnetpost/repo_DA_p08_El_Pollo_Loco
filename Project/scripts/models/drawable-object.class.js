@@ -6,14 +6,15 @@ export class DrawableObject {
     width;
     height;
 
-    img;
+    currentImage;
+    currentImageIndex = 0;                 // Index
+    currentAnimation = [];
     imageCache = {};                       // Object            // {"./img1.png": HTMLImageElement, ....}
-    currentImage = 0;
 
 
     loadImage(path) {
-        this.img = new Image();
-        this.img.src = path;
+        this.currentImage = new Image();
+        this.currentImage.src = path;
     }
 
     loadImages(images) {
@@ -25,20 +26,21 @@ export class DrawableObject {
     }
 
     setAnimation = (images) => {
-        if (this.currentAnimation !== images) {
+        if (this.currentAnimation !== images) { // I use currentAnimation just to check
             this.currentAnimation = images;
-            this.currentImage = 0; // restart animation when state change
+            this.currentImageIndex = 0; // restart animation when state change
         }
+        // this.playAnimation(images);
         this.playAnimation(images);
     }
 
     playAnimation(images) {
-        let path = images[this.currentImage];
-        this.img = this.imageCache[path]; // continous chache -> animating
-        this.currentImage = (this.currentImage + 1) % images.length;
+        let path = images[this.currentImageIndex];
+        this.currentImage = this.imageCache[path]; // continous chache -> animating
+        this.currentImageIndex = (this.currentImageIndex + 1) % images.length;
     }
 
-    draw(ctx) { if (this.img instanceof Image) ctx.drawImage(this.img, this.x, this.y, this.width, this.height); }
+    draw(ctx) { if (this.currentImage instanceof Image) ctx.drawImage(this.currentImage, this.x, this.y, this.width, this.height); }
 
-    
+
 }

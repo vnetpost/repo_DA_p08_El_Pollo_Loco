@@ -16,7 +16,7 @@ export * from "./cloud.class.js";
 export * from "./character.class.js";
 export * from "./chicken.class.js";
 export * from "./endboss.class.js";
-export * from "./projectile.class.js";
+export * from "./throwable-object.class.js";
 export * from "./coin.class.js";
 export * from "./status-bar.class.js";
 

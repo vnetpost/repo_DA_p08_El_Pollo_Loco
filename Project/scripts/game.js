@@ -12,6 +12,7 @@ function init() {
     console.log(world.level.enemies);
     console.log(world.level.clouds);
     console.log(world.level.backgroundObjects);
+    console.log(world.level.bottles);
     
     
 
