@@ -12,10 +12,9 @@ export class ThrowableObject extends MovableObject {
 
     status = {
         isNew: true,            // Still On Ground
-        isPickedUp: false,
-        IsSplashed: false,
+        isCarrying: false,
         isOnAir: false,
-        isThrown: false,
+        IsCollided: false,
     };
 
     offset = {
@@ -25,7 +24,7 @@ export class ThrowableObject extends MovableObject {
         right: this.width / 4,
     };
 
-    flyDirection;
+    throwDirection;
 
     // IMAGE_SINGLE = ImgHub.IMGS.bottles.single; // No Array (Just a Photo-Path)
     IMAGE_GROUND = ImgHub.IMGS.bottles.ground[Math.random() < 0.5 ? 0 : 1];
@@ -41,7 +40,7 @@ export class ThrowableObject extends MovableObject {
 
         IntervalHub.startInterval(this.animate, 1000 / 10);
         // IntervalHub.startInterval(this.throw, 1000 / 60); // Set this.speedY = 25 to trigger applyGravity
-        // IntervalHub.startInterval(this.applyGravity, 1000 / 60); // using this.speedY as a trigger
+        IntervalHub.startInterval(this.applyGravity, 1000 / 60); // using this.speedY as a trigger
         // IntervalHub.startInterval(this.checkCollisions, 1000 / 60);
         IntervalHub.startInterval(this.getRealFrame, 1000 / 60);
 
@@ -55,30 +54,46 @@ export class ThrowableObject extends MovableObject {
             this.loadImage(this.IMAGE_GROUND);
             return;
         }
-        if (this.status.isPickedUp) {
+        if (this.status.isCarrying) {
             this.loadImage("") // Don't show it
-            return;
-        }
-        if (this.isOnGround()) {
-            this.setAnimation(this.IMAGES_SPLASH);
-            this.status.isAvailable = false;
-            splashIt();
             return;
         }
         if (this.status.isOnAir) {
             this.setAnimation(this.IMAGES_ROTATION);
             return;
         }
+        if (this.isOnGround() || this.status.IsCollided) {
+            this.setAnimation(this.IMAGES_SPLASH);
+            this.status.isAvailable = false;
+            splashIt();
+            return;
+        }
     }
 
-    triggerThrow({ _x, _y, _direction } = {}) {
+    triggerThrow({ _x, _y, _direction } = {}) { // Just One time durch Pepe
+        this.throwDirection = _direction;
         this.x = _x;
         this.y = _y;
-        this.flyDirection = _direction;
-        this.status.isThrown = true;
+        this.status.isCarrying = false;
+        this.status.isOnAir = true;
+        this.speedY = 25;
     }
 
-    isOnGround() { return this.y > 375; }
+    applyGravity = () => {
+        if (this.isAboveGround() || this.speedY > 0) {
+            this.y -= this.speedY;
+            this.speedY -= this.acceleration;
+            if (this.y > 375) { // Reset Pepe Y-Achse Position
+                this.y = 375;
+                this.speedY = 0;
+                // this.currentImage = this.imageCache[this.IMAGES_IDLE_SHORT[0]];
+                // this.currentImageIndex = 0;
+            }
+        }
+    }
+
+    isOnGround() { return this.y === 375; }
+    isAboveGround() { return this.y < 375; }
 
     splashIt() { // die 
         if (this.status.IsSplashed) return;

@@ -38,13 +38,14 @@ export class MovableObject extends DrawableObject {
     // #region Instance Methods
     applyGravity = () => {
         if (this.isAboveGround() || this.speedY > 0) {
-            this.y -= this.speedY;
-            this.speedY -= this.acceleration;
+            this.y -= this.speedY; //console.log(this.y);
+            this.speedY -= this.acceleration; //console.log(this.speedY);
+            
             if (this.y > 266) { // Reset Pepe Y-Achse Position
                 this.y = 266;
                 this.speedY = 0;
-                this.currentImage = this.imageCache[this.IMAGES_IDLE_SHORT[0]];
-                this.currentImageIndex = 0;
+                // this.currentImage = this.imageCache[this.IMAGES_IDLE_SHORT[0]];
+                // this.currentImageIndex = 0;
             }
         }
     }

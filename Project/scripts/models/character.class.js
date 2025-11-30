@@ -93,6 +93,7 @@ export class Character extends MovableObject {
 
     moveLeft = () => {
         if (this.world.keyboard.LEFT) {
+            // console.log(this.x, this.y);
             this.updateLastActiveTime();
             this.otherDirection = true;
             this.x -= this.speed;
@@ -103,6 +104,7 @@ export class Character extends MovableObject {
 
     moveRight = () => {
         if (this.world.keyboard.RIGHT) {
+            // console.log(this.x, this.y);
             this.updateLastActiveTime();
             this.otherDirection = false;
             this.x += this.speed;
@@ -164,7 +166,7 @@ export class Character extends MovableObject {
             if (this.isColliding(bottle)) {
                 bottle.status.isNew = false;
                 // this.updateLastActiveTime(); // nicht noetig, da die Bottle sich nicht bewegen
-                bottle.status.isPickedUp = true;
+                bottle.status.isCarrying = true; // Durch Pepe
                 this.arsenal.push(bottle); // Add to Arsenal-Array
                 console.log(`Pepe (Energie:${this.energy} Salsa:${this.arsenal.length}) colided with Bottle ${idx}`);
             }
@@ -172,13 +174,18 @@ export class Character extends MovableObject {
     }
 
     throwBottle = () => {
-        if (Date.now() - this.lastThrowTime < 1000) return;
+        if (Date.now() - this.lastThrowTime < 500) return;
         if (this.arsenal.length < 1) return;
         if (!this.world.keyboard.THROW) return;
-        console.log(`Pepe (Energie:${this.energy} Salsa:${this.arsenal.length})`);
         const bottle = this.arsenal.pop();
-        // Bottle's Start-Position is ~ Pepe's Position:
-        bottle.triggerThrow({ _x: (this.x + this.width / 2), _y: this.y, _direction: this.otherDirection });
+        console.log(`Pepe (Energie:${this.energy} Salsa:${this.arsenal.length})`);
+        
+        this.getRealFrame();
+        const startX = this.otherDirection // Bottle's Start-Position is ~ Pepe's Position
+            ? (this.rX - this.rW)       // If pepe guckt left
+            : this.rX;                  // If Pepe guckt right
+        const startY = this.rY;
+        bottle.triggerThrow({ _x: startX, _y: startY, _direction: this.otherDirection });
         this.lastThrowTime = Date.now();
     }
     // #endregion Instance Methods
