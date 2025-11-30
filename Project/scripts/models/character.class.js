@@ -1,10 +1,10 @@
 import { ImgHub } from "./img-hub.class.js";
 import { IntervalHub } from "./interval-hub.class.js";
 import { MovableObject } from "./movable-object.class.js";
+import { ThrowableObject } from "./throwable-object.class.js";
 
 
 export class Character extends MovableObject {
-
     // #region Attributes
     x = 50;
     y = 266;
@@ -32,6 +32,7 @@ export class Character extends MovableObject {
     IMAGES_DEAD = ImgHub.IMGS.pepe.dead;
 
     arsenal = [];                                   // [ThrowableObject,ThrowableObject,...]
+    lastThrowTime = 0;
 
     // currentAnimation = this.IMAGES_IDLE_SHORT;
     // isBored = false;
@@ -56,8 +57,9 @@ export class Character extends MovableObject {
         IntervalHub.startInterval(this.moveRight, 1000 / 60);
         IntervalHub.startInterval(this.jump, 1000 / 60); // Set this.speedY = 25 to trigger applyGravity
         IntervalHub.startInterval(this.applyGravity, 1000 / 60); // this.speedY as a trigger
-        IntervalHub.startInterval(this.checkCollisions, 1000 / 60);
+        // IntervalHub.startInterval(this.checkCollisions, 1000 / 60);
         IntervalHub.startInterval(this.collectBottles, 1000 / 60);
+        IntervalHub.startInterval(this.throwBottle, 1000 / 60);
     }
 
     // #region Instance Methods    
@@ -138,15 +140,14 @@ export class Character extends MovableObject {
                 } else {
                     collided = true;
                     this.hit();
-                    console.log(`Pepe (${this.energy}) colided with Enemy ${idx}`);
+                    console.log(`Pepe (Energie:${this.energy} Salsa:${this.arsenal.length}) colided with enemy ${idx}`);
                 }
             }
         });
-
         this.collided = collided;
     }
 
-    updateLastActiveTime = () => { this.lastActiveTime = Date.now(); }
+    updateLastActiveTime = () => { this.lastActiveTime = Date.now(); } // control my Nap-Frames
 
     isTrampling = (enemy) => {
         const isFalling = this.speedY < 0;
@@ -157,21 +158,29 @@ export class Character extends MovableObject {
     collectBottles = () => {
         this.getRealFrame();
 
-
         this.world.level.bottles.forEach((bottle, idx) => {
             if (!bottle.status.isNew) return;
-            console.log(`Pepe (${this.energy}) colided with Bottle ${idx}`);
-            bottle.status.isNew = false;
             bottle.getRealFrame();
             if (this.isColliding(bottle)) {
+                bottle.status.isNew = false;
                 // this.updateLastActiveTime(); // nicht noetig, da die Bottle sich nicht bewegen
                 bottle.status.isPickedUp = true;
-                this.arsenal.push(bottle);
+                this.arsenal.push(bottle); // Add to Arsenal-Array
+                console.log(`Pepe (Energie:${this.energy} Salsa:${this.arsenal.length}) colided with Bottle ${idx}`);
             }
-
         });
     }
 
+    throwBottle = () => {
+        if (Date.now() - this.lastThrowTime < 1000) return;
+        if (this.arsenal.length < 1) return;
+        if (!this.world.keyboard.THROW) return;
+        console.log(`Pepe (Energie:${this.energy} Salsa:${this.arsenal.length})`);
+        const bottle = this.arsenal.pop();
+        // Bottle's Start-Position is ~ Pepe's Position:
+        bottle.triggerThrow({ _x: (this.x + this.width / 2), _y: this.y, _direction: this.otherDirection });
+        this.lastThrowTime = Date.now();
+    }
     // #endregion Instance Methods
 
 }

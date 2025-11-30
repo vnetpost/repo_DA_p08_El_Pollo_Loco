@@ -66,13 +66,13 @@ export class World {
         this.addToMap(this.statusBar_health);               // Add Health's StatusBar
         this.addToMap(this.statusBar_coin);                 // Add Coin's StatusBar
         this.addToMap(this.statusBar_bottle);               // Add Bottle's StatusBar
+        this.addToMap(this.statusBar_endboss);              // Add Endboss's StatusBar
 
         this.ctx.translate(this.camera_x, 0);               // Forward
         // ----------------------------------------
 
         this.addToMap(this.character);                      // Add CPepe
-        this.addToMap(this.statusBar_endboss);              // Add Endboss's StatusBar
-        // this.addObjectsToMap(this.level.enemies);           // Add Enemies
+        this.addObjectsToMap(this.level.enemies);           // Add Enemies
         this.addObjectsToMap(this.level.bottles);           // Add Bottles
 
         this.ctx.translate(-this.camera_x, 0);

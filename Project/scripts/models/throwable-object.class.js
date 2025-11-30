@@ -14,7 +14,8 @@ export class ThrowableObject extends MovableObject {
         isNew: true,            // Still On Ground
         isPickedUp: false,
         IsSplashed: false,
-        isOnAir: false
+        isOnAir: false,
+        isThrown: false,
     };
 
     offset = {
@@ -23,14 +24,10 @@ export class ThrowableObject extends MovableObject {
         left: this.width / 4,
         right: this.width / 4,
     };
-    // offset = {
-    //     top: this.height / 2,
-    //     bottom: this.height / 10,
-    //     left: this.width / 3,
-    //     right: this.width / 3
-    // };
 
-    IMAGE_SINGLE = ImgHub.IMGS.bottles.single; // No Array (Just a Photo-Path)
+    flyDirection;
+
+    // IMAGE_SINGLE = ImgHub.IMGS.bottles.single; // No Array (Just a Photo-Path)
     IMAGE_GROUND = ImgHub.IMGS.bottles.ground[Math.random() < 0.5 ? 0 : 1];
     IMAGES_ROTATION = ImgHub.IMGS.bottles.rotation;
     IMAGES_SPLASH = ImgHub.IMGS.bottles.splash;
@@ -38,7 +35,7 @@ export class ThrowableObject extends MovableObject {
     constructor({ } = {}) {
         super();
         this.x = this.x = randomBetween(100, 720 * 4);
-        this.loadImage(this.IMAGE_SINGLE);
+        // this.loadImage(this.IMAGE_SINGLE);
         this.loadImages(this.IMAGES_ROTATION);
         this.loadImages(this.IMAGES_SPLASH);
 
@@ -54,6 +51,7 @@ export class ThrowableObject extends MovableObject {
         if (this.status.IsSplashed) return;
 
         if (this.status.isNew) {
+            // console.log("here");
             this.loadImage(this.IMAGE_GROUND);
             return;
         }
@@ -73,8 +71,11 @@ export class ThrowableObject extends MovableObject {
         }
     }
 
-    throw() {
-
+    triggerThrow({ _x, _y, _direction } = {}) {
+        this.x = _x;
+        this.y = _y;
+        this.flyDirection = _direction;
+        this.status.isThrown = true;
     }
 
     isOnGround() { return this.y > 375; }

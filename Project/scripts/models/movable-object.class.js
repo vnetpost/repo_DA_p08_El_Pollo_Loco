@@ -17,7 +17,9 @@ export class MovableObject extends DrawableObject {
     world;
 
     speed = 0.15;
-    otherDirection = false;
+    otherDirection = false;                 // false -> facing Right 
+    //                                         true -> facing Left
+
     speedY = 0;
     acceleration = 1.7;
     energy = 100;

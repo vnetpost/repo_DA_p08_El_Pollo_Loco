@@ -30,7 +30,7 @@ export class DrawableObject {
             this.currentAnimation = images;
             this.currentImageIndex = 0; // restart animation when state change
         }
-        // this.playAnimation(images);
+        // this.playAnimation(currentAnimation); // At the beginning problematisch
         this.playAnimation(images);
     }
 
@@ -40,7 +40,9 @@ export class DrawableObject {
         this.currentImageIndex = (this.currentImageIndex + 1) % images.length;
     }
 
-    draw(ctx) { if (this.currentImage instanceof Image) ctx.drawImage(this.currentImage, this.x, this.y, this.width, this.height); }
-
+    draw(ctx) {
+        if (this.currentImage instanceof Image)
+            ctx.drawImage(this.currentImage, this.x, this.y, this.width, this.height);
+    }
 
 }
