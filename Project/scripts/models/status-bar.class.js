@@ -14,10 +14,10 @@ export class StatusBar extends DrawableObject {
 
     whichBar;
     IMAGES_STATUSBAR = [];
-    precentage = 100;
+    precentage;
 
     // #endregion Attributes
-    constructor({ _whichBar, _x, _y, _w = 150, _h = 40 } = {}) { // whickBar: "coin"/"bottle"/"health"
+    constructor({ _whichBar, _startPercentage, _x, _y, _w = 150, _h = 40 } = {}) { // whickBar: "coin"/"bottle"/"health"
         super();
         this.x = _x;
         this.y = _y;
@@ -25,12 +25,11 @@ export class StatusBar extends DrawableObject {
         this.height = _h;
 
         this.whichBar = _whichBar;
+        this.precentage = _startPercentage;
         this.setBarImages();
 
-        // this.setPrecentage(100);
-
         this.loadImages(this.IMAGES_STATUSBAR);
-        IntervalHub.startInterval(this.setPrecentage(this.precentage), 1000 / 10);
+        IntervalHub.startInterval(this.setPrecentage(this.precentage), 1000 / 60);
     }
 
     // #region Instance Methods
@@ -52,18 +51,20 @@ export class StatusBar extends DrawableObject {
         }
     }
 
-    setPrecentage(_precentage) {
+    setPrecentage = (_precentage) => {
         this.precentage = _precentage;
+        // console.log(_precentage);
+
         const path = this.IMAGES_STATUSBAR[this.resolveImageIndex()]
         this.currentImage = this.imageCache[path];
     }
 
     resolveImageIndex() {
         if (this.precentage === 100) return 5;
-        else if (this.precentage > 80) return 4;
-        else if (this.precentage > 60) return 3;
-        else if (this.precentage > 40) return 2;
-        else if (this.precentage > 20) return 1;
+        else if (this.precentage >= 80) return 4;
+        else if (this.precentage >= 60) return 3;
+        else if (this.precentage >= 40) return 2;
+        else if (this.precentage >= 20) return 1;
         else return 0;
     }
 

@@ -334,10 +334,10 @@ export class ImgHub {
         },
 
 
-        coins: {
-            coin1: "./assets/images/misc/8_coin/coin_1.png",
-            coin2: "./assets/images/misc/8_coin/coin_2.png",
-        },
+        coins: [
+            "./assets/images/misc/8_coin/coin_1.png",
+            "./assets/images/misc/8_coin/coin_2.png",
+        ],
 
         screens: {
             start: {

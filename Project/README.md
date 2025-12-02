@@ -27,5 +27,3 @@ Scene (Game Manager)
 ├─ ImgHub
 └─ Keyboard
 ```
-
-Scene sets up canvas and level, preloads assets via `ImgHub`, manages timers via `IntervalHub`, and reads input through `Keyboard`. All characters, enemies, projectiles, collectibles, and parallax layers inherit from `DynamicSprite`. The HUD (`StatusBar`) uses only the drawing base `Sprite`.

@@ -1,7 +1,6 @@
 import { ImgHub } from "./img-hub.class.js";
 import { IntervalHub } from "./interval-hub.class.js";
 import { MovableObject } from "./movable-object.class.js";
-import { ThrowableObject } from "./throwable-object.class.js";
 
 
 export class Character extends MovableObject {
@@ -10,12 +9,12 @@ export class Character extends MovableObject {
     y = 266;
     width = 80;
     height = 160;
-    speed = 2.5;
+    speed = 22.5;
 
     // Flags
     collided = false;
     lastActiveTime = Date.now();
-    timeToNap = 2000;                               // Mili Second
+    timeToNap = 4000;                               // Mili Second
 
     offset = {
         top: this.height / 2,
@@ -24,15 +23,22 @@ export class Character extends MovableObject {
         right: this.width / 3
     };
 
+    otherDirection = false;                 // false -> facing Right 
+    //                                         true -> facing Left
+
     IMAGES_IDLE_SHORT = ImgHub.IMGS.pepe.idle.short;
     IMAGES_IDLE_LONG = ImgHub.IMGS.pepe.idle.long;
     IMAGES_WALKING = ImgHub.IMGS.pepe.walk;
     IMAGES_JUMPING = ImgHub.IMGS.pepe.jump;
     IMAGES_HURT = ImgHub.IMGS.pepe.hurt;
     IMAGES_DEAD = ImgHub.IMGS.pepe.dead;
+    IMAGE = ImgHub.IMGS.screens.youWonLost.youWinB
 
     arsenal = [];                                   // [ThrowableObject,ThrowableObject,...]
+    bottleLimit = 10;
+    // bottleWorth = 10;
     lastThrowTime = 0;
+    coinsCollected = 0;
 
     // currentAnimation = this.IMAGES_IDLE_SHORT;
     // isBored = false;
@@ -57,15 +63,17 @@ export class Character extends MovableObject {
         IntervalHub.startInterval(this.moveRight, 1000 / 60);
         IntervalHub.startInterval(this.jump, 1000 / 60); // Set this.speedY = 25 to trigger applyGravity
         IntervalHub.startInterval(this.applyGravity, 1000 / 60); // this.speedY as a trigger
-        // IntervalHub.startInterval(this.checkCollisions, 1000 / 60);
+        IntervalHub.startInterval(this.checkCollisions, 1000 / 60);
         IntervalHub.startInterval(this.collectBottles, 1000 / 60);
+        IntervalHub.startInterval(this.collectCoins, 1000 / 60);
         IntervalHub.startInterval(this.throwBottle, 1000 / 60);
+        IntervalHub.startInterval(this.updateStatusBars, 1000 / 10);
     }
 
     // #region Instance Methods    
 
     animate = () => {
-        if (this.isDead()) {
+        if (this.isDead) {
             this.setAnimation(this.IMAGES_DEAD);
             // IntervalHub.stopAllIntervals();
             return;
@@ -73,7 +81,7 @@ export class Character extends MovableObject {
         if (this.isHurt()) {
             this.updateLastActiveTime();
             this.setAnimation(this.IMAGES_HURT);
-            this.world.statusBar_health.setPrecentage(this.energy);
+            // this.world.statusBar_health.setPrecentage(this.energy);
             return;
         }
         if (this.isAboveGround()) {
@@ -87,6 +95,7 @@ export class Character extends MovableObject {
             return;
         }
 
+        // das Walking teil
         const inactiveLongEnough = (Date.now() - this.lastActiveTime) >= this.timeToNap;
         this.setAnimation(inactiveLongEnough ? this.IMAGES_IDLE_LONG : this.IMAGES_IDLE_SHORT);
     }
@@ -130,7 +139,7 @@ export class Character extends MovableObject {
         let collided = false;
 
         this.world.level.enemies.forEach((enemy, idx) => {
-            if (enemy.dead) return;
+            if (enemy.isDead) return;
             enemy.getRealFrame();
 
             if (this.isColliding(enemy)) {
@@ -158,34 +167,79 @@ export class Character extends MovableObject {
     }
 
     collectBottles = () => {
+        if (this.arsenal.length === this.bottleLimit) return;
         this.getRealFrame();
 
         this.world.level.bottles.forEach((bottle, idx) => {
             if (!bottle.status.isNew) return;
             bottle.getRealFrame();
-            if (this.isColliding(bottle)) {
-                bottle.status.isNew = false;
-                // this.updateLastActiveTime(); // nicht noetig, da die Bottle sich nicht bewegen
-                bottle.status.isCarrying = true; // Durch Pepe
-                this.arsenal.push(bottle); // Add to Arsenal-Array
-                console.log(`Pepe (Energie:${this.energy} Salsa:${this.arsenal.length}) colided with Bottle ${idx}`);
-            }
+            if (!this.isColliding(bottle)) return;
+            this.updateLastActiveTime();
+
+            bottle.status.isNew = false;
+            // this.updateLastActiveTime(); // nicht noetig, da die Bottle sich nicht bewegen
+            bottle.status.isPickedUp = true;
+            this.arsenal.push(bottle); // Add to Pepe-Arsenal-Array
+            this.updateStatusBars();
+            console.log(`Pepe (Energie:${this.energy} Salsa:${this.arsenal.length}) collected Bottle-Idx-> ${idx}`);
         });
+    }
+
+    // #############################################################################################
+    // collectCoins = () => {
+    //     this.getRealFrame();
+
+    //     this.world.level.coins.forEach((targetCoin, idx) => {
+    //         targetCoin.getRealFrame();
+    //         if (this.isColliding(targetCoin)) {
+    //             // this.updateLastActiveTime(); // nicht noetig, da die Bottle sich nicht bewegen
+    //             this.coinsCollected += 1;
+    //             this.updateStatusBars();
+    //             console.log(`Pepe (Energie:${this.energy} Coins:${this.coinsCollected}) collected Coin-Idx-> ${idx}`);
+    //             this.world.level.coins = this.world.level.coins.filter(coin => coin !== targetCoin);
+    //             return;
+    //         }
+    //     });
+    // }
+
+    collectCoins = () => {
+        this.getRealFrame();
+
+        this.world.level.coins = this.world.level.coins.filter((coin, idx) => {
+            coin.getRealFrame();
+            if (this.isColliding(coin)) {
+                this.updateLastActiveTime();
+                this.coinsCollected++;
+                this.updateStatusBars();
+                console.log(`Pepe (Energie:${this.energy} Coins:${this.coinsCollected}) collected Coin-Idx-> ${idx}`);
+                return false; // delete from Liste
+            }
+            return true; // Coin stay in Liste
+        });
+    }
+    // ###################################################################################
+
+    updateStatusBars = () => {
+        this.world.statusBar_bottle.setPrecentage(this.arsenal.length * 10);
+        this.world.statusBar_health.setPrecentage(this.energy);
+        this.world.statusBar_coin.setPrecentage(this.coinsCollected);
     }
 
     throwBottle = () => {
         if (Date.now() - this.lastThrowTime < 500) return;
         if (this.arsenal.length < 1) return;
         if (!this.world.keyboard.THROW) return;
+        this.updateLastActiveTime(); // Pruefe speter ????????????????????????????????????????????????????????????
         const bottle = this.arsenal.pop();
         console.log(`Pepe (Energie:${this.energy} Salsa:${this.arsenal.length})`);
-        
+        this.updateStatusBars();
+
         this.getRealFrame();
         const startX = this.otherDirection // Bottle's Start-Position is ~ Pepe's Position
-            ? (this.rX - this.rW)       // If pepe guckt left
-            : this.rX;                  // If Pepe guckt right
+            ? (this.rX - this.rW)   // If Pepe guckt left
+            : this.rX;              // If Pepe guckt right
         const startY = this.rY;
-        bottle.triggerThrow({ _x: startX, _y: startY, _direction: this.otherDirection });
+        bottle.triggerThrow({ _x: startX, _y: startY, _throwDirection: this.otherDirection });
         this.lastThrowTime = Date.now();
     }
     // #endregion Instance Methods

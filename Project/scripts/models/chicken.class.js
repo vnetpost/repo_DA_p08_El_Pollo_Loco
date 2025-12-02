@@ -11,7 +11,6 @@ export class Chicken extends MovableObject {
     y = 377;
 
     speed = 1.5;
-    dead = false;
     removalTimeout;
 
     offset = {
@@ -25,7 +24,7 @@ export class Chicken extends MovableObject {
     IMAGES_DEAD;
 
 
-    constructor() {
+    constructor({ _x } = {}) {
         super();
         const variant = Math.random() < 0.5 ? "normal" : "small";
         this.IMAGES_WALKING = ImgHub.IMGS.chickens[variant].walk;
@@ -35,16 +34,16 @@ export class Chicken extends MovableObject {
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_DEAD);
 
-        this.x = randomBetween(300, 720 * 4);
+        this.x = _x ? _x : randomBetween(300, 720 * 4);
         this.speed += randomBetween(1, 5);
 
         IntervalHub.startInterval(this.animate, 1000 / 10);
         IntervalHub.startInterval(this.moveLeft, 1000 / 10);
-        // IntervalHub.startInterval(this.getRealFrame, 1000 / 60);
+        IntervalHub.startInterval(this.getRealFrame, 1000 / 60);
     }
 
     animate = () => {
-        if (this.dead) {
+        if (this.isDead) {
             this.setAnimation(this.IMAGES_DEAD);
             return;
         }
@@ -52,13 +51,13 @@ export class Chicken extends MovableObject {
     }
 
     moveLeft = () => {
-        if (this.dead) return;
+        if (this.isDead) return;
         !(this.x + this.width <= 0) ? this.x -= this.speed : this.x = 720 * 4 + this.width;
     }
 
     die = () => {
-        if (this.dead) return;
-        this.dead = true;
+        if (this.isDead) return;
+        this.isDead = true;
         this.speed = 0;
         this.currentImageIndex = 0;
         // this.setAnimation(this.IMAGES_DEAD);

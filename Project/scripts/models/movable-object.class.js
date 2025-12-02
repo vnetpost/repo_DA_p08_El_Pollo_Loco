@@ -15,10 +15,8 @@ export class MovableObject extends DrawableObject {
     };
 
     world;
-
+    isDead = false;                     // Pepe, Chickens,Jefa
     speed = 0.15;
-    otherDirection = false;                 // false -> facing Right 
-    //                                         true -> facing Left
 
     speedY = 0;
     acceleration = 1.7;
@@ -40,7 +38,7 @@ export class MovableObject extends DrawableObject {
         if (this.isAboveGround() || this.speedY > 0) {
             this.y -= this.speedY; //console.log(this.y);
             this.speedY -= this.acceleration; //console.log(this.speedY);
-            
+
             if (this.y > 266) { // Reset Pepe Y-Achse Position
                 this.y = 266;
                 this.speedY = 0;
@@ -55,13 +53,13 @@ export class MovableObject extends DrawableObject {
     }
 
     isAboveGround() { return this.y < 266; }
-    isDead() { return this.energy == 0 }
+    // isDead() { return this.energy == 0 }
     moveLeft = () => { !(this.x + this.width <= 0) ? this.x -= this.speed : this.x = 720 * 4 + this.width; }
 
     isHurt() { return Date.now() - this.lastHit < 500; }// < True for 5 Second to stay im Hurt-Zustand
 
     hit() {
-        this.energy > 0 ? this.energy -= 1 : this.energy = 0;
+        this.energy > 0 ? this.energy -= 1 : this.isDead = true;
         this.lastHit = Date.now();
     }
 
@@ -75,12 +73,7 @@ export class MovableObject extends DrawableObject {
         ctx.stroke();
     }
 
-    getRealFrame = () => {
-        this.rX = this.x + this.offset.left;
-        this.rY = this.y + this.offset.top;
-        this.rW = this.width - this.offset.left - this.offset.right;
-        this.rH = this.height - this.offset.top - this.offset.bottom;
-    }
+    
 
     isColliding = (mO) => {
         return this.rX + this.rW > mO.rX &&
