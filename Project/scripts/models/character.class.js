@@ -1,7 +1,7 @@
-import { AudioHub } from "./AudioHub.class.js";
 import { ImgHub } from "./img-hub.class.js";
 import { IntervalHub } from "./interval-hub.class.js";
 import { MovableObject } from "./movable-object.class.js";
+import { AudioHub } from "./audioHub.class.js";
 
 
 export class Character extends MovableObject {
@@ -43,7 +43,12 @@ export class Character extends MovableObject {
     // currentAnimation = this.IMAGES_IDLE_SHORT;
     // isBored = false;
 
-    SOUNDS_PEPE = AudioHub.SOUNDS;
+    SOUNDS_PEPE = AudioHub.SOUNDS.pepe;
+    walk_lastPlayedAt = 0;                        // 59 S Sound duration
+    snor_lastPlayedAt = 0;                        // 3  S
+    jump_lastPlayedAt = 0;                        // 1  S
+    hurt_lastPlayedAt = 0;                        // 0  S
+    dead_lastPlayedAt = 0;                        // 1  S
 
     // #endregion Attributes
 
@@ -58,16 +63,15 @@ export class Character extends MovableObject {
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
 
-        this.runningSound.loop = true;
-        this.runningSound.volume = 0.25;
+        // this.SOUNDS_PEPE.walk.loop = true;
 
         IntervalHub.startInterval(this.animate, 1000 / 10);
         // IntervalHub.startInterval(this.getRealFrame, 1000 / 60);
         IntervalHub.startInterval(this.moveCamera, 1000 / 60);
         IntervalHub.startInterval(this.moveLeft, 1000 / 60);
         IntervalHub.startInterval(this.moveRight, 1000 / 60);
-        IntervalHub.startInterval(this.jump, 1000 / 60); // Set this.speedY = 25 to trigger applyGravity
-        IntervalHub.startInterval(this.applyGravity, 1000 / 60); // this.speedY as a trigger
+        IntervalHub.startInterval(this.jump, 1000 / 60);                // Set this.speedY = 25 to trigger applyGravity
+        IntervalHub.startInterval(this.applyGravity, 1000 / 60);        // this.speedY as a trigger
         IntervalHub.startInterval(this.checkCollisions, 1000 / 60);
         IntervalHub.startInterval(this.collectBottles, 1000 / 60);
         IntervalHub.startInterval(this.collectCoins, 1000 / 60);
@@ -78,60 +82,82 @@ export class Character extends MovableObject {
     // #region Instance Methods    
 
     animate = () => {
-        this.updateRunSoundState();
+        this.updateSoundState();
 
-        if (this.isDead) {
+        if (this.isDead) {                              // Dead
             this.setAnimation(this.IMAGES_DEAD);
-            // IntervalHub.stopAllIntervals();
             return;
         }
-        if (this.isHurt()) {
+        if (this.isHurt()) {                            // Hurt
             this.updateLastActiveTime();
             this.setAnimation(this.IMAGES_HURT);
-            // this.world.statusBar_health.setPrecentage(this.energy);
             return;
         }
-        if (this.isAboveGround()) {
+        if (this.isAboveGround()) {                     // Jumping
             this.updateLastActiveTime();
             this.setAnimation(this.IMAGES_JUMPING);
             return;
         }
-        if (this.world.keyboard.LEFT || this.world.keyboard.RIGHT) {
+        if (this.world.keyboard.LEFT || this.world.keyboard.RIGHT) { // Walking
+
             this.updateLastActiveTime();
             this.setAnimation(this.IMAGES_WALKING);
             return;
         }
 
-        // das Walking teil
         const inactiveLongEnough = (Date.now() - this.lastActiveTime) >= this.timeToNap;
-        this.setAnimation(inactiveLongEnough ? this.IMAGES_IDLE_LONG : this.IMAGES_IDLE_SHORT);
+        if (inactiveLongEnough) {                       // Idle
+            this.setAnimation(this.IMAGES_IDLE_LONG);
+        } else {
+            this.setAnimation(this.IMAGES_IDLE_SHORT);
+        }
     }
 
-    updateRunSoundState = () => {
-        if (!this.world || !this.world.keyboard) {
-            this.stopRunSound();
-            return;
-        }
-
-        const isRunningOnGround = !this.isDead &&
+    updateSoundState = () => {
+        const isRunningOnGround =
+            !this.isDead &&
             !this.isHurt() &&
             !this.isAboveGround() &&
             (this.world.keyboard.LEFT || this.world.keyboard.RIGHT);
 
-        if (isRunningOnGround) this.playRunSound();
-        else this.stopRunSound();
+        const inactiveLongEnough = (Date.now() - this.lastActiveTime) >= this.timeToNap; // Jusst like Animating
+
+        if (this.isDead) {
+            const dead = this.SOUNDS_PEPE.dead;
+            this.exceptThisStopOthers(dead);
+            if (dead.paused) AudioHub.playOne(dead);
+            return;
+        }
+        if (this.isHurt()) {
+            const hurt = this.SOUNDS_PEPE.hurt;
+            this.exceptThisStopOthers(hurt);
+            if (hurt.paused) AudioHub.playOne(hurt);
+            return;
+        }
+        if (this.isAboveGround()) {
+            const jump = this.SOUNDS_PEPE.jump;
+            this.exceptThisStopOthers(jump);
+            if (jump.paused) AudioHub.playOne(jump);
+            return;
+        }
+        if (isRunningOnGround) {
+            const walk = this.SOUNDS_PEPE.walk;
+            this.exceptThisStopOthers(walk);
+            if (walk.paused) AudioHub.playOne(walk);
+            return;
+        }
+
+        // Idle / Snore
+        const snor = this.SOUNDS_PEPE.snor;
+        this.exceptThisStopOthers(snor);
+        if (inactiveLongEnough && snor.paused) AudioHub.playOne(snor);
     }
 
-    playRunSound = () => {
-        if (!this.runningSound.paused) return;
-        this.runningSound.currentTime = 0;
-        this.runningSound.play().catch(() => { });
-    }
-
-    stopRunSound = () => {
-        if (this.runningSound.paused) return;
-        this.runningSound.pause();
-        this.runningSound.currentTime = 0;
+    exceptThisStopOthers = (exceptSound) => {
+        Object.values(this.SOUNDS_PEPE).forEach(sound => {
+            if (sound === exceptSound) return;
+            AudioHub.stopOne(sound);
+        });
     }
 
     moveLeft = () => {
@@ -214,6 +240,7 @@ export class Character extends MovableObject {
             // this.updateLastActiveTime(); // nicht noetig, da die Bottle sich nicht bewegen
             bottle.status.isPickedUp = true;
             this.arsenal.push(bottle); // Add to Pepe-Arsenal-Array
+            AudioHub.playOne(AudioHub.SOUNDS.collectibles.bottle);
             this.updateStatusBars();
             console.log(`Pepe (Energie:${this.energy} Salsa:${this.arsenal.length}) collected Bottle-Idx-> ${idx}`);
         });
@@ -244,6 +271,7 @@ export class Character extends MovableObject {
             if (this.isColliding(coin)) {
                 this.updateLastActiveTime();
                 this.coinsCollected++;
+                AudioHub.playOne(AudioHub.SOUNDS.collectibles.coin);
                 this.updateStatusBars();
                 console.log(`Pepe (Energie:${this.energy} Coins:${this.coinsCollected}) collected Coin-Idx-> ${idx}`);
                 return false; // delete from Liste
@@ -263,7 +291,7 @@ export class Character extends MovableObject {
         if (Date.now() - this.lastThrowTime < 500) return;
         if (this.arsenal.length < 1) return;
         if (!this.world.keyboard.THROW) return;
-        this.updateLastActiveTime(); // Pruefe speter ????????????????????????????????????????????????????????????
+        this.updateLastActiveTime(); // Pruefe speter ???????????????????????????????????????
         const bottle = this.arsenal.pop();
         console.log(`Pepe (Energie:${this.energy} Salsa:${this.arsenal.length})`);
         this.updateStatusBars();

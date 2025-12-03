@@ -10,7 +10,6 @@ header {
         font-size: clamp(2.5rem, 5vw, 4rem);
         text-shadow: 0 1rem 2rem #2b2810d1;
         color: #ffffffc0;
-        margin-bottom: 1rem;
     }
 }
 
@@ -29,13 +28,13 @@ header {
     box-shadow: 0 0 1.5rem #000000aa;
     display: block;
 
-    /* @media only screen and (max-width:720px) {
+    @media only screen and (max-width:720px) {
         width: 100%;
-    } */
+    }
 
-    /* @media only screen and (max-height:480px) {
+    @media only screen and (max-height:480px) {
         height: 100%;
-    } */
+    }
 }
 
 main {
@@ -93,7 +92,7 @@ main {
     left: 90%;
     top: 15%;
     transform: translate(-50%, -50%);
-    padding: 0.1rem 1rem;
+    padding: 0.5rem 1rem;
     font-family: 'Caveat Brush';
     font-size: 2.5rem;
     border: none;
@@ -102,7 +101,7 @@ main {
     color: #1c12079f;
     cursor: pointer;
     z-index: 1;
-    box-shadow: 0 0 2rem #000000c8;
+    box-shadow: 0 0rem 2rem #000000c8;
 
     transition: transform 0.1s ease;
 

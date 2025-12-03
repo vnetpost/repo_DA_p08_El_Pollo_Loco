@@ -4,6 +4,7 @@ import { IntervalHub } from "./interval-hub.class.js";
 import { MovableObject } from "./movable-object.class.js";
 import { Chicken } from "./chicken.class.js";
 import { Endboss } from "./endboss.class.js";
+import { AudioHub } from "./audioHub.class.js";
 
 
 export class ThrowableObject extends MovableObject {
@@ -128,6 +129,8 @@ export class ThrowableObject extends MovableObject {
     splashIt() { // die 
         if (this.status.IsSplashed) return;
         this.status.IsSplashed = true;
+        AudioHub.playOne(AudioHub.SOUNDS.throwable.bottleBreak);
+
         setTimeout(() => {
             this.world.level.bottles = this.world.level.bottles.filter(bottle => bottle !== this);
         }, 1000);

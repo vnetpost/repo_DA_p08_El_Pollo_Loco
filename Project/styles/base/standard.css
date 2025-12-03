@@ -1,4 +1,4 @@
-/* Project/styles/base/standard.css */
+
 *,
 *::before,
 *::after {
@@ -14,13 +14,12 @@ html {
 }
 
 body {
+    /* border: 1px solid red; */
     font-size: 16px;
     font-family: "Cowboy Outlaw Textured";
-
-    /* border: 1px solid red; */
     height: 100dvh;
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     align-items: center;
     justify-content: center;
 }
@@ -31,27 +30,11 @@ a {
 }
 
 .page-wrapper {
-    /* border: 1px solid red; */
     max-width: 1440px;
-    /* width: 100%; */
-    /* display: flex;
+    width: 100%;
+    padding: 1rem;
+    display: flex;
     flex-direction: column;
     align-items: center;
-    top: 50dvh;
-    left: 50dvw;
-    transform: translate(-50%, -50%); */
-
-    /* width: max(1440px, 90%); */
-
-    /* @media (max-width:1000px) {
-        padding: 5rem 5rem;
-    } */
-
-    /* @media (max-width:767px) {
-        padding: 3rem 3rem;
-    } */
-
-    /* @media (max-width:420px) {
-        padding: 1.5rem 1.5rem;
-    } */
+    justify-content: center;
 }

@@ -1,4 +1,5 @@
-import { randomBetween, setRandomXposition } from "../utils/utils.js";
+import { randomBetween } from "../utils/utils.js";
+import { AudioHub } from "./audioHub.class.js";
 import { ImgHub } from "./img-hub.class.js";
 import { IntervalHub } from "./interval-hub.class.js";
 import { MovableObject } from "./movable-object.class.js";
@@ -22,7 +23,6 @@ export class Chicken extends MovableObject {
 
     IMAGES_WALKING;
     IMAGES_DEAD;
-
 
     constructor({ _x } = {}) {
         super();
@@ -58,6 +58,7 @@ export class Chicken extends MovableObject {
     die = () => {
         if (this.isDead) return;
         this.isDead = true;
+        AudioHub.playOne(AudioHub.SOUNDS.chicken.deadA);
         this.speed = 0;
         this.currentImageIndex = 0;
         // this.setAnimation(this.IMAGES_DEAD);

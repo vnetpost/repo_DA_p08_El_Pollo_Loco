@@ -103,7 +103,7 @@ export class World {
         if (mO.otherDirection) this.flipImage(mO);
         mO.draw(this.ctx);
         if (mO.otherDirection) this.flipImageBack(mO);
-        this.drawInstanceFrame(mO);
+        // this.drawInstanceFrame(mO);
     }
 
     flipImage(mO) {

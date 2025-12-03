@@ -1,6 +1,7 @@
 import { ImgHub } from "./img-hub.class.js";
 import { IntervalHub } from "./interval-hub.class.js";
 import { MovableObject } from "./movable-object.class.js";
+import { AudioHub } from "./audioHub.class.js";
 
 export class Endboss extends MovableObject {
     // #region Attributes
@@ -16,7 +17,6 @@ export class Endboss extends MovableObject {
 
     sinceAlerted;                               // MS
     sinceAttacking;                             // MS
-
 
     // distance;                                   // distance With Pepe (always positiv)
 
@@ -42,6 +42,8 @@ export class Endboss extends MovableObject {
     IMAGES_HURT = ImgHub.IMGS.boss.hurt;
     IMAGES_DEAD = ImgHub.IMGS.boss.dead;
 
+    SOUNDS_ENDBOSS = AudioHub.SOUNDS.endboss;
+
     // #endregion Attributes
 
     constructor() {
@@ -62,11 +64,13 @@ export class Endboss extends MovableObject {
     // #region Instance Methods
 
     animate = () => {
+        this.updateAttackSoundState();
+
         if (this.isDead) {
             this.setAnimation(this.IMAGES_DEAD);
             return;
         }
-        if (this.isHurt()) { // Hurt because of lastHit-Time
+        if (this.isHurt()) { // go to Hurt-mode because of lastHit-Time
             this.setAnimation(this.IMAGES_HURT);
             this.world.statusBar_endboss.setPrecentage(this.energy);
             return;
@@ -83,6 +87,17 @@ export class Endboss extends MovableObject {
             this.setAnimation(this.IMAGES_WALKING);
             return;
         }
+    }
+
+    updateAttackSoundState = () => {
+        const attackSound = this.SOUNDS_ENDBOSS.approach;
+
+        const mussPlay = this.status.isAttacking && !this.isDead;
+        if (mussPlay && attackSound.paused) {
+            AudioHub.playOne(attackSound);
+            attackSound.volume = 1;
+        }
+        else if (!mussPlay && !attackSound.paused) AudioHub.stopOne(attackSound);
     }
 
     moveLeft = () => {
@@ -135,5 +150,7 @@ export class Endboss extends MovableObject {
 
     updateSinceAlerted() { this.sinceAlerted = Date.now(); }
     updateSinceAttaking() { this.sinceAttacking = Date.now(); }
+
+
     // #endregion Instance Methods
 }

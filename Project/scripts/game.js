@@ -8,6 +8,8 @@ let ref_canvas;
 let ref_idLastScreen;
 let ref_restartButton;
 
+init();
+
 function init() {
     ref_startScreen = document.getElementById("idStartScreen");
     ref_startScreen.src = ImgHub.IMGS.screens.start.screen1;
@@ -76,7 +78,7 @@ function startGameWatcher() {
             AudioHub.stopAll();
             AudioHub.playOne(AudioHub.SOUNDS.game.gameOverMusic1);
             AudioHub.SOUNDS.game.gameOverMusic1.volume = 1;
-            
+
         }
         else {
             didWin = true;
@@ -90,4 +92,4 @@ function startGameWatcher() {
     }, 4000);
 }
 
-init();
+

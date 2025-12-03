@@ -19,3 +19,4 @@ export * from "./endboss.class.js";
 export * from "./throwable-object.class.js";
 export * from "./coin.class.js";
 export * from "./status-bar.class.js";
+export * from "./audioHub.class.js";
