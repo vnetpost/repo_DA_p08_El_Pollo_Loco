@@ -1,4 +1,4 @@
-import { Endboss, ImgHub, IntervalHub, World } from "./models/index.js";
+import { Endboss, ImgHub, IntervalHub, World, AudioHub } from "./models/index.js";
 
 // ./scripts/main.js
 let world;
@@ -26,17 +26,24 @@ function startGame() {
     cleanupWorld();
     hideOverlays();
     world = new World(ref_canvas);
+    AudioHub.playOne(AudioHub.SOUNDS.game.start);
+    AudioHub.playOne(AudioHub.SOUNDS.game.bgMusic);
+    AudioHub.SOUNDS.game.bgMusic.volume = 0.1;
+
     startGameWatcher();
 }
 
 function restartGame() {
+    AudioHub.stopAll();
     startGame();
 }
 
 function cleanupWorld() {
     if (!world) return;
     world.isStopped = true;
+    if (world.character.stopRunSound) world.character.stopRunSound();
     IntervalHub.stopAllIntervals();
+    // AudioHub.stopAll();
 }
 
 function hideOverlays() {
@@ -64,9 +71,19 @@ function startGameWatcher() {
         if (!pepeDead && !jefaDead) return;
 
         let didWin;
-        if (pepeDead) didWin = false;
-        else didWin = true;
-
+        if (pepeDead) {
+            didWin = false;
+            AudioHub.stopAll();
+            AudioHub.playOne(AudioHub.SOUNDS.game.gameOverMusic1);
+            AudioHub.SOUNDS.game.gameOverMusic1.volume = 1;
+            
+        }
+        else {
+            didWin = true;
+            AudioHub.stopAll();
+            AudioHub.playOne(AudioHub.SOUNDS.game.wonMusic);
+            AudioHub.SOUNDS.game.wonMusic.volume = 1;
+        }
         setLastScreenImage({ didWin });
         cleanupWorld();
         showLastScreen();

@@ -1,12 +1,3 @@
-.page-wrapper {
-    border: 1px solid red;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
 .cPageBg {
     position: fixed;
     width: 100%;
@@ -16,7 +7,10 @@
 
 header {
     h1 {
+        font-size: clamp(2.5rem, 5vw, 4rem);
         text-shadow: 0 1rem 2rem #2b2810d1;
+        color: #ffffffc0;
+        margin-bottom: 1rem;
     }
 }
 
@@ -26,8 +20,22 @@ header {
 }
 
 #idCanvas {
+    position: absolute;
+    inset: 0;
+    width: 720;
+    height: 480;
     background: black;
     border-radius: 1.5rem;
+    box-shadow: 0 0 1.5rem #000000aa;
+    display: block;
+
+    /* @media only screen and (max-width:720px) {
+        width: 100%;
+    } */
+
+    /* @media only screen and (max-height:480px) {
+        height: 100%;
+    } */
 }
 
 main {
@@ -45,13 +53,10 @@ main {
     transform: translate(-50%, -50%);
     font-family: 'Caveat Brush';
     font-weight: 100;
-    color: #ffffff3d;
-    text-shadow: 0 0rem 3rem #00ddff;
-    box-shadow: 0rem 0rem 1.5rem #00000016;
+    color: #ffffff40;
+    text-shadow: 0 0 3rem #00ddff;
     border-radius: 1.5rem;
-    padding: 0.5rem 0.5rem;
-    
-    
+    /* padding: 0.5rem 1rem; */
 }
 
 .cGameScreens {
@@ -59,25 +64,24 @@ main {
     height: 480px;
 }
 
-.cStartScreen {
-    z-index: 1;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 1.5rem;
-    box-shadow: 0rem 0rem 1.5rem #00000016;
-}
-
+.cStartScreen,
 .cLastScreen {
     z-index: 1;
     position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 1.5rem;
+    box-shadow: 0 0 1.5rem #00000088;
+    object-fit: cover;
+}
+
+.cLastScreen {
+    width: 70%;
+    height: 70%;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 70%;
-    height: 70%;
-    border-radius: 1.5rem;
-    box-shadow: 0rem 0rem 1.5rem #74727279;
 }
 
 .hidden {
@@ -90,7 +94,6 @@ main {
     top: 15%;
     transform: translate(-50%, -50%);
     padding: 0.1rem 1rem;
-    /* font-family: 'Cowboy Outlaw'; */
     font-family: 'Caveat Brush';
     font-size: 2.5rem;
     border: none;
@@ -99,11 +102,18 @@ main {
     color: #1c12079f;
     cursor: pointer;
     z-index: 1;
-    box-shadow: 0rem 0rem 2rem #000000c8;
+    box-shadow: 0 0 2rem #000000c8;
+
+    transition: transform 0.1s ease;
+
+    &:hover {
+        /* box-shadow: 0 0 2rem #000000c8; */
+        transform: translate(-50%, -50%) scale(1.02);
+    }
 }
 
 #idRestartBtn {
     left: 50%;
     top: 80%;
-    background: #dfbf8fbe;
+    background: #dfbf8fb4;
 }

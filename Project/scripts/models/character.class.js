@@ -1,3 +1,4 @@
+import { AudioHub } from "./AudioHub.class.js";
 import { ImgHub } from "./img-hub.class.js";
 import { IntervalHub } from "./interval-hub.class.js";
 import { MovableObject } from "./movable-object.class.js";
@@ -9,7 +10,7 @@ export class Character extends MovableObject {
     y = 266;
     width = 80;
     height = 160;
-    speed = 22.5;
+    speed = 2.5;
 
     // Flags
     collided = false;
@@ -32,7 +33,6 @@ export class Character extends MovableObject {
     IMAGES_JUMPING = ImgHub.IMGS.pepe.jump;
     IMAGES_HURT = ImgHub.IMGS.pepe.hurt;
     IMAGES_DEAD = ImgHub.IMGS.pepe.dead;
-    IMAGE = ImgHub.IMGS.screens.youWonLost.youWinB
 
     arsenal = [];                                   // [ThrowableObject,ThrowableObject,...]
     bottleLimit = 10;
@@ -42,6 +42,8 @@ export class Character extends MovableObject {
 
     // currentAnimation = this.IMAGES_IDLE_SHORT;
     // isBored = false;
+
+    SOUNDS_PEPE = AudioHub.SOUNDS;
 
     // #endregion Attributes
 
@@ -55,6 +57,9 @@ export class Character extends MovableObject {
         this.loadImages(this.IMAGES_IDLE_LONG);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
+
+        this.runningSound.loop = true;
+        this.runningSound.volume = 0.25;
 
         IntervalHub.startInterval(this.animate, 1000 / 10);
         // IntervalHub.startInterval(this.getRealFrame, 1000 / 60);
@@ -73,6 +78,8 @@ export class Character extends MovableObject {
     // #region Instance Methods    
 
     animate = () => {
+        this.updateRunSoundState();
+
         if (this.isDead) {
             this.setAnimation(this.IMAGES_DEAD);
             // IntervalHub.stopAllIntervals();
@@ -98,6 +105,33 @@ export class Character extends MovableObject {
         // das Walking teil
         const inactiveLongEnough = (Date.now() - this.lastActiveTime) >= this.timeToNap;
         this.setAnimation(inactiveLongEnough ? this.IMAGES_IDLE_LONG : this.IMAGES_IDLE_SHORT);
+    }
+
+    updateRunSoundState = () => {
+        if (!this.world || !this.world.keyboard) {
+            this.stopRunSound();
+            return;
+        }
+
+        const isRunningOnGround = !this.isDead &&
+            !this.isHurt() &&
+            !this.isAboveGround() &&
+            (this.world.keyboard.LEFT || this.world.keyboard.RIGHT);
+
+        if (isRunningOnGround) this.playRunSound();
+        else this.stopRunSound();
+    }
+
+    playRunSound = () => {
+        if (!this.runningSound.paused) return;
+        this.runningSound.currentTime = 0;
+        this.runningSound.play().catch(() => { });
+    }
+
+    stopRunSound = () => {
+        if (this.runningSound.paused) return;
+        this.runningSound.pause();
+        this.runningSound.currentTime = 0;
     }
 
     moveLeft = () => {
