@@ -20,7 +20,7 @@ export class AudioHub {
         },
         endboss: {
             approach: new Audio('./assets/sounds/endboss/endbossApproach.wav'),
-            attack: new Audio('./assets/sounds/endboss/endbossApproach.wav'),
+            attack: new Audio('./assets/sounds/endboss/attack.mp3'),
         },
         game: {
             start: new Audio('./assets/sounds/game/gameStart.mp3'),

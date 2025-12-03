@@ -90,14 +90,21 @@ export class Endboss extends MovableObject {
     }
 
     updateAttackSoundState = () => {
-        const attackSound = this.SOUNDS_ENDBOSS.approach;
+        const attackSound = this.SOUNDS_ENDBOSS.attack;
+        const alertSound = this.SOUNDS_ENDBOSS.approach;
 
-        const mussPlay = this.status.isAttacking && !this.isDead;
-        if (mussPlay && attackSound.paused) {
+        const mussPlayAttacking = this.status.isAttacking && !this.isDead;
+        if (mussPlayAttacking && attackSound.paused) {
             AudioHub.playOne(attackSound);
             attackSound.volume = 1;
         }
-        else if (!mussPlay && !attackSound.paused) AudioHub.stopOne(attackSound);
+        else if (!mussPlayAttacking && !attackSound.paused) AudioHub.stopOne(attackSound);
+
+        const mussPlayAlerting = this.status.isAlerted && !this.isDead;
+        if (mussPlayAlerting && alertSound.paused) {
+            AudioHub.playOne(alertSound);
+            alertSound.volume = 1;
+        } else if (!mussPlayAlerting && !alertSound.paused) AudioHub.stopOne(alertSound);
     }
 
     moveLeft = () => {
