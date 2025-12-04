@@ -4,10 +4,13 @@ import { MovableObject } from "./movable-object.class.js";
 
 
 export class Cloud extends MovableObject {
+    // #region Attributes
     width = 400;
     height = 250;
     y = 80;
-    
+    // #endregion Attributes
+
+    // #region Instance Methods
 
     constructor({ _path, _x } = {}) {
         super();
@@ -22,5 +25,6 @@ export class Cloud extends MovableObject {
         this.moveLeft();
     }
 
+    // #endregion Instance Methods
 
 }

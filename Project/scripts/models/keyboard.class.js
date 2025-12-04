@@ -1,5 +1,4 @@
 
-
 export class Keyboard {
     // #region Attributes
     LEFT = false;
@@ -12,6 +11,7 @@ export class Keyboard {
     constructor() {
         window.addEventListener("keydown", e => this.onKeyDown(e));
         window.addEventListener("keyup", e => this.onKeyUp(e));
+        this.setPointerEvtForMobileBtns();
     }
 
     // #region Instance Methods
@@ -33,6 +33,27 @@ export class Keyboard {
         if (code === "ArrowUp" || code === "KeyW" || code === "Space") this.UP = false;
         if (code === "ArrowDown" || code === "KeyS") this.DOWN = false;
         if (code === "KeyF") this.THROW = false;
+    }
+
+    setPointerEvtForMobileBtns() {
+        const BTNsMap = {
+            LEFT: "idBtnLeft",
+            RIGHT: "idBtnRight",
+            UP: "idBtnUp",
+            THROW: "idBtnThrow"
+        };
+        
+        const setState = (key, isDown) => (evt) => {
+            evt.preventDefault();
+            this[key] = isDown;
+        };
+
+        Object.entries(BTNsMap).forEach(([key, ElemetId]) => {
+            const ref_BTN = document.getElementById(ElemetId);
+            ref_BTN.addEventListener("pointerdown", setState(key, true));
+            ref_BTN.addEventListener("pointerup", setState(key, false));
+        });
+
     }
     // #endregion Instance Methods
 }

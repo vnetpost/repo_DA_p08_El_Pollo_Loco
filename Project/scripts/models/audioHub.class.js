@@ -1,7 +1,8 @@
 
 
 export class AudioHub {
-
+    // #region Attributes
+    static defaultVolume = 0.15;
     static SOUNDS = {
         pepe: {
             walk: new Audio('./assets/sounds/character/characterRun.mp3'),
@@ -33,40 +34,40 @@ export class AudioHub {
             bottleBreak: new Audio('./assets/sounds/throwable/bottleBreak.mp3'),
         },
     }
+    // #endregion Attributes
 
-    // Spielt eine einzelne Audiodatei ab
+    // #region Instance Methods
     static playOne(sound) {
-        sound.volume = 0.2;  // Setzt die Lautstärke auf 0.2 = 20% / 1 = 100%
+        // sound.volume = AudioHub.defaultVolume;
         sound.currentTime = 0;  // Startet ab einer bestimmten stelle (0=Anfang/ 5 = 5 sec.)
-        sound.play();  // Spielt das übergebene Sound-Objekt ab
+        sound.play();
     }
 
-    // Stoppt das Abspielen einer einzelnen Audiodatei
     static stopOne(sound) {
-        sound.pause();  // Pausiert das übergebene Audio
+        sound.pause();
     }
 
-    // Stoppt das Abspielen aller Audiodateien
     static stopAll() {
         function pauseAllSounds(obj) {
             Object.values(obj).forEach(value => {
-                if (value instanceof Audio)
-                    value.pause();
-                else if (typeof value === 'object') {
-                    pauseAllSounds(value);
-                }
+                if (value instanceof Audio) value.pause();
+                else if (typeof value === 'object') pauseAllSounds(value);
             });
         }
         pauseAllSounds(AudioHub.SOUNDS);
     }
 
-    // ##########################################################################################################################
-    // ################################################  Sound Slider - BONUS !  ################################################
-    // Setzt die Lautstärke für alle Audiodateien
-    static objSetVolume(volumeSlider) {
-        let volumeValue = document.getElementById('volume').value;  // Holt den aktuellen Lautstärkewert aus dem Inputfeld
-        volumeSlider.forEach(sound => {
-            sound.volume = volumeValue;  // Setzt die Lautstärke für jedes Audio wie im Slider angegeben
-        });
+    static objSetVolume() {
+        const ref_volumeSlider = document.getElementById("idVolumeSlider");
+        const userInputVolume = ref_volumeSlider ? Number(ref_volumeSlider.value) : AudioHub.defaultVolume;
+
+        function adjustAllSounds(obj) {
+            Object.values(obj).forEach((value) => {
+                if (value instanceof Audio) value.volume = userInputVolume;
+                else if (typeof value == "object") adjustAllSounds(value);
+            });
+        }
+        adjustAllSounds(AudioHub.SOUNDS);
     }
+    // #endregion Instance Methods
 }

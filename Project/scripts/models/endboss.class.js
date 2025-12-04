@@ -7,16 +7,16 @@ export class Endboss extends MovableObject {
     // #region Attributes
     width = 200;
     height = 250;
-    x = 720 * 4 - this.width;                   // Jeja Start Position
+    x = 720 * 4 - this.width;                      // Jeja Start Position
     y = 200;
 
     speed = 5;
     alertRange = 720 / 2;
     attackRange = 720 / 3;
-    alertDuration = 1000;                       // ms to show alert frames before walking
+    alertDuration = 1000;                          // ms to show alert frames before walking
 
-    sinceAlerted;                               // MS
-    sinceAttacking;                             // MS
+    sinceAlerted;                                  // MS
+    sinceAttacking;                                // MS
 
     // distance;                                   // distance With Pepe (always positiv)
 
@@ -27,7 +27,7 @@ export class Endboss extends MovableObject {
         right: this.width / 7
     };
 
-    // isDead = false;                          // In MovableObject
+    // isDead = false;                              // Defined in MovableObject 
     status = {
         isActivated: false,
         isWalking: false,
@@ -96,14 +96,14 @@ export class Endboss extends MovableObject {
         const mussPlayAttacking = this.status.isAttacking && !this.isDead;
         if (mussPlayAttacking && attackSound.paused) {
             AudioHub.playOne(attackSound);
-            attackSound.volume = 1;
+            // attackSound.volume = 1;
         }
         else if (!mussPlayAttacking && !attackSound.paused) AudioHub.stopOne(attackSound);
 
         const mussPlayAlerting = this.status.isAlerted && !this.isDead;
         if (mussPlayAlerting && alertSound.paused) {
             AudioHub.playOne(alertSound);
-            alertSound.volume = 1;
+            // alertSound.volume = 1;
         } else if (!mussPlayAlerting && !alertSound.paused) AudioHub.stopOne(alertSound);
     }
 

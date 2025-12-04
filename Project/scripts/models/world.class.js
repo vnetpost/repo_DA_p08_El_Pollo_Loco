@@ -14,14 +14,14 @@ import { ThrowableObject } from "./throwable-object.class.js";
 export class World {
     // #region Attributes
     canvas;
-    ctx;
+    ctx;                                                // Context
 
-    camera_x = 0;
+    camera_x = 0;                                       // Negative
 
-    keyboard;
+    keyboard;                                           // 
 
     level = createLevel1();                             // enemies, clouds, backgroundObject, endboss
-    chickenNumber = 10;                                 // Normal & small
+    chickenNumber = 20;                                 // Normal & small
     bottlesNumber = 20;
     coinsNumber = 150;
     isStopped = false;
@@ -31,7 +31,7 @@ export class World {
     statusBar_health = new StatusBar({ _whichBar: "health", _startPercentage: 100, _x: 20, _y: 10 });
     statusBar_coin = new StatusBar({ _whichBar: "coin", _startPercentage: 0, _x: 20, _y: 45 });
     statusBar_bottle = new StatusBar({ _whichBar: "bottle", _startPercentage: 0, _x: 20, _y: 80 });
-    statusBar_endboss = new StatusBar({ _whichBar: "endboss", _startPercentage: 100, _x: 450, _y: 10, _w: 250, _h: 70 });
+    statusBar_endboss = new StatusBar({ _whichBar: "endboss", _startPercentage: 100, _x: 450, _y: 50, _w: 250, _h: 70 });
 
     // #endregion Attributes
 
@@ -44,11 +44,10 @@ export class World {
 
         this.statusBar_bottle.setPrecentage(0); // Just fuer Bottles-Colection
 
-
         this.spawnChickens({ _number: this.chickenNumber });
         this.spawnBottles({ _number: this.bottlesNumber });
         this.spawnCoins({ _number: this.coinsNumber });
-        this.coinsNumber = this.level.coins.length; // Keep target synced with actual spawns
+        this.coinsNumber = this.level.coins.length;
 
         this.draw();
         this.passWorld();
@@ -148,6 +147,5 @@ export class World {
             && mO.drawFrame)
             mO.drawFrame(this.ctx);
     }
-
     // #endregion Instance Methods
 }

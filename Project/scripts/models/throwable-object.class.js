@@ -8,6 +8,7 @@ import { AudioHub } from "./audioHub.class.js";
 
 
 export class ThrowableObject extends MovableObject {
+    // #region Attributes
     x = 100;
     y = 375;
     width = 50;
@@ -37,7 +38,9 @@ export class ThrowableObject extends MovableObject {
     IMAGE_GROUND = ImgHub.IMGS.bottles.ground[Math.random() < 0.5 ? 0 : 1];
     IMAGES_ROTATION = ImgHub.IMGS.bottles.rotation;
     IMAGES_SPLASH = ImgHub.IMGS.bottles.splash;
+    // #endregion Attributes
 
+    // #region Instance Methods
     constructor({ _x } = {}) {
         super();
         this.x = _x ? _x : randomBetween(100, 720 * 4 - 200);
@@ -136,4 +139,5 @@ export class ThrowableObject extends MovableObject {
         }, 1000);
     }
 
+    // #endregion Instance Methods
 }

@@ -6,6 +6,7 @@ import { MovableObject } from "./movable-object.class.js";
 
 
 export class Chicken extends MovableObject {
+    // #region Attributes
     width = 45;
     height = 45;
     x;
@@ -23,7 +24,9 @@ export class Chicken extends MovableObject {
 
     IMAGES_WALKING;
     IMAGES_DEAD;
+    // #endregion Attributes
 
+    // #region Instance Methods
     constructor({ _x } = {}) {
         super();
         const variant = Math.random() < 0.5 ? "normal" : "small";
@@ -67,4 +70,5 @@ export class Chicken extends MovableObject {
         }, 3000);
     }
 
+    // #endregion Instance Methods
 }

@@ -1,6 +1,7 @@
 
 
 export class DrawableObject {
+    // #region Attributes
     x;
     y;
     width;
@@ -10,8 +11,10 @@ export class DrawableObject {
     currentImageIndex = 0;                 // Index
     currentAnimation = [];
     imageCache = {};                       // Object            // {"./img1.png": HTMLImageElement, ....}
+    // #endregion Attributes
 
 
+    // #region Instance Methods
     loadImage(path) {
         this.currentImage = new Image();
         this.currentImage.src = path;
@@ -52,4 +55,5 @@ export class DrawableObject {
         this.rH = this.height - this.offset.top - this.offset.bottom;
     }
 
+    // #endregion Instance Methods
 }

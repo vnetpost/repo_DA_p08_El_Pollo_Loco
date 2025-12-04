@@ -1,14 +1,15 @@
 
 
 export class Level {
-
+    // #region Attributes
     enemies;
     clouds;
     bottles;
     coins;
     backgroundObjects;
-    level_end_x = 700;
+    // #endregion Attributes
 
+    // #region Instance Methods
     constructor({ _enemies, _clouds, _backgroundObjects, _bottles, _coins } = {}) {
         this.enemies = _enemies;
         this.clouds = _clouds;
@@ -16,5 +17,6 @@ export class Level {
         this.bottles = _bottles;
         this.coins = _coins;
     }
+    // #endregion Instance Methods
 
 }

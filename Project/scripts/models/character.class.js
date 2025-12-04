@@ -72,7 +72,7 @@ export class Character extends MovableObject {
         IntervalHub.startInterval(this.moveRight, 1000 / 60);
         IntervalHub.startInterval(this.jump, 1000 / 60);                // Set this.speedY = 25 to trigger applyGravity
         IntervalHub.startInterval(this.applyGravity, 1000 / 60);        // this.speedY as a trigger
-        // IntervalHub.startInterval(this.checkCollisions, 1000 / 60);
+        IntervalHub.startInterval(this.checkCollisions, 1000 / 60);
         IntervalHub.startInterval(this.collectBottles, 1000 / 60);
         IntervalHub.startInterval(this.collectCoins, 1000 / 60);
         IntervalHub.startInterval(this.throwBottle, 1000 / 60);
@@ -211,7 +211,7 @@ export class Character extends MovableObject {
                 } else {
                     collided = true;
                     this.hit();
-                    console.log(`Pepe (Energie:${this.energy} Salsa:${this.arsenal.length}) colided with enemy ${idx}`);
+                    // console.log(`Pepe (Energie:${this.energy} Salsa:${this.arsenal.length}) colided with enemy ${idx}`);
                 }
             }
         });
@@ -242,26 +242,9 @@ export class Character extends MovableObject {
             this.arsenal.push(bottle); // Add to Pepe-Arsenal-Array
             AudioHub.playOne(AudioHub.SOUNDS.collectibles.bottle);
             this.updateStatusBars();
-            console.log(`Pepe (Energie:${this.energy} Salsa:${this.arsenal.length}) collected Bottle-Idx-> ${idx}`);
+            // console.log(`Pepe (Energie:${this.energy} Salsa:${this.arsenal.length}) collected Bottle-Idx-> ${idx}`);
         });
     }
-
-    // #############################################################################################
-    // collectCoins = () => {
-    //     this.getRealFrame();
-
-    //     this.world.level.coins.forEach((targetCoin, idx) => {
-    //         targetCoin.getRealFrame();
-    //         if (this.isColliding(targetCoin)) {
-    //             // this.updateLastActiveTime(); // nicht noetig, da die Bottle sich nicht bewegen
-    //             this.coinsCollected += 1;
-    //             this.updateStatusBars();
-    //             console.log(`Pepe (Energie:${this.energy} Coins:${this.coinsCollected}) collected Coin-Idx-> ${idx}`);
-    //             this.world.level.coins = this.world.level.coins.filter(coin => coin !== targetCoin);
-    //             return;
-    //         }
-    //     });
-    // }
 
     collectCoins = () => {
         this.getRealFrame();
@@ -273,13 +256,12 @@ export class Character extends MovableObject {
                 this.coinsCollected++;
                 AudioHub.playOne(AudioHub.SOUNDS.collectibles.coin);
                 this.updateStatusBars();
-                console.log(`Pepe (Energie:${this.energy} Coins:${this.coinsCollected}) collected Coin-Idx-> ${idx}`);
+                // console.log(`Pepe (Energie:${this.energy} Coins:${this.coinsCollected}) collected Coin-Idx-> ${idx}`);
                 return false; // delete from Liste
             }
             return true; // Coin stay in Liste
         });
     }
-    // ###################################################################################
 
     updateStatusBars = () => {
         this.world.statusBar_bottle.setPrecentage(this.arsenal.length * 10);
@@ -293,7 +275,7 @@ export class Character extends MovableObject {
         if (!this.world.keyboard.THROW) return;
         this.updateLastActiveTime(); // Pruefe speter ???????????????????????????????????????
         const bottle = this.arsenal.pop();
-        console.log(`Pepe (Energie:${this.energy} Salsa:${this.arsenal.length})`);
+        // console.log(`Pepe (Energie:${this.energy} Salsa:${this.arsenal.length})`);
         this.updateStatusBars();
 
         this.getRealFrame();
