@@ -1,3 +1,11 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
 .cPageBg {
     position: fixed;
     width: 100%;
@@ -29,17 +37,16 @@ main {
     font-family: 'Caveat Brush';
     font-weight: 100;
     font-size: clamp(1.2rem, 2vw, 2rem);
-    color: #ffffff40;
+    color: #06060640;
     text-shadow: 0 0 3rem #00ddff;
     border-radius: 1.5rem;
     /* padding: 0.5rem 1rem; */
 }
 
 .cGameScreens {
-    /* border: 2px solid red; */
     position: relative;
-    max-width: 720px;
-    width: 100%;
+    width: min(720px, 100vw, calc(100vh * 3 / 2));
+    max-height: 100vh;
     aspect-ratio: 3 / 2;
 }
 
@@ -140,6 +147,12 @@ _.cLastScreen {
     position: absolute;
     inset: 0;
     z-index: 1;
+}
+
+@media (max-height: 1024px) {
+    .cMobileControls {
+        display: flex;
+    }
 }
 
 .cMobileGroup {
@@ -384,7 +397,7 @@ _.cLastScreen {
     letter-spacing: 0.05em;
 }
 
-@media only screen and (orientation: portrait) and (max-width: 850px) {
+@media only screen and (orientation: portrait) and (max-width: 900px) {
     .cRotateOverlay {
         display: flex;
     }

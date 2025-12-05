@@ -84,29 +84,28 @@ export class Character extends MovableObject {
     animate = () => {
         this.updateSoundState();
 
-        if (this.isDead) {                              // Dead
+        if (this.isDead) {
             this.setAnimation(this.IMAGES_DEAD);
             return;
         }
-        if (this.isHurt()) {                            // Hurt
+        if (this.isHurt()) {
             this.updateLastActiveTime();
             this.setAnimation(this.IMAGES_HURT);
             return;
         }
-        if (this.isAboveGround()) {                     // Jumping
+        if (this.isAboveGround()) {
             this.updateLastActiveTime();
             this.setAnimation(this.IMAGES_JUMPING);
             return;
         }
-        if (this.world.keyboard.LEFT || this.world.keyboard.RIGHT) { // Walking
-
+        if (this.world.keyboard.LEFT || this.world.keyboard.RIGHT) {
             this.updateLastActiveTime();
             this.setAnimation(this.IMAGES_WALKING);
             return;
         }
 
         const inactiveLongEnough = (Date.now() - this.lastActiveTime) >= this.timeToNap;
-        if (inactiveLongEnough) {                       // Idle
+        if (inactiveLongEnough) {
             this.setAnimation(this.IMAGES_IDLE_LONG);
         } else {
             this.setAnimation(this.IMAGES_IDLE_SHORT);
@@ -123,7 +122,7 @@ export class Character extends MovableObject {
             !this.isAboveGround() &&
             (this.world.keyboard.LEFT || this.world.keyboard.RIGHT);
 
-        const inactiveLongEnough = (Date.now() - this.lastActiveTime) >= this.timeToNap; // Jusst like Animating
+        const inactiveLongEnough = (Date.now() - this.lastActiveTime) >= this.timeToNap;
 
         if (this.isDead) {
             const dead = this.SOUNDS_PEPE.dead;
@@ -277,6 +276,7 @@ export class Character extends MovableObject {
      * Collect coins, update counters and play sound.
      */
     collectCoins = () => {
+        if (this.coinsCollected >= 100) return;
         this.getRealFrame();
 
         this.world.level.coins = this.world.level.coins.filter((coin, idx) => {
