@@ -371,7 +371,7 @@ _.cLastScreen {
     inset: 0;
     background: #000000c1;
     color: #f8f5ec;
-    z-index: 5;
+    z-index: 2;
     align-items: center;
     justify-content: center;
     text-align: center;
