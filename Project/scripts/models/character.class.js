@@ -4,13 +4,16 @@ import { MovableObject } from "./movable-object.class.js";
 import { AudioHub } from "./audioHub.class.js";
 
 
+/**
+ * @class Playable hero (Pepe) that handles movement, collisions, sounds and other interactions.
+ */
 export class Character extends MovableObject {
     // #region Attributes
     x = 50;
     y = 266;
     width = 80;
     height = 160;
-    speed = 12.5;
+    speed = 22.5;
 
     // Flags
     collided = false;
@@ -36,22 +39,16 @@ export class Character extends MovableObject {
 
     arsenal = [];                                   // [ThrowableObject,ThrowableObject,...]
     bottleLimit = 10;
-    // bottleWorth = 10;
     lastThrowTime = 0;
     coinsCollected = 0;
 
-    // currentAnimation = this.IMAGES_IDLE_SHORT;
-    // isBored = false;
-
     SOUNDS_PEPE = AudioHub.SOUNDS.pepe;
-    walk_lastPlayedAt = 0;                        // 59 S Sound duration
-    snor_lastPlayedAt = 0;                        // 3  S
-    jump_lastPlayedAt = 0;                        // 1  S
-    hurt_lastPlayedAt = 0;                        // 0  S
-    dead_lastPlayedAt = 0;                        // 1  S
 
     // #endregion Attributes
 
+    /**
+     * Initialize Pepe animations, sounds and timers.
+     */
     constructor() {
         super();
         this.loadImage(this.IMAGES_IDLE_SHORT[0]); // Init
@@ -66,13 +63,13 @@ export class Character extends MovableObject {
         // this.SOUNDS_PEPE.walk.loop = true;
 
         IntervalHub.startInterval(this.animate, 1000 / 10);
-        // IntervalHub.startInterval(this.getRealFrame, 1000 / 60);
+        IntervalHub.startInterval(this.getRealFrame, 1000 / 60);
         IntervalHub.startInterval(this.moveCamera, 1000 / 60);
         IntervalHub.startInterval(this.moveLeft, 1000 / 60);
         IntervalHub.startInterval(this.moveRight, 1000 / 60);
         IntervalHub.startInterval(this.jump, 1000 / 60);                // Set this.speedY = 25 to trigger applyGravity
         IntervalHub.startInterval(this.applyGravity, 1000 / 60);        // this.speedY as a trigger
-        IntervalHub.startInterval(this.checkCollisions, 1000 / 60);
+        // IntervalHub.startInterval(this.checkCollisions, 1000 / 60);
         IntervalHub.startInterval(this.collectBottles, 1000 / 60);
         IntervalHub.startInterval(this.collectCoins, 1000 / 60);
         IntervalHub.startInterval(this.throwBottle, 1000 / 60);
@@ -81,6 +78,9 @@ export class Character extends MovableObject {
 
     // #region Instance Methods    
 
+    /**
+     * Update animation state based on movement, airborne, hurt or death flags.
+     */
     animate = () => {
         this.updateSoundState();
 
@@ -113,6 +113,9 @@ export class Character extends MovableObject {
         }
     }
 
+    /**
+     * Sync audio playback with the current character state.
+     */
     updateSoundState = () => {
         const isRunningOnGround =
             !this.isDead &&
@@ -153,6 +156,10 @@ export class Character extends MovableObject {
         if (inactiveLongEnough && snor.paused) AudioHub.playOne(snor);
     }
 
+    /**
+     * Stop all Pepe sounds except the provided one.
+     * @param {HTMLAudioElement} exceptSound
+     */
     exceptThisStopOthers = (exceptSound) => {
         Object.values(this.SOUNDS_PEPE).forEach(sound => {
             if (sound === exceptSound) return;
@@ -160,20 +167,23 @@ export class Character extends MovableObject {
         });
     }
 
+    /**
+     * Move character left when the LEFT key is pressed.
+     */
     moveLeft = () => {
         if (this.world.keyboard.LEFT) {
-            // console.log(this.x, this.y);
             this.updateLastActiveTime();
             this.otherDirection = true;
             this.x -= this.speed;
             if (this.x <= 0) this.x = 0;
-            // this.walking_sound.play();
         }
     }
 
+    /**
+     * Move character right when the RIGHT key is pressed.
+     */
     moveRight = () => {
         if (this.world.keyboard.RIGHT) {
-            // console.log(this.x, this.y);
             this.updateLastActiveTime();
             this.otherDirection = false;
             this.x += this.speed;
@@ -181,6 +191,9 @@ export class Character extends MovableObject {
         }
     }
 
+    /**
+     * Trigger a jump if grounded and UP key is pressed.
+     */
     jump = () => {
         if (this.world.keyboard.UP && !this.isAboveGround()) {
             this.updateLastActiveTime();
@@ -188,12 +201,18 @@ export class Character extends MovableObject {
         }
     }
 
+    /**
+     * Update camera position to follow the character within bounds.
+     */
     moveCamera = () => {
         this.world.camera_x = -this.x + 200;
         if (this.world.camera_x > 0) this.world.camera_x = 0;
         if (this.world.camera_x < -720 * 3) this.world.camera_x = -720 * 3;
     }
 
+    /**
+     * Check collisions with enemies and handle trampling or damage.
+     */
     checkCollisions = () => {
         this.getRealFrame(); // refresh Instance-Grenze before comparing
         let collided = false;
@@ -211,21 +230,31 @@ export class Character extends MovableObject {
                 } else {
                     collided = true;
                     this.hit();
-                    // console.log(`Pepe (Energie:${this.energy} Salsa:${this.arsenal.length}) colided with enemy ${idx}`);
                 }
             }
         });
         this.collided = collided;
     }
 
-    updateLastActiveTime = () => { this.lastActiveTime = Date.now(); } // control my Nap-Frames
+    /**
+     * Track last activity timestamp to manage idle behavior.
+     */
+    updateLastActiveTime = () => { this.lastActiveTime = Date.now(); }
 
+    /**
+     * Determine if Pepe is trampling an enemy while falling.
+     * @param {MovableObject} enemy
+     * @returns {boolean}
+     */
     isTrampling = (enemy) => {
         const isFalling = this.speedY < 0;
         const isCharacterAboveEnemy = this.rY + this.rH >= enemy.rY;
         return isFalling && isCharacterAboveEnemy;
     }
 
+    /**
+     * Collect bottles, add to arsenal and update UI.
+     */
     collectBottles = () => {
         if (this.arsenal.length === this.bottleLimit) return;
         this.getRealFrame();
@@ -237,15 +266,16 @@ export class Character extends MovableObject {
             this.updateLastActiveTime();
 
             bottle.status.isNew = false;
-            // this.updateLastActiveTime(); // nicht noetig, da die Bottle sich nicht bewegen
             bottle.status.isPickedUp = true;
-            this.arsenal.push(bottle); // Add to Pepe-Arsenal-Array
+            this.arsenal.push(bottle);
             AudioHub.playOne(AudioHub.SOUNDS.collectibles.bottle);
             this.updateStatusBars();
-            // console.log(`Pepe (Energie:${this.energy} Salsa:${this.arsenal.length}) collected Bottle-Idx-> ${idx}`);
         });
     }
 
+    /**
+     * Collect coins, update counters and play sound.
+     */
     collectCoins = () => {
         this.getRealFrame();
 
@@ -256,26 +286,30 @@ export class Character extends MovableObject {
                 this.coinsCollected++;
                 AudioHub.playOne(AudioHub.SOUNDS.collectibles.coin);
                 this.updateStatusBars();
-                // console.log(`Pepe (Energie:${this.energy} Coins:${this.coinsCollected}) collected Coin-Idx-> ${idx}`);
                 return false; // delete from Liste
             }
             return true; // Coin stay in Liste
         });
     }
 
+    /**
+     * Refresh HUD status bars for bottles, health and coins.
+     */
     updateStatusBars = () => {
         this.world.statusBar_bottle.setPrecentage(this.arsenal.length * 10);
         this.world.statusBar_health.setPrecentage(this.energy);
         this.world.statusBar_coin.setPrecentage(this.coinsCollected);
     }
 
+    /**
+     * Throw a bottle.
+     */
     throwBottle = () => {
         if (Date.now() - this.lastThrowTime < 500) return;
         if (this.arsenal.length < 1) return;
         if (!this.world.keyboard.THROW) return;
         this.updateLastActiveTime(); // Pruefe speter ???????????????????????????????????????
         const bottle = this.arsenal.pop();
-        // console.log(`Pepe (Energie:${this.energy} Salsa:${this.arsenal.length})`);
         this.updateStatusBars();
 
         this.getRealFrame();

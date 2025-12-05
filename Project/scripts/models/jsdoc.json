@@ -1,0 +1,26 @@
+{
+    "source": {
+        "include": [
+            "./audioHub.class.js",
+            "./background-object.class.js",
+            "./character.class.js",
+            "./chicken.class.js",
+            "./cloud.class.js",
+            "./coin.class.js",
+            "./drawable-object.class.js",
+            "./endboss.class.js",
+            "./img-hub.class.js",
+            "./index.js",
+            "./interval-hub.class.js",
+            "./keyboard.class.js",
+            "./level.class.js",
+            "./movable-object.class.js",
+            "./status-bar.class.js",
+            "./throwable-object.class.js",
+            "./world.class.js"
+        ]
+    },
+    "opts": {
+        "destination": "./jsDocOut"
+    }
+}

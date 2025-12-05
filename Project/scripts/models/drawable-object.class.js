@@ -1,5 +1,7 @@
 
-
+/**
+ * @class Base drawable that handles loading images, animations and drawing to canvas.
+ */
 export class DrawableObject {
     // #region Attributes
     x;
@@ -13,13 +15,21 @@ export class DrawableObject {
     imageCache = {};                       // Object            // {"./img1.png": HTMLImageElement, ....}
     // #endregion Attributes
 
-
     // #region Instance Methods
+
+    /**
+     * Load a single image and set as current.
+     * @param {string} path
+     */
     loadImage(path) {
         this.currentImage = new Image();
         this.currentImage.src = path;
     }
 
+    /**
+     * Preload an array of images into the cache.
+     * @param {string[]} images
+     */
     loadImages(images) {
         images.forEach(path => {
             let img = new Image();
@@ -28,6 +38,10 @@ export class DrawableObject {
         });
     }
 
+    /**
+     * Set the current animation sequenz.
+     * @param {string[]} images
+     */
     setAnimation = (images) => {
         if (this.currentAnimation !== images) { // I use currentAnimation just to check
             this.currentAnimation = images;
@@ -37,17 +51,28 @@ export class DrawableObject {
         this.playAnimation(images);
     }
 
+    /**
+     * Animating.
+     * @param {string[]} images
+     */
     playAnimation(images) {
         let path = images[this.currentImageIndex];
         this.currentImage = this.imageCache[path]; // continous chache -> animating
         this.currentImageIndex = (this.currentImageIndex + 1) % images.length;
     }
 
+    /**
+     * Draw the current image to the canvas.
+     * @param {CanvasRenderingContext2D} ctx
+     */
     draw(ctx) {
         if (this.currentImage instanceof Image)
             ctx.drawImage(this.currentImage, this.x, this.y, this.width, this.height);
     }
 
+    /**
+     * Calculate the real collision frame based on offsets.
+     */
     getRealFrame = () => {
         this.rX = this.x + this.offset.left;
         this.rY = this.y + this.offset.top;

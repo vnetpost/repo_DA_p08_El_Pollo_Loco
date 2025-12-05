@@ -1,0 +1,41 @@
+body {
+    background: #b98647;
+    color: #1f1206;
+}
+
+.impressum-wrapper {
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.cImpressumCard {
+    max-width: 520px;
+    width: 100%;
+    padding: 2rem;
+    border-radius: 1.1rem;
+    background: #ffffffcc;
+    box-shadow: 0 0rem 3rem #0000004a;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: left;
+}
+
+.impressum-card h1 {
+    font-size: 1.8em;
+}
+
+.impressum-card p {
+    font-size: 1em;
+}
+
+.cBackLink {
+    align-self: center;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    background: #944c1d;
+    color: #ffffffcf;
+}

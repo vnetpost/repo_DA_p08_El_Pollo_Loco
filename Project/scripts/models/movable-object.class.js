@@ -1,6 +1,9 @@
 import { DrawableObject } from "./drawable-object.class.js";
 
 
+/**
+ * @class Base class for moveable entities.
+ */
 export class MovableObject extends DrawableObject {
     // #region Attributes    
     rX;
@@ -34,6 +37,10 @@ export class MovableObject extends DrawableObject {
     constructor() { super(); }
 
     // #region Instance Methods
+
+    /**
+     * Apply gravity.
+     */
     applyGravity = () => {
         if (this.isAboveGround() || this.speedY > 0) {
             this.y -= this.speedY; //console.log(this.y);
@@ -48,33 +55,56 @@ export class MovableObject extends DrawableObject {
         }
     }
 
+    /**
+     * moving right.
+     */
     moveRight = () => {
         console.log("Moving right");
     }
 
+    /**
+     * Check if the object is above ground.
+     * @returns {boolean}
+     */
     isAboveGround() { return this.y < 266; }
-    // isDead() { return this.energy == 0 }
+
+    /**
+     * Move left.
+     */
     moveLeft = () => { !(this.x + this.width <= 0) ? this.x -= this.speed : this.x = 720 * 4 + this.width; }
 
+    /**
+     * Determine if the object is in a hurt state based on time seit last hit.
+     * @returns {boolean}
+     */
     isHurt() { return Date.now() - this.lastHit < 500; }// < True for 5 Second to stay im Hurt-Zustand
 
+    /**
+     * Apply damage and set dead flag if energy is zero.
+     */
     hit() {
         this.energy > 0 ? this.energy -= 1 : this.isDead = true;
         this.lastHit = Date.now();
     }
 
+    /**
+     * Draw collision frame for debugging.
+     * @param {CanvasRenderingContext2D} ctx
+     */
     drawFrame(ctx) {
-        // if (!this instanceof Character) return;
         ctx.lineWidth = 3;
         // ctx.strokeStyle = "red";
         ctx.beginPath();
-        // this.getRealFrame();
+        this.getRealFrame();
         ctx.rect(this.rX, this.rY, this.rW, this.rH);
         ctx.stroke();
-    }
+    }    
 
-    
-
+    /**
+     * collision check.
+     * @param {MovableObject} mO
+     * @returns {boolean}
+     */
     isColliding = (mO) => {
         return this.rX + this.rW > mO.rX &&
             this.rY + this.rH > mO.rY &&

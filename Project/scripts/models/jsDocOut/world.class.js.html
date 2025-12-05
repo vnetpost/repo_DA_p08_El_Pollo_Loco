@@ -1,4 +1,32 @@
-import { createLevel1 } from "../levels/level1.js";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: world.class.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: world.class.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { createLevel1 } from "../levels/level1.js";
 import { randomBetween } from "../utils/utils.js";
 import { Character } from "./character.class.js";
 import { Chicken } from "./chicken.class.js";
@@ -18,12 +46,12 @@ export class World {
     canvas;
     ctx;                                                // Context
 
-    camera_x = 0;                                       // Always Negative
+    camera_x = 0;                                       // Negative
 
     keyboard;                                           // 
 
     level = createLevel1();                             // enemies, clouds, backgroundObject, endboss
-    chickenNumber = 20;                                 // Normal & small
+    chickenNumber = 20;                                 // Normal &amp; small
     bottlesNumber = 20;
     coinsNumber = 150;
     isStopped = false;
@@ -38,13 +66,15 @@ export class World {
     // #endregion Attributes
 
     /**
-     * @param {HTMLCanvasElement} _canvas Canvas element Object.
+     * @param {HTMLCanvasElement} _canvas Canvas element.
      */
     constructor(_canvas) {
         this.canvas = _canvas;
         this.ctx = this.canvas.getContext("2d");
 
         this.keyboard = new Keyboard();
+
+        this.statusBar_bottle.setPrecentage(0); // Just fuer Bottles-Colection
 
         this.spawnChickens({ _number: this.chickenNumber });
         this.spawnBottles({ _number: this.bottlesNumber });
@@ -105,7 +135,7 @@ export class World {
 
     /**
      * Draw an array of drawable objects onto the map.
-     * @param {Array<object>} objects Collection of drawable objects.
+     * @param {Array&lt;object>} objects Collection of drawable objects.
      */
     addObjectsToMap(objects) {
         if (objects.length > 0)
@@ -114,17 +144,17 @@ export class World {
 
     /**
      * Draw a single object with respect to its facing direction.
-     * @param {object} mO Drawable game object with draw/otherDirection properties.
+     * @param {object} mO Drawable game object with draw/otherDirection props.
      */
     addToMap(mO) {
         if (mO.otherDirection) this.flipImage(mO);
         mO.draw(this.ctx);
         if (mO.otherDirection) this.flipImageBack(mO);
-        // this.drawInstanceFrame(mO);
+        this.drawInstanceFrame(mO);
     }
 
     /**
-     * Mirror current drawing context harizontally for an object.
+     * Mirror current drawing context horizontally for an object.
      * @param {object} mO Drawable game object.
      */
     flipImage(mO) {
@@ -150,7 +180,7 @@ export class World {
      * @param {number} [param0._x] Optional x-position override.
      */
     spawnBottles({ _number, _x } = {}) {
-        for (let i = 0; i < _number; i++) {
+        for (let i = 0; i &lt; _number; i++) {
             const newBottle = new ThrowableObject({ _x: _x });
             newBottle.world = this;
             this.level.bottles.push(newBottle);
@@ -164,7 +194,7 @@ export class World {
      * @param {number} [param0._x] Optional x-position override.
      */
     spawnChickens({ _number, _x } = {}) {
-        for (let i = 0; i < _number; i++) {
+        for (let i = 0; i &lt; _number; i++) {
             const newChicken = new Chicken({ _x: _x });
             newChicken.world = this;
             this.level.enemies.push(newChicken);
@@ -179,7 +209,7 @@ export class World {
      * @param {number} [param0._y] Optional y-position override.
      */
     spawnCoins({ _number, _x, _y } = {}) {
-        for (let i = 0; i < _number; i++) {
+        for (let i = 0; i &lt; _number; i++) {
             const newCoin = new Coin({ _x: _x, _y: _y });
             newCoin.world = this;
             this.level.coins.push(newCoin);
@@ -187,14 +217,37 @@ export class World {
     }
 
     /**
-     * Debug helper: draws collision frames for supported moveables & Coins.
+     * Debug helper: draws collision frames for supported moveables.
      * @param {object} mO Drawable game object.
      */
     drawInstanceFrame(mO) {
         if ((mO instanceof Character || mO instanceof Chicken ||
             mO instanceof Endboss || mO instanceof ThrowableObject || mO instanceof Coin)
-            && mO.drawFrame)
+            &amp;&amp; mO.drawFrame)
             mO.drawFrame(this.ctx);
     }
     // #endregion Instance Methods
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="World.html">World</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Fri Dec 05 2025 07:42:18 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -50,6 +50,10 @@
                     <!-- <br>Start</br> -->
                 </button>
                 <img id="idLastScreen" class="cLastScreen hidden" alt="GameOver oder Won screen">
+                <button id="idBackToStartBtn" class="cOverlayBTNs cRestartBtn hidden">
+                    <img id="idBtnImg" src="./assets/images/misc/door_start_game2.svg" alt="door_start_game">
+                    <br>Home</br>
+                </button>
                 <button id="idRestartBtn" class="cOverlayBTNs cRestartBtn hidden">
                     <img id="idBtnImg" src="./assets/images/misc/door_start_game2.svg" alt="door_start_game">
                     <br>Restart</br>
@@ -68,7 +72,12 @@
                 </div>
             </div>
         </main>
-        <footer></footer>
+        <div class="cRotateOverlay">
+            <div class="cRotateOverlayContent">
+                <p>Turn your device to landscape to play.</p>
+            </div>
+        </div>
+        <footer class="cImpressum"><a href="./impressum.html">Imprint</a></footer>
     </div>
 </body>
 

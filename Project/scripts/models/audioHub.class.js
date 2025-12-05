@@ -1,5 +1,7 @@
 
-
+/**
+ * @class   Central audio manager for playing, stopping and globally adjusting game sounds.
+ */
 export class AudioHub {
     // #region Attributes
     static defaultVolume = 0.15;
@@ -37,16 +39,27 @@ export class AudioHub {
     // #endregion Attributes
 
     // #region Instance Methods
+    /**
+     * Play a single sound from the start.
+     * @param {HTMLAudioElement} sound
+     */
     static playOne(sound) {
         // sound.volume = AudioHub.defaultVolume;
-        sound.currentTime = 0;  // Startet ab einer bestimmten stelle (0=Anfang/ 5 = 5 sec.)
+        sound.currentTime = 0;
         sound.play();
     }
 
+    /**
+     * Pause a single sound.
+     * @param {HTMLAudioElement} sound
+     */
     static stopOne(sound) {
         sound.pause();
     }
 
+    /**
+     * Pause every registered sound.
+     */
     static stopAll() {
         function pauseAllSounds(obj) {
             Object.values(obj).forEach(value => {
@@ -57,6 +70,9 @@ export class AudioHub {
         pauseAllSounds(AudioHub.SOUNDS);
     }
 
+    /**
+     * Set volume for every registered sound, using the UI slider (idVolumeSlider).
+     */
     static objSetVolume() {
         const ref_volumeSlider = document.getElementById("idVolumeSlider");
         const userInputVolume = ref_volumeSlider ? Number(ref_volumeSlider.value) : AudioHub.defaultVolume;

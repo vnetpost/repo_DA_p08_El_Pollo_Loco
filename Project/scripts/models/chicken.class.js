@@ -5,6 +5,9 @@ import { IntervalHub } from "./interval-hub.class.js";
 import { MovableObject } from "./movable-object.class.js";
 
 
+/**
+ * @class Chicken enemy that patrolls leftwards and can die.
+ */
 export class Chicken extends MovableObject {
     // #region Attributes
     width = 45;
@@ -27,6 +30,10 @@ export class Chicken extends MovableObject {
     // #endregion Attributes
 
     // #region Instance Methods
+    /**
+     * @param {object} [param0]
+     * @param {number} [param0._x] Optional starting x-position.
+     */
     constructor({ _x } = {}) {
         super();
         const variant = Math.random() < 0.5 ? "normal" : "small";
@@ -45,6 +52,9 @@ export class Chicken extends MovableObject {
         IntervalHub.startInterval(this.getRealFrame, 1000 / 60);
     }
 
+    /**
+     * Animate walking or dead frame based on state.
+     */
     animate = () => {
         if (this.isDead) {
             this.setAnimation(this.IMAGES_DEAD);
@@ -53,18 +63,23 @@ export class Chicken extends MovableObject {
         this.setAnimation(this.IMAGES_WALKING);
     }
 
+    /**
+     * Move left continuously.
+     */
     moveLeft = () => {
         if (this.isDead) return;
         !(this.x + this.width <= 0) ? this.x -= this.speed : this.x = 720 * 4 + this.width;
     }
 
+    /**
+     * Kill the chicken, play sound and schedule removal.
+     */
     die = () => {
         if (this.isDead) return;
         this.isDead = true;
         AudioHub.playOne(AudioHub.SOUNDS.chicken.deadA);
         this.speed = 0;
         this.currentImageIndex = 0;
-        // this.setAnimation(this.IMAGES_DEAD);
         setTimeout(() => {
             this.world.level.enemies = this.world.level.enemies.filter(enemy => enemy !== this);
         }, 3000);

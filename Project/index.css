@@ -198,10 +198,41 @@ _.cLastScreen {
     width: 6rem;
 }
 
-#idRestartBtn {
-    left: 50%;
+#idRestartBtn,
+#idBackToStartBtn {
     top: 80%;
     background: #dfbf8fb4;
+}
+
+#idBackToStartBtn {
+    left: 40%;
+}
+
+#idRestartBtn {
+    left: 60%;
+}
+
+.cImpressum {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 1.5rem;
+    background: #0000007b;
+    color: #ffffffc6;
+    font-size: 1em;
+    box-shadow: 0 0rem 2rem #0000006c;
+    /* z-index: 1; */
+
+    a {
+        color: #ed9b219f;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .cImpressum {
+        display: none;
+    }
 }
 
 @media only screen and (max-width: 720px) {
@@ -331,5 +362,37 @@ _.cLastScreen {
 @media only screen and (max-height: 720px) {
     header {
         display: none;
+    }
+}
+
+.cRotateOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #000000c1;
+    color: #f8f5ec;
+    z-index: 5;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.cRotateOverlayContent {
+    max-width: 20rem;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+}
+
+@media only screen and (orientation: portrait) and (max-width: 850px) {
+    .cRotateOverlay {
+        display: flex;
+    }
+
+    .cPageBg,
+    .cGameScreens,
+    header,
+    footer {
+        filter: blur(0.1rem);
     }
 }

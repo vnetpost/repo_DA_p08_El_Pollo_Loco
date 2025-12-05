@@ -3,6 +3,9 @@ import { IntervalHub } from "./interval-hub.class.js";
 import { MovableObject } from "./movable-object.class.js";
 import { AudioHub } from "./audioHub.class.js";
 
+/**
+ * @class Endboss enemy with alert/attack behavior, sounds and animations.
+ */
 export class Endboss extends MovableObject {
     // #region Attributes
     width = 200;
@@ -46,6 +49,9 @@ export class Endboss extends MovableObject {
 
     // #endregion Attributes
 
+    /**
+     * Initialize endboss Figur, sounds and timers.
+     */
     constructor() {
         super();
         this.loadImage(this.IMAGES_WALKING[3]);
@@ -63,9 +69,16 @@ export class Endboss extends MovableObject {
 
     // #region Instance Methods
 
+    /**
+     * Choose the correct animation based on current state.
+     */
     animate = () => {
         this.updateAttackSoundState();
 
+        if (!this.status.isActivated && !this.status.isAlerted && !this.status.isAttacking) {
+            this.currentImage = this.imageCache[this.IMAGES_WALKING[3]];
+            return;
+        }
         if (this.isDead) {
             this.setAnimation(this.IMAGES_DEAD);
             return;
@@ -89,6 +102,9 @@ export class Endboss extends MovableObject {
         }
     }
 
+    /**
+     * Play or stop alert/attack sounds depending on state.
+     */
     updateAttackSoundState = () => {
         const attackSound = this.SOUNDS_ENDBOSS.attack;
         const alertSound = this.SOUNDS_ENDBOSS.approach;
@@ -107,20 +123,29 @@ export class Endboss extends MovableObject {
         } else if (!mussPlayAlerting && !alertSound.paused) AudioHub.stopOne(alertSound);
     }
 
+    /**
+     * Walk left.
+     */
     moveLeft = () => {
         if (!this.status.isActivated || this.status.isAlerted || this.isDead) return;
         this.x -= this.speed;
         if (this.x <= 0) this.x = 0;
     }
 
+    /**
+     * Apply damage to the endboss and mark hurt/death states.
+     */
     hit = () => {
         this.energy > 0 ? this.energy -= 10 : this.isDead = true;
         this.status.isHurt = true;
         this.lastHit = Date.now();
     }
 
+    /**
+     * Update behavior flags based on distance to the player.
+     */
     updateBehavior = () => {
-        if (!this.world?.character || this.isDead) return;
+        if (!this.world.character || this.isDead) return;
 
         const distance = this.getDistance();
         const inAttackRange = distance < this.attackRange;
@@ -129,7 +154,7 @@ export class Endboss extends MovableObject {
         if (!inAlertRange && !inAttackRange) {  // Trigger Walk-Anim
             this.status.isAttacking = false;
             this.status.isAlerted = false;
-            this.status.isWalking = true;
+            this.status.isWalking = this.status.isActivated; // stay idle frame until activated once
             return;
         }
         if (inAttackRange) {                    // Trigger Attack-Anim
@@ -148,6 +173,10 @@ export class Endboss extends MovableObject {
         }
     }
 
+    /**
+     * Harizontal distance between endboss and character.
+     * @returns {number}
+     */
     getDistance() {
         return Math.abs(
             (this.world.camera_x + this.world.character.x + this.world.character.width / 2) -
@@ -155,7 +184,13 @@ export class Endboss extends MovableObject {
         );
     }
 
+    /**
+     * Track when alert started.
+     */
     updateSinceAlerted() { this.sinceAlerted = Date.now(); }
+    /**
+     * Track when attack started.
+     */
     updateSinceAttaking() { this.sinceAttacking = Date.now(); }
 
 

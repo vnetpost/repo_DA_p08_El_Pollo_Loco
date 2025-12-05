@@ -1,4 +1,7 @@
 
+/**
+ * @class Tracks keyboard and touch control state fuer movements.
+ */
 export class Keyboard {
     // #region Attributes
     LEFT = false;
@@ -8,6 +11,9 @@ export class Keyboard {
     THROW = false;
     // #endregion Attributes
 
+    /**
+     * keyboard and touch listeners.
+     */
     constructor() {
         window.addEventListener("keydown", e => this.onKeyDown(e));
         window.addEventListener("keyup", e => this.onKeyUp(e));
@@ -15,9 +21,11 @@ export class Keyboard {
     }
 
     // #region Instance Methods
+    /**
+     * Handle keydown events and set state-flags.
+     * @param {KeyboardEvent} event
+     */
     onKeyDown(event) {
-        // console.log(event);
-
         const code = event.code;
         if (code === "ArrowLeft" || code === "KeyA") this.LEFT = true;
         if (code === "ArrowRight" || code === "KeyD") this.RIGHT = true;
@@ -26,6 +34,10 @@ export class Keyboard {
         if (code === "KeyF") this.THROW = true;
     }
 
+    /**
+     * Handle keyup events and unset state-flags.
+     * @param {KeyboardEvent} event
+     */
     onKeyUp(event) {
         const code = event.code;
         if (code === "ArrowLeft" || code === "KeyA") this.LEFT = false;
@@ -35,6 +47,9 @@ export class Keyboard {
         if (code === "KeyF") this.THROW = false;
     }
 
+    /**
+     * mobile on-screen controls mit pointer-Event.
+     */
     setPointerEvtForMobileBtns() {
         const BTNsMap = {
             LEFT: "idBtnLeft",
@@ -53,7 +68,6 @@ export class Keyboard {
             ref_BTN.addEventListener("pointerdown", setState(key, true));
             ref_BTN.addEventListener("pointerup", setState(key, false));
         });
-
     }
     // #endregion Instance Methods
 }

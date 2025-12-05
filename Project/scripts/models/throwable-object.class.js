@@ -7,6 +7,9 @@ import { Endboss } from "./endboss.class.js";
 import { AudioHub } from "./audioHub.class.js";
 
 
+/**
+ * @class Throwable bottle.
+ */
 export class ThrowableObject extends MovableObject {
     // #region Attributes
     x = 100;
@@ -41,20 +44,26 @@ export class ThrowableObject extends MovableObject {
     // #endregion Attributes
 
     // #region Instance Methods
+    /**
+     * @param {object} [param0]
+     * @param {number} [param0._x] Optional initial x-position.
+     */
     constructor({ _x } = {}) {
         super();
         this.x = _x ? _x : randomBetween(100, 720 * 4 - 200);
-        // this.loadImage(this.IMAGE_SINGLE);
         this.loadImage(this.IMAGE_GROUND);
         this.loadImages(this.IMAGES_ROTATION);
         this.loadImages(this.IMAGES_SPLASH);
 
-        IntervalHub.startInterval(this.animate, 1000 / 10);
+        IntervalHub.startInterval(this.animate, 1000 / 60);
         IntervalHub.startInterval(this.updateFlight, 1000 / 60);
         IntervalHub.startInterval(this.getRealFrame, 1000 / 60);
 
     }
 
+    /**
+     * Update current Animation based on bottle state.
+     */
     animate = () => {
         if (this.status.IsSplashed) {
             this.setAnimation(this.IMAGES_SPLASH);
@@ -62,7 +71,6 @@ export class ThrowableObject extends MovableObject {
         }
 
         if (this.status.isNew) {
-            // console.log("here");
             this.loadImage(this.IMAGE_GROUND);
             return;
         }
@@ -77,6 +85,13 @@ export class ThrowableObject extends MovableObject {
         this.loadImage(this.IMAGE_GROUND);
     }
 
+    /**
+     * triggers the bottle for flight from a given position and direction.
+     * @param {object} [param0]
+     * @param {number} [param0._x] Start x-position.
+     * @param {number} [param0._y] Start y-position.
+     * @param {boolean} [param0._throwDirection] Throw direction (false right / true left).
+     */
     triggerThrow({ _x, _y, _throwDirection } = {}) { // Called from Pepe
         this.throwDirection = _throwDirection;
         this.x = _x;
@@ -89,6 +104,9 @@ export class ThrowableObject extends MovableObject {
         this.speedY = this.throwSpeedY;
     }
 
+    /**
+     * Update Flasche-flight, handle ground contact or enemy hits.
+     */
     updateFlight = () => {
         if (!this.status.isThrown || this.status.IsSplashed) return;
 
@@ -108,6 +126,9 @@ export class ThrowableObject extends MovableObject {
 
     hasHitGround() { return this.y >= this.groundY; }
 
+    /**
+     * Check collision against enemies and handle impact.
+     */
     checkEnemyHit = () => {
         this.getRealFrame();
 
@@ -124,11 +145,18 @@ export class ThrowableObject extends MovableObject {
         }
     }
 
+    /**
+     * handle impact.
+     * @param {MovableObject} enemy
+     */
     handleEnemyImpact(enemy) {
         if (enemy instanceof Chicken) enemy.die();
         if (enemy instanceof Endboss) enemy.hit();
     }
 
+    /**
+     * Show splash animation, play sound, and central-removal.
+     */
     splashIt() { // die 
         if (this.status.IsSplashed) return;
         this.status.IsSplashed = true;

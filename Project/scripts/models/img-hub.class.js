@@ -1,6 +1,5 @@
 // Img- Management
 
-// In the browser, the URLs are resolved relative to the index.html, not to any JS file.
 export class ImgHub {
 
     // #region Attributes

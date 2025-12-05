@@ -3,6 +3,9 @@ import { IntervalHub } from "./interval-hub.class.js";
 import { MovableObject } from "./movable-object.class.js";
 
 
+/**
+ * @class Background cloud - Slow-moving to the left.
+ */
 export class Cloud extends MovableObject {
     // #region Attributes
     width = 400;
@@ -10,8 +13,11 @@ export class Cloud extends MovableObject {
     y = 80;
     // #endregion Attributes
 
-    // #region Instance Methods
-
+    /**
+     * @param {object} [param0]
+     * @param {string} [param0._path] Image path for the cloud.
+     * @param {number} [param0._x] X-position where the cloud starts.
+    */
     constructor({ _path, _x } = {}) {
         super();
         this.loadImage(_path);
@@ -19,11 +25,12 @@ export class Cloud extends MovableObject {
         IntervalHub.startInterval(() => this.animate(), 1000 / 60);
     }
 
+    // #region Instance Methods
 
-
-    animate() {
-        this.moveLeft();
-    }
+    /**
+     * Just moving left.
+     */
+    animate() { this.moveLeft(); }
 
     // #endregion Instance Methods
 
