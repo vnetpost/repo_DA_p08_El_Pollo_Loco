@@ -41,12 +41,13 @@ export class AudioHub {
     // #region Instance Methods
     /**
      * Play a single sound from the start.
+     * play() returns ein Promise or Undefined
      * @param {HTMLAudioElement} sound
      */
     static playOne(sound) {
-        // sound.volume = AudioHub.defaultVolume;
         sound.currentTime = 0;
-        sound.play();
+        const promise = sound.play(); // play() returns ein Promise or Undefined
+        if (promise.catch) promise.catch(() => { });
     }
 
     /**

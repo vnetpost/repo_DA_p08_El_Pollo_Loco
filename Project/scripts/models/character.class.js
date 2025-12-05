@@ -13,7 +13,7 @@ export class Character extends MovableObject {
     y = 266;
     width = 80;
     height = 160;
-    speed = 22.5;
+    speed = 2.5;
 
     // Flags
     collided = false;
@@ -69,7 +69,7 @@ export class Character extends MovableObject {
         IntervalHub.startInterval(this.moveRight, 1000 / 60);
         IntervalHub.startInterval(this.jump, 1000 / 60);                // Set this.speedY = 25 to trigger applyGravity
         IntervalHub.startInterval(this.applyGravity, 1000 / 60);        // this.speedY as a trigger
-        // IntervalHub.startInterval(this.checkCollisions, 1000 / 60);
+        IntervalHub.startInterval(this.checkCollisions, 1000 / 60);
         IntervalHub.startInterval(this.collectBottles, 1000 / 60);
         IntervalHub.startInterval(this.collectCoins, 1000 / 60);
         IntervalHub.startInterval(this.throwBottle, 1000 / 60);
