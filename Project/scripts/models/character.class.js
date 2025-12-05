@@ -13,7 +13,7 @@ export class Character extends MovableObject {
     y = 266;
     width = 80;
     height = 160;
-    speed = 22.5;
+    speed = 2.5;
 
     // Flags
     collided = false;
