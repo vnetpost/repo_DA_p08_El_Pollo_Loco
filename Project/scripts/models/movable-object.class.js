@@ -18,7 +18,7 @@ export class MovableObject extends DrawableObject {
     };
 
     world;
-    isDead = false;                     // Pepe, Chickens,Jefa
+    isDead = false;                     // Fuer Pepe, Chickens,Jefa
     speed = 0.15;
 
     speedY = 0;
@@ -43,14 +43,12 @@ export class MovableObject extends DrawableObject {
      */
     applyGravity = () => {
         if (this.isAboveGround() || this.speedY > 0) {
-            this.y -= this.speedY; //console.log(this.y);
-            this.speedY -= this.acceleration; //console.log(this.speedY);
+            this.y -= this.speedY; 
+            this.speedY -= this.acceleration; 
 
             if (this.y > 266) { // Reset Pepe Y-Achse Position
                 this.y = 266;
                 this.speedY = 0;
-                // this.currentImage = this.imageCache[this.IMAGES_IDLE_SHORT[0]];
-                // this.currentImageIndex = 0;
             }
         }
     }

@@ -10,7 +10,7 @@ export class DrawableObject {
     height;
 
     currentImage;
-    currentImageIndex = 0;                 // Index
+    currentImageIndex = 0;
     currentAnimation = [];
     imageCache = {};                       // Object            // {"./img1.png": HTMLImageElement, ....}
     // #endregion Attributes

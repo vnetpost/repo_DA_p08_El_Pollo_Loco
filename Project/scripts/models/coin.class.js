@@ -35,7 +35,7 @@ export class Coin extends DrawableObject {
      */
     constructor({ _x, _y } = {}) {
         super();
-        this.x = _x ?? randomBetween(100, 720 * 4 - this.width);
+        this.x = _x ?? randomBetween(100, 720 * 4 - 400);
         this.y = _y ?? randomBetween(150, 250);
 
         this.loadImage(this.IMAGES_COINS[0]);

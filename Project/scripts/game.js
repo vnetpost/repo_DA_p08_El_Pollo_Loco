@@ -12,6 +12,7 @@ const ref_soundPanel = document.getElementById("idSoundPanel");
 const ref_volumeSlider = document.getElementById("idVolumeSlider");
 const ref_gameScreens = document.querySelector(".cGameScreens");
 const ref_fullscreenBtn = document.getElementById("idFullscreenBtn");
+const ref_impressum = document.querySelector(".cImpressum");
 
 init();
 
@@ -28,7 +29,6 @@ function init() {
     ref_soundBtn.addEventListener("click", toggleSoundPanel);
     ref_volumeSlider.addEventListener("input", onVolumeChange);
 
-    // ref_volumeSlider.value = AudioHub.defaultVolume;
     const savedVolume = loadSavedVolume();
     AudioHub.defaultVolume = savedVolume;
     ref_volumeSlider.value = savedVolume;
@@ -53,6 +53,7 @@ function loadSavedVolume() {
 function startGame() {
     cleanupWorld();
     hideOverlays();
+    lockImpressum();
     world = new World(ref_canvas);
     AudioHub.playOne(AudioHub.SOUNDS.game.start);
     AudioHub.playOne(AudioHub.SOUNDS.game.bgMusic);
@@ -79,6 +80,7 @@ function backToStartScreen() {
     ref_backToStartButton.classList.add("hidden");
     ref_startScreen.classList.remove("hidden");
     ref_startButton.classList.remove("hidden");
+    unlockImpressum();
 }
 
 /**
@@ -89,7 +91,6 @@ function cleanupWorld() {
     world.isStopped = true;
     if (world.character.stopRunSound) world.character.stopRunSound();
     IntervalHub.stopAllIntervals();
-    // AudioHub.stopAll();
 }
 
 /**
@@ -120,6 +121,7 @@ function showLastScreen() {
     ref_idLastScreen.classList.remove("hidden");
     ref_restartButton.classList.remove("hidden");
     ref_backToStartButton.classList.remove("hidden");
+    unlockImpressum();
 }
 
 /**
@@ -172,3 +174,6 @@ function toggleFullscreen() {
     if (document.fullscreenElement) document.exitFullscreen();
     else ref_gameScreens.requestFullscreen();
 }
+
+function lockImpressum() { ref_impressum.classList.add("is-disabled"); }
+function unlockImpressum() { ref_impressum.classList.remove("is-disabled"); }

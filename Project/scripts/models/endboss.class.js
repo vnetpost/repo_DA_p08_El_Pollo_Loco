@@ -10,8 +10,8 @@ export class Endboss extends MovableObject {
     // #region Attributes
     width = 200;
     height = 250;
-    x = 720 * 4 - this.width;                      // Jeja Start Position
-    y = 200;
+    x = 720 * 4 - this.width;                  
+    y = 190;
 
     speed = 5;
     alertRange = 720 / 2;
@@ -21,16 +21,13 @@ export class Endboss extends MovableObject {
     sinceAlerted;                                  // MS
     sinceAttacking;                                // MS
 
-    // distance;                                   // distance With Pepe (always positiv)
-
     offset = {
         top: this.height / 5,
         bottom: this.height / 5,
         left: this.width / 8,
         right: this.width / 7
     };
-
-    // isDead = false;                              // Defined in MovableObject 
+    
     status = {
         isActivated: false,
         isWalking: false,

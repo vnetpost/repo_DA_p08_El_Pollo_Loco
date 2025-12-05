@@ -50,7 +50,7 @@ export class ThrowableObject extends MovableObject {
      */
     constructor({ _x } = {}) {
         super();
-        this.x = _x ? _x : randomBetween(100, 720 * 4 - 200);
+        this.x = _x ? _x : randomBetween(100, 720 * 4 - 400);
         this.loadImage(this.IMAGE_GROUND);
         this.loadImages(this.IMAGES_ROTATION);
         this.loadImages(this.IMAGES_SPLASH);

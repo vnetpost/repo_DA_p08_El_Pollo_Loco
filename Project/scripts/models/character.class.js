@@ -13,7 +13,7 @@ export class Character extends MovableObject {
     y = 266;
     width = 80;
     height = 160;
-    speed = 2.5;
+    speed = 22.5;
 
     // Flags
     collided = false;
@@ -60,15 +60,13 @@ export class Character extends MovableObject {
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
 
-        // this.SOUNDS_PEPE.walk.loop = true;
-
         IntervalHub.startInterval(this.animate, 1000 / 10);
         IntervalHub.startInterval(this.getRealFrame, 1000 / 60);
         IntervalHub.startInterval(this.moveCamera, 1000 / 60);
         IntervalHub.startInterval(this.moveLeft, 1000 / 60);
         IntervalHub.startInterval(this.moveRight, 1000 / 60);
-        IntervalHub.startInterval(this.jump, 1000 / 60);                // Set this.speedY = 25 to trigger applyGravity
-        IntervalHub.startInterval(this.applyGravity, 1000 / 60);        // this.speedY as a trigger
+        IntervalHub.startInterval(this.jump, 1000 / 60); // Set this.speedY = 25 to trigger applyGravity
+        IntervalHub.startInterval(this.applyGravity, 1000 / 60); // this.speedY as a trigger
         IntervalHub.startInterval(this.checkCollisions, 1000 / 60);
         IntervalHub.startInterval(this.collectBottles, 1000 / 60);
         IntervalHub.startInterval(this.collectCoins, 1000 / 60);
@@ -182,6 +180,7 @@ export class Character extends MovableObject {
      * Move character right when the RIGHT key is pressed.
      */
     moveRight = () => {
+        if (this.x >= this.world.level.enemies[0].x) return;
         if (this.world.keyboard.RIGHT) {
             this.updateLastActiveTime();
             this.otherDirection = false;

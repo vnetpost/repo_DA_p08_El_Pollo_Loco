@@ -62,7 +62,7 @@ export class StatusBar extends DrawableObject {
             case "endboss":
                 this.IMAGES_STATUSBAR = ImgHub.IMGS.statusbars.endboss.orange;
                 break;
-            default: // console.log("");
+            default:
         }
     }
 

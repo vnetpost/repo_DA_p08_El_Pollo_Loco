@@ -16,14 +16,14 @@ import { ThrowableObject } from "./throwable-object.class.js";
 export class World {
     // #region Attributes
     canvas;
-    ctx;                                                // Context
+    ctx;
 
     camera_x = 0;                                       // Always Negative
 
-    keyboard;                                           // 
+    keyboard;
 
-    level = createLevel1();                             // enemies, clouds, backgroundObject, endboss
-    chickenNumber = 20;                                 // Normal & small
+    level = createLevel1();
+    chickenNumber = 20;
     bottlesNumber = 20;
     coinsNumber = 150;
     isStopped = false;
@@ -77,28 +77,29 @@ export class World {
         if (this.isStopped) return;
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.ctx.translate(this.camera_x, 0);
+        const camX = Math.round(this.camera_x);
+        this.ctx.translate(camX, 0);
 
-        this.addObjectsToMap(this.level.backgroundObjects); // Add Backgrounds
-        this.addObjectsToMap(this.level.clouds);            // Add Clouds
+        this.addObjectsToMap(this.level.backgroundObjects);
+        this.addObjectsToMap(this.level.clouds);
 
         // ------- Space for Fixed-Objects --------
-        this.ctx.translate(-this.camera_x, 0);              // Back
+        this.ctx.translate(-camX, 0);
 
-        this.addToMap(this.statusBar_health);               // Add Health's StatusBar
-        this.addToMap(this.statusBar_coin);                 // Add Coin's StatusBar
-        this.addToMap(this.statusBar_bottle);               // Add Bottle's StatusBar
-        this.addToMap(this.statusBar_endboss);              // Add Endboss's StatusBar
+        this.addToMap(this.statusBar_health);
+        this.addToMap(this.statusBar_coin);
+        this.addToMap(this.statusBar_bottle);
+        this.addToMap(this.statusBar_endboss);
 
-        this.ctx.translate(this.camera_x, 0);               // Forward
+        this.ctx.translate(camX, 0);
         // ----------------------------------------
 
-        this.addObjectsToMap(this.level.coins);             // Add Coins
-        this.addToMap(this.character);                      // Add CPepe
-        this.addObjectsToMap(this.level.enemies);           // Add Enemies
-        this.addObjectsToMap(this.level.bottles);           // Add Bottles
+        this.addObjectsToMap(this.level.coins);
+        this.addToMap(this.character);
+        this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.bottles);
 
-        this.ctx.translate(-this.camera_x, 0);
+        this.ctx.translate(-camX, 0);
 
         requestAnimationFrame(() => this.draw());
     }

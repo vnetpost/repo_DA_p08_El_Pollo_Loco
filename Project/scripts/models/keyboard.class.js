@@ -57,16 +57,22 @@ export class Keyboard {
             UP: "idBtnUp",
             THROW: "idBtnThrow"
         };
-        
-        const setState = (key, isDown) => (evt) => {
+
+        const setState = (key, isDown, evt) => {
             evt.preventDefault();
             this[key] = isDown;
         };
 
-        Object.entries(BTNsMap).forEach(([key, ElemetId]) => {
-            const ref_BTN = document.getElementById(ElemetId);
-            ref_BTN.addEventListener("pointerdown", setState(key, true));
-            ref_BTN.addEventListener("pointerup", setState(key, false));
+        const blockContextMenu = (evt) => evt.preventDefault();
+
+        Object.entries(BTNsMap).forEach(([key, elementId]) => {
+            const btn = document.getElementById(elementId);
+
+            btn.addEventListener("pointerdown", evt => setState(key, true, evt));
+            btn.addEventListener("pointerup", evt => setState(key, false, evt));
+            btn.addEventListener("pointercancel", evt => setState(key, false, evt));
+            btn.addEventListener("pointerleave", evt => setState(key, false, evt));
+            btn.addEventListener("contextmenu", blockContextMenu);
         });
     }
     // #endregion Instance Methods

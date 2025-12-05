@@ -37,6 +37,12 @@ export class Chicken extends MovableObject {
     constructor({ _x } = {}) {
         super();
         const variant = Math.random() < 0.5 ? "normal" : "small";
+        if (variant === "small") {
+            this.width = 30;
+            this.height = 30;
+            this.y = 390;
+        }
+
         this.IMAGES_WALKING = ImgHub.IMGS.chickens[variant].walk;
         this.IMAGES_DEAD = ImgHub.IMGS.chickens[variant].dead;
 
