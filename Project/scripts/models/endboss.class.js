@@ -16,10 +16,6 @@ export class Endboss extends MovableObject {
     speed = 5;
     alertRange = 720 / 2;
     attackRange = 720 / 3;
-    alertDuration = 1000;
-
-    sinceAlerted;
-    sinceAttacking;
 
     offset = {
         top: this.height / 5,
@@ -33,7 +29,6 @@ export class Endboss extends MovableObject {
         isWalking: false,
         isAlerted: false,
         isAttacking: false,
-        isHurt: true,
     };
 
     IMAGES_WALKING = ImgHub.IMGS.boss.walk;
@@ -132,7 +127,6 @@ export class Endboss extends MovableObject {
      */
     hit = () => {
         this.energy > 0 ? this.energy -= 10 : this.isDead = true;
-        this.status.isHurt = true;
         this.lastHit = Date.now();
     }
 
@@ -178,16 +172,6 @@ export class Endboss extends MovableObject {
             (this.world.camera_x + this.x + this.width / 2)
         );
     }
-
-    /**
-     * Track when alert started.
-     */
-    updateSinceAlerted() { this.sinceAlerted = Date.now(); }
-    /**
-     * Track when attack started.
-     */
-    updateSinceAttaking() { this.sinceAttacking = Date.now(); }
-
 
     // #endregion Instance Methods
 }

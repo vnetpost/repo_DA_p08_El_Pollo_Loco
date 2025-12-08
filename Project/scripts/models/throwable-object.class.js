@@ -131,7 +131,6 @@ export class ThrowableObject extends MovableObject {
         this.getRealFrame();
 
         for (const enemy of this.world.level.enemies) {
-            if (enemy.dead) continue;
             enemy.getRealFrame();
             if (!this.isColliding(enemy)) continue;
 

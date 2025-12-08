@@ -16,7 +16,6 @@ export class Chicken extends MovableObject {
     y = 377;
 
     speed = 1.5;
-    removalTimeout;
 
     offset = {
         top: this.height / 6,

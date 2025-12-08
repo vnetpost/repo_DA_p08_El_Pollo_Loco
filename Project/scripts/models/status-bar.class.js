@@ -7,8 +7,6 @@ import { IntervalHub } from "./interval-hub.class.js";
  */
 export class StatusBar extends DrawableObject {
     // #region Attributes
-    world;
-
     x = 10;
     y;
     width = 170;

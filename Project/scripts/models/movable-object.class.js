@@ -53,13 +53,6 @@ export class MovableObject extends DrawableObject {
     }
 
     /**
-     * moving right.
-     */
-    moveRight = () => {
-        console.log("Moving right");
-    }
-
-    /**
      * Check if the object is above ground.
      * @returns {boolean}
      */

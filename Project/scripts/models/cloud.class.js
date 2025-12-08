@@ -1,4 +1,3 @@
-import { randomBetween } from "../utils/utils.js";
 import { IntervalHub } from "./interval-hub.class.js";
 import { MovableObject } from "./movable-object.class.js";
 
