@@ -6,7 +6,6 @@ import { Chicken } from "./chicken.class.js";
 import { Endboss } from "./endboss.class.js";
 import { AudioHub } from "./audioHub.class.js";
 
-
 /**
  * @class Throwable bottle.
  */
@@ -91,7 +90,7 @@ export class ThrowableObject extends MovableObject {
      * @param {number} [param0._y] Start y-position.
      * @param {boolean} [param0._throwDirection] Throw direction (false right / true left).
      */
-    triggerThrow({ _x, _y, _throwDirection } = {}) { // Called from Pepe
+    triggerThrow({ _x, _y, _throwDirection } = {}) {
         this.throwDirection = _throwDirection;
         this.x = _x;
         this.y = _y;
@@ -156,7 +155,7 @@ export class ThrowableObject extends MovableObject {
     /**
      * Show splash animation, play sound, and central-removal.
      */
-    splashIt() { // die 
+    splashIt() { 
         if (this.status.IsSplashed) return;
         this.status.IsSplashed = true;
         AudioHub.playOne(AudioHub.SOUNDS.throwable.bottleBreak);

@@ -137,7 +137,7 @@ function startGameWatcher() {
         if (pepeDead) {
             didWin = false;
             AudioHub.stopAll();
-            AudioHub.playOne(AudioHub.SOUNDS.game.gameOverMusic1);
+            AudioHub.playOne(AudioHub.SOUNDS.game.gameOverMusic2);
         }
         else {
             didWin = true;

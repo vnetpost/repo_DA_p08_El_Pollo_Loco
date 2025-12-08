@@ -1,6 +1,5 @@
 import { DrawableObject } from "./drawable-object.class.js";
 
-
 /**
  * @class Base class for moveable entities.
  */
@@ -75,7 +74,7 @@ export class MovableObject extends DrawableObject {
      * Determine if the object is in a hurt state based on time seit last hit.
      * @returns {boolean}
      */
-    isHurt() { return Date.now() - this.lastHit < 500; }// < True for 5 Second to stay im Hurt-Zustand
+    isHurt() { return Date.now() - this.lastHit < 500; }
 
     /**
      * Apply damage and set dead flag if energy is zero.
@@ -87,11 +86,11 @@ export class MovableObject extends DrawableObject {
 
     /**
      * Draw collision frame for debugging.
+     * Show border ctx.strokeStyle = "red";
      * @param {CanvasRenderingContext2D} ctx
      */
     drawFrame(ctx) {
         ctx.lineWidth = 3;
-        // ctx.strokeStyle = "red";
         ctx.beginPath();
         this.getRealFrame();
         ctx.rect(this.rX, this.rY, this.rW, this.rH);

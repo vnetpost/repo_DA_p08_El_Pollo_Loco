@@ -10,7 +10,6 @@ body {
     position: fixed;
     width: 100%;
     height: 100%;
-    /* object-fit: cover; */
 }
 
 header {
@@ -40,7 +39,6 @@ main {
     color: #06060640;
     text-shadow: 0 0 3rem #00ddff;
     border-radius: 1.5rem;
-    /* padding: 0.5rem 1rem; */
 }
 
 .cGameScreens {
@@ -57,7 +55,6 @@ main {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    /* gap: 0.5rem; */
     z-index: 2;
 }
 
@@ -70,7 +67,6 @@ main {
     box-shadow: 0 0rem 1rem #00000057;
 
     img {
-        /* background: #ffffff00; */
         width: 1.5rem;
     }
 }
@@ -89,7 +85,6 @@ main {
     box-shadow: 0 0rem 1rem #00000044;
 
     img {
-        /* background: #ffffff00; */
         width: 1.5rem;
     }
 }
@@ -119,15 +114,12 @@ main {
 
 .cStartScreen,
 .cLastScreen {
-    /* border: 5px solid red; */
     z-index: 1;
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     border-radius: 1.5rem;
-    /* box-shadow: 0 0 1.5rem #00000088; */
-    /* object-fit: cover; */
 }
 
 _.cLastScreen {
@@ -201,13 +193,11 @@ _.cLastScreen {
     transition: transform 0.1s ease;
 
     &:hover {
-        /* box-shadow: 0 0 2rem #000000c8; */
         transform: translate(-50%, -50%) scale(1.05);
     }
 }
 
 #idBtnImg {
-    /* padding-top: 1rem; */
     width: 6rem;
 }
 

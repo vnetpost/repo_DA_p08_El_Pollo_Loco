@@ -14,7 +14,6 @@ export class StatusBar extends DrawableObject {
     width = 170;
     height = 40;
 
-
     whichBar;
     IMAGES_STATUSBAR = [];
     precentage;
@@ -29,7 +28,7 @@ export class StatusBar extends DrawableObject {
      * @param {number} [param0._w] Width of the bar.
      * @param {number} [param0._h] Height of the bar.
      */
-    constructor({ _whichBar, _startPercentage, _x, _y, _w = 150, _h = 40 } = {}) { // whickBar: "coin"/"bottle"/"health"
+    constructor({ _whichBar, _startPercentage, _x, _y, _w = 150, _h = 40 } = {}) {
         super();
         this.x = _x;
         this.y = _y;
@@ -88,8 +87,5 @@ export class StatusBar extends DrawableObject {
         else if (this.precentage >= 20) return 1;
         else return 0;
     }
-
-
-
     // #endregion Instance Methods
 }

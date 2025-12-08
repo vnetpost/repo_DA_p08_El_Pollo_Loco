@@ -1,5 +1,3 @@
-// Interval-Management
-
 /**
  * @class Static helper to start and stop all intervals.
  */

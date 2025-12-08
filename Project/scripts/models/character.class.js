@@ -15,7 +15,6 @@ export class Character extends MovableObject {
     height = 160;
     speed = 2.5;
 
-    // Flags
     collided = false;
     lastActiveTime = Date.now();
     timeToNap = 4000;
@@ -146,7 +145,6 @@ export class Character extends MovableObject {
             return;
         }
 
-        // Idle / Snore
         const snor = this.SOUNDS_PEPE.snor;
         this.exceptThisStopOthers(snor);
         if (inactiveLongEnough && snor.paused) AudioHub.playOne(snor);
@@ -211,7 +209,7 @@ export class Character extends MovableObject {
      * Check collisions with enemies and handle trampling or damage.
      */
     checkCollisions = () => {
-        this.getRealFrame(); // refresh Instance-Grenze before comparing
+        this.getRealFrame();
         let collided = false;
 
         this.world.level.enemies.forEach((enemy, idx) => {
@@ -220,7 +218,7 @@ export class Character extends MovableObject {
 
             if (this.isColliding(enemy)) {
                 this.updateLastActiveTime();
-                if (this.isTrampling(enemy) && enemy.die) { // 
+                if (this.isTrampling(enemy) && enemy.die) {
                     this.energy += 5
                     if (this.energy > 100) this.energy = 100;
                     enemy.die();

@@ -16,10 +16,10 @@ export class Endboss extends MovableObject {
     speed = 5;
     alertRange = 720 / 2;
     attackRange = 720 / 3;
-    alertDuration = 1000;                          // ms to show alert frames before walking
+    alertDuration = 1000;
 
-    sinceAlerted;                                  // MS
-    sinceAttacking;                                // MS
+    sinceAlerted;
+    sinceAttacking;
 
     offset = {
         top: this.height / 5,

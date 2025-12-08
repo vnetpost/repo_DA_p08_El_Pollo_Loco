@@ -1,6 +1,6 @@
-// As a Barrel File
-// ./index.js
-
+/**
+ * As a Barrel File
+ */
 export * from "../levels/level1.js";
 
 export * from "./interval-hub.class.js";

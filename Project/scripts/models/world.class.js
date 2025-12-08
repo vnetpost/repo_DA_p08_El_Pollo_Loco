@@ -17,9 +17,7 @@ export class World {
     // #region Attributes
     canvas;
     ctx;
-
     camera_x = 0;
-
     keyboard;
 
     level = createLevel1();
@@ -96,8 +94,7 @@ export class World {
         this.ctx.translate(camX, 0);
         /**
          * ----------------------------------------
-         *  */
-
+        */
         this.addObjectsToMap(this.level.coins);
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
@@ -126,8 +123,8 @@ export class World {
         mO.draw(this.ctx);
         if (mO.otherDirection) this.flipImageBack(mO);
         /**
-         * this.drawInstanceFrame(mO); // Activate Dev-Mode
-         *  */ 
+         * this.drawInstanceFrame(mO); 
+        */
     }
 
     /**
@@ -135,9 +132,9 @@ export class World {
      * @param {object} mO Drawable game object.
      */
     flipImage(mO) {
-        this.ctx.save(); // A Snapshot
+        this.ctx.save();
         this.ctx.translate(mO.width, 0);
-        this.ctx.scale(-1, 1); // X-Achse direction to links
+        this.ctx.scale(-1, 1);
         mO.x = mO.x * -1;
     }
 

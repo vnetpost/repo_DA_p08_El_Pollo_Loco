@@ -46,7 +46,7 @@ export class AudioHub {
      */
     static playOne(sound) {
         sound.currentTime = 0;
-        const promise = sound.play(); // play() returns ein Promise or Undefined
+        const promise = sound.play();
         if (promise.catch) promise.catch(() => { });
     }
 
