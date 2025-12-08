@@ -3,7 +3,6 @@ import { IntervalHub } from "./interval-hub.class.js";
 import { MovableObject } from "./movable-object.class.js";
 import { AudioHub } from "./audioHub.class.js";
 
-
 /**
  * @class Playable hero (Pepe) that handles movement, collisions, sounds and other interactions.
  */
@@ -15,7 +14,6 @@ export class Character extends MovableObject {
     height = 160;
     speed = 2.5;
 
-    collided = false;
     lastActiveTime = Date.now();
     timeToNap = 4000;
 
@@ -210,9 +208,8 @@ export class Character extends MovableObject {
      */
     checkCollisions = () => {
         this.getRealFrame();
-        let collided = false;
 
-        this.world.level.enemies.forEach((enemy, idx) => {
+        this.world.level.enemies.forEach((enemy) => {
             if (enemy.isDead) return;
             enemy.getRealFrame();
 
@@ -222,13 +219,9 @@ export class Character extends MovableObject {
                     this.energy += 5
                     if (this.energy > 100) this.energy = 100;
                     enemy.die();
-                } else {
-                    collided = true;
-                    this.hit();
-                }
+                } else this.hit();
             }
         });
-        this.collided = collided;
     }
 
     /**
@@ -254,7 +247,7 @@ export class Character extends MovableObject {
         if (this.arsenal.length === this.bottleLimit) return;
         this.getRealFrame();
 
-        this.world.level.bottles.forEach((bottle, idx) => {
+        this.world.level.bottles.forEach((bottle) => {
             if (!bottle.status.isNew) return;
             bottle.getRealFrame();
             if (!this.isColliding(bottle)) return;
@@ -275,7 +268,7 @@ export class Character extends MovableObject {
         if (this.coinsCollected >= 100) return;
         this.getRealFrame();
 
-        this.world.level.coins = this.world.level.coins.filter((coin, idx) => {
+        this.world.level.coins = this.world.level.coins.filter((coin) => {
             coin.getRealFrame();
             if (this.isColliding(coin)) {
                 this.updateLastActiveTime();

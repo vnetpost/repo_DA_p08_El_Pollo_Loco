@@ -51,18 +51,5 @@ export class Coin extends DrawableObject {
      */
     animate = () => { this.setAnimation(this.IMAGES_COINS); }
 
-    /**
-     * Debug: draws the coin's collision frame.
-     * ctx.strokeStyle = "red"; to show border
-     * @param {CanvasRenderingContext2D} ctx
-     */
-    drawFrame(ctx) {
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        this.getRealFrame();
-        ctx.rect(this.rX, this.rY, this.rW, this.rH);
-        ctx.stroke();
-    }  
-
     // #endregion Instance Methods
 }

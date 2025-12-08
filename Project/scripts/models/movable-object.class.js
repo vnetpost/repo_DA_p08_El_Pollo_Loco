@@ -9,12 +9,6 @@ export class MovableObject extends DrawableObject {
     rY;
     rW;
     rH;
-    offset = {
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0
-    };
 
     world;
     isDead = false;
@@ -75,19 +69,6 @@ export class MovableObject extends DrawableObject {
     hit() {
         this.energy > 0 ? this.energy -= 1 : this.isDead = true;
         this.lastHit = Date.now();
-    }
-
-    /**
-     * Draw collision frame for debugging.
-     * Show border ctx.strokeStyle = "red";
-     * @param {CanvasRenderingContext2D} ctx
-     */
-    drawFrame(ctx) {
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        this.getRealFrame();
-        ctx.rect(this.rX, this.rY, this.rW, this.rH);
-        ctx.stroke();
     }
 
     /**

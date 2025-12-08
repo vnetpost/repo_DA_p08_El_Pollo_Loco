@@ -3,7 +3,6 @@ import { randomBetween } from "../utils/utils.js";
 import { Character } from "./character.class.js";
 import { Chicken } from "./chicken.class.js";
 import { Coin } from "./coin.class.js";
-import { Endboss } from "./endboss.class.js";
 import { IntervalHub } from "./interval-hub.class.js";
 import { Keyboard } from "./keyboard.class.js";
 import { StatusBar } from "./status-bar.class.js";
@@ -122,9 +121,6 @@ export class World {
         if (mO.otherDirection) this.flipImage(mO);
         mO.draw(this.ctx);
         if (mO.otherDirection) this.flipImageBack(mO);
-        /**
-         * this.drawInstanceFrame(mO); 
-        */
     }
 
     /**
@@ -190,15 +186,5 @@ export class World {
         }
     }
 
-    /**
-     * Debug helper: draws collision frames for supported moveables & Coins.
-     * @param {object} mO Drawable game object.
-     */
-    drawInstanceFrame(mO) {
-        if ((mO instanceof Character || mO instanceof Chicken ||
-            mO instanceof Endboss || mO instanceof ThrowableObject || mO instanceof Coin)
-            && mO.drawFrame)
-            mO.drawFrame(this.ctx);
-    }
     // #endregion Instance Methods
 }
