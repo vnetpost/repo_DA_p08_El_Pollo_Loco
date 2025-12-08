@@ -10,7 +10,7 @@ export class Endboss extends MovableObject {
     // #region Attributes
     width = 200;
     height = 250;
-    x = 720 * 4 - this.width;                  
+    x = 720 * 4 - this.width;
     y = 190;
 
     speed = 5;
@@ -27,7 +27,7 @@ export class Endboss extends MovableObject {
         left: this.width / 8,
         right: this.width / 7
     };
-    
+
     status = {
         isActivated: false,
         isWalking: false,
@@ -80,7 +80,7 @@ export class Endboss extends MovableObject {
             this.setAnimation(this.IMAGES_DEAD);
             return;
         }
-        if (this.isHurt()) { // go to Hurt-mode because of lastHit-Time
+        if (this.isHurt()) {
             this.setAnimation(this.IMAGES_HURT);
             this.world.statusBar_endboss.setPrecentage(this.energy);
             return;
@@ -109,14 +109,12 @@ export class Endboss extends MovableObject {
         const mussPlayAttacking = this.status.isAttacking && !this.isDead;
         if (mussPlayAttacking && attackSound.paused) {
             AudioHub.playOne(attackSound);
-            // attackSound.volume = 1;
         }
         else if (!mussPlayAttacking && !attackSound.paused) AudioHub.stopOne(attackSound);
 
         const mussPlayAlerting = this.status.isAlerted && !this.isDead;
         if (mussPlayAlerting && alertSound.paused) {
             AudioHub.playOne(alertSound);
-            // alertSound.volume = 1;
         } else if (!mussPlayAlerting && !alertSound.paused) AudioHub.stopOne(alertSound);
     }
 
@@ -148,19 +146,19 @@ export class Endboss extends MovableObject {
         const inAttackRange = distance < this.attackRange;
         const inAlertRange = distance < this.alertRange;
 
-        if (!inAlertRange && !inAttackRange) {  // Trigger Walk-Anim
+        if (!inAlertRange && !inAttackRange) {
             this.status.isAttacking = false;
             this.status.isAlerted = false;
-            this.status.isWalking = this.status.isActivated; // stay idle frame until activated once
+            this.status.isWalking = this.status.isActivated;
             return;
         }
-        if (inAttackRange) {                    // Trigger Attack-Anim
+        if (inAttackRange) {
             this.status.isAttacking = true;
             this.status.isAlerted = false;
             this.status.isWalking = false;
             return;
         }
-        if (inAlertRange) {                     // Trigger Alert-Anim 
+        if (inAlertRange) {
             this.status.isActivated = true;
 
             this.status.isAttacking = false;

@@ -53,11 +53,11 @@ export class Coin extends DrawableObject {
 
     /**
      * Debug: draws the coin's collision frame.
+     * ctx.strokeStyle = "red"; to show border
      * @param {CanvasRenderingContext2D} ctx
      */
     drawFrame(ctx) {
         ctx.lineWidth = 3;
-        // ctx.strokeStyle = "red";
         ctx.beginPath();
         this.getRealFrame();
         ctx.rect(this.rX, this.rY, this.rW, this.rH);

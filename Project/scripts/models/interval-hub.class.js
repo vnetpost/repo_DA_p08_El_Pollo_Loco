@@ -5,7 +5,7 @@
  */
 export class IntervalHub {
     // #region Attributes
-    static allIntervals = [];   // Array to collect all active interval IDs
+    static allIntervals = [];
     // #endregion Attributes
 
     // #region Instance Methods
@@ -23,8 +23,8 @@ export class IntervalHub {
      * Clear every tracked interval and reset the list.
      */
     static stopAllIntervals() {
-        IntervalHub.allIntervals.forEach(clearInterval); // Stop all Intervalds
-        IntervalHub.allIntervals = []; // Delete all References
+        IntervalHub.allIntervals.forEach(clearInterval);
+        IntervalHub.allIntervals = [];
     }
     // #endregion Instance Methods
 }

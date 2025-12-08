@@ -18,7 +18,7 @@ export class World {
     canvas;
     ctx;
 
-    camera_x = 0;                                       // Always Negative
+    camera_x = 0;
 
     keyboard;
 
@@ -28,7 +28,7 @@ export class World {
     coinsNumber = 150;
     isStopped = false;
 
-    character = new Character();                        // Pepe
+    character = new Character();
 
     statusBar_health = new StatusBar({ _whichBar: "health", _startPercentage: 100, _x: 20, _y: 10 });
     statusBar_coin = new StatusBar({ _whichBar: "coin", _startPercentage: 0, _x: 20, _y: 45 });
@@ -83,7 +83,9 @@ export class World {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
 
-        // ------- Space for Fixed-Objects --------
+        /**
+         * ------- Space for Fixed-Objects --------
+         */
         this.ctx.translate(-camX, 0);
 
         this.addToMap(this.statusBar_health);
@@ -92,7 +94,9 @@ export class World {
         this.addToMap(this.statusBar_endboss);
 
         this.ctx.translate(camX, 0);
-        // ----------------------------------------
+        /**
+         * ----------------------------------------
+         *  */
 
         this.addObjectsToMap(this.level.coins);
         this.addToMap(this.character);
@@ -121,7 +125,9 @@ export class World {
         if (mO.otherDirection) this.flipImage(mO);
         mO.draw(this.ctx);
         if (mO.otherDirection) this.flipImageBack(mO);
-        // this.drawInstanceFrame(mO);
+        /**
+         * this.drawInstanceFrame(mO); // Activate Dev-Mode
+         *  */ 
     }
 
     /**

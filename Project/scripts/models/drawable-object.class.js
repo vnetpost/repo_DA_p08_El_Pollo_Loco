@@ -12,7 +12,11 @@ export class DrawableObject {
     currentImage;
     currentImageIndex = 0;
     currentAnimation = [];
-    imageCache = {};                       // Object            // {"./img1.png": HTMLImageElement, ....}
+
+    /**
+     * imageCache = {"./img1.png": HTMLImageElement, ....}
+     */
+    imageCache = {};                       
     // #endregion Attributes
 
     // #region Instance Methods
@@ -43,11 +47,10 @@ export class DrawableObject {
      * @param {string[]} images
      */
     setAnimation = (images) => {
-        if (this.currentAnimation !== images) { // I use currentAnimation just to check
+        if (this.currentAnimation !== images) { 
             this.currentAnimation = images;
-            this.currentImageIndex = 0; // restart animation when state change
+            this.currentImageIndex = 0; 
         }
-        // this.playAnimation(currentAnimation); // At the beginning problematisch
         this.playAnimation(images);
     }
 
@@ -57,7 +60,7 @@ export class DrawableObject {
      */
     playAnimation(images) {
         let path = images[this.currentImageIndex];
-        this.currentImage = this.imageCache[path]; // continous chache -> animating
+        this.currentImage = this.imageCache[path];
         this.currentImageIndex = (this.currentImageIndex + 1) % images.length;
     }
 

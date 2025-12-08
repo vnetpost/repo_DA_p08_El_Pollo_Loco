@@ -18,11 +18,11 @@ export class ThrowableObject extends MovableObject {
     height = 50;
 
     status = {
-        isNew: true,               // Still on ground, not collected
-        isPickedUp: false,         // Inside Pepe's arsenal
-        isOnAir: false,            // Currently flying
+        isNew: true,
+        isPickedUp: false,
+        isOnAir: false,
         isThrown: false,
-        IsSplashed: false,         // Show my Splash animation
+        IsSplashed: false,
     };
 
     offset = {
@@ -32,12 +32,11 @@ export class ThrowableObject extends MovableObject {
         right: this.width / 4,
     };
 
-    throwDirection = false;                     // false -> facing Right, true -> facing Left
+    throwDirection = false;
     throwSpeedX = 10;
     throwSpeedY = 25;
     groundY = 375;
 
-    // IMAGE_SINGLE = ImgHub.IMGS.bottles.single; // No Array (Just a Photo-Path)
     IMAGE_GROUND = ImgHub.IMGS.bottles.ground[Math.random() < 0.5 ? 0 : 1];
     IMAGES_ROTATION = ImgHub.IMGS.bottles.rotation;
     IMAGES_SPLASH = ImgHub.IMGS.bottles.splash;
@@ -75,7 +74,7 @@ export class ThrowableObject extends MovableObject {
             return;
         }
         if (this.status.isPickedUp) {
-            this.loadImage("") // Don't show it at Canvas
+            this.loadImage("");
             return;
         }
         if (this.status.isOnAir) {

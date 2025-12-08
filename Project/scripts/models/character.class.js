@@ -18,7 +18,7 @@ export class Character extends MovableObject {
     // Flags
     collided = false;
     lastActiveTime = Date.now();
-    timeToNap = 4000;                               // Mili Second
+    timeToNap = 4000;
 
     offset = {
         top: this.height / 2,
@@ -27,8 +27,7 @@ export class Character extends MovableObject {
         right: this.width / 3
     };
 
-    otherDirection = false;                 // false -> facing Right 
-    //                                         true -> facing Left
+    otherDirection = false;
 
     IMAGES_IDLE_SHORT = ImgHub.IMGS.pepe.idle.short;
     IMAGES_IDLE_LONG = ImgHub.IMGS.pepe.idle.long;
@@ -37,7 +36,7 @@ export class Character extends MovableObject {
     IMAGES_HURT = ImgHub.IMGS.pepe.hurt;
     IMAGES_DEAD = ImgHub.IMGS.pepe.dead;
 
-    arsenal = [];                                   // [ThrowableObject,ThrowableObject,...]
+    arsenal = [];
     bottleLimit = 10;
     lastThrowTime = 0;
     coinsCollected = 0;
@@ -51,7 +50,7 @@ export class Character extends MovableObject {
      */
     constructor() {
         super();
-        this.loadImage(this.IMAGES_IDLE_SHORT[0]); // Init
+        this.loadImage(this.IMAGES_IDLE_SHORT[0]);
 
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
@@ -65,8 +64,8 @@ export class Character extends MovableObject {
         IntervalHub.startInterval(this.moveCamera, 1000 / 60);
         IntervalHub.startInterval(this.moveLeft, 1000 / 60);
         IntervalHub.startInterval(this.moveRight, 1000 / 60);
-        IntervalHub.startInterval(this.jump, 1000 / 60); // Set this.speedY = 25 to trigger applyGravity
-        IntervalHub.startInterval(this.applyGravity, 1000 / 60); // this.speedY as a trigger
+        IntervalHub.startInterval(this.jump, 1000 / 60);
+        IntervalHub.startInterval(this.applyGravity, 1000 / 60);
         IntervalHub.startInterval(this.checkCollisions, 1000 / 60);
         IntervalHub.startInterval(this.collectBottles, 1000 / 60);
         IntervalHub.startInterval(this.collectCoins, 1000 / 60);
@@ -285,9 +284,9 @@ export class Character extends MovableObject {
                 this.coinsCollected++;
                 AudioHub.playOne(AudioHub.SOUNDS.collectibles.coin);
                 this.updateStatusBars();
-                return false; // delete from Liste
+                return false;
             }
-            return true; // Coin stay in Liste
+            return true; s
         });
     }
 
@@ -307,14 +306,14 @@ export class Character extends MovableObject {
         if (Date.now() - this.lastThrowTime < 500) return;
         if (this.arsenal.length < 1) return;
         if (!this.world.keyboard.THROW) return;
-        this.updateLastActiveTime(); // Pruefe speter ???????????????????????????????????????
+        this.updateLastActiveTime();
         const bottle = this.arsenal.pop();
         this.updateStatusBars();
 
         this.getRealFrame();
-        const startX = this.otherDirection // Bottle's Start-Position is ~ Pepe's Position
-            ? (this.rX - this.rW)   // If Pepe guckt left
-            : this.rX;              // If Pepe guckt right
+        const startX = this.otherDirection
+            ? (this.rX - this.rW)
+            : this.rX;
         const startY = this.rY;
         bottle.triggerThrow({ _x: startX, _y: startY, _throwDirection: this.otherDirection });
         this.lastThrowTime = Date.now();

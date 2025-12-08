@@ -130,7 +130,7 @@ function showLastScreen() {
 function startGameWatcher() {
     IntervalHub.startInterval(() => {
         const pepeDead = world.character.isDead;
-        const jefaDead = world.level.enemies.some(enemy => enemy instanceof Endboss && enemy.isDead); // Findng first match
+        const jefaDead = world.level.enemies.some(enemy => enemy instanceof Endboss && enemy.isDead);
         if (!pepeDead && !jefaDead) return;
 
         let didWin;
