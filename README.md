@@ -39,5 +39,34 @@ Da ES-Module verwendet werden, sollte das Projekt ueber einen lokalen Webserver 
 - `Project/scripts/models/audioHub.class.js`: Zentrales Sound-Management
 - `Project/scripts/levels/level1.js`: Levelaufbau und Background-Layer
 
+## Klassenbaum
+```text
+World
+├─ Level
+├─ Character (extends MovableObject)
+├─ StatusBar (extends DrawableObject)
+├─ Keyboard
+└─ uses: ImgHub, IntervalHub, AudioHub
+
+DrawableObject
+├─ MovableObject
+│  ├─ Character
+│  ├─ Chicken
+│  ├─ Endboss
+│  ├─ ThrowableObject
+│  ├─ Cloud
+│  └─ BackgroundObject
+├─ Coin
+└─ StatusBar
+
+Standalone classes
+├─ World
+├─ Level
+├─ Keyboard
+├─ ImgHub
+├─ IntervalHub
+└─ AudioHub
+```
+
 ## Autor
 Babak Anvari Bavandpouri
